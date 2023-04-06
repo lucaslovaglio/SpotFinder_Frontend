@@ -1,0 +1,103 @@
+/* 
+/////////////////////////////////////////////////////////////////////////////
+                                Page Wrapper
+/////////////////////////////////////////////////////////////////////////////
+*/
+.RegisterPageWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5rem; 
+}
+
+.LogInPageWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5rem;
+}
+
+/* 
+/////////////////////////////////////////////////////////////////////////////
+                                Titles
+/////////////////////////////////////////////////////////////////////////////
+*/
+
+.RegisterTitle {
+  color: rgb(0, 255, 149);
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.LogInTitle {
+  font-size: 4rem;
+  margin-bottom: 3rem;
+  text-shadow: 0px 0px 10px black;
+  transition: all 0.3s ease-in-out;
+  cursor: context-menu;
+}
+
+.LogInTitle:hover {
+  text-shadow: 0px 0px 20px rgba(3, 255, 255, 0.416);
+}
+
+.Spot {
+  color: rgb(230, 230, 230);
+}
+
+.Finder {
+  color: rgb(0, 255, 149);
+}
+
+/* 
+/////////////////////////////////////////////////////////////////////////////
+                                Forms
+/////////////////////////////////////////////////////////////////////////////
+*/
+
+.PasswordError {
+  color: red;
+  margin-bottom: 1rem;
+}
+
+.LogForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.LogInput {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 400px;
+}
+
+.LogSubmit {
+  background-color: #00adb5;
+  margin-top: 0.5rem;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.LogSubmit:hover {
+  background-color: #393e46;
+}
+
+.Link {
+  margin-top: 1rem;
+  cursor: pointer;
+  color: #00adb5;
+}
+
+.Link:hover {
+  text-decoration: underline;
+}

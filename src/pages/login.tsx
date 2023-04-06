@@ -31,22 +31,28 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {
-  PageWrapper,
-  Title,
-  Spot,
-  Finder,
-  Form,
-  Input,
-  SubmitButton,
-  Link
-} from "./styles";
+import './styles/login&register.css';
+// import {
+//   PageWrapper,
+//   Title,
+//   Spot,
+//   Finder,
+//   Form,
+//   Input,
+//   SubmitButton,
+//   Link
+// } from "./styles";
 
+
+function setToken(userToken: any) {
+  sessionStorage.setItem('token', userToken);
+}
 
 export const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+
 
     const handleRegisterClick = () => {
         navigate("/register");
@@ -59,8 +65,10 @@ export const LoginPage = () => {
             const response = await axios.post("http://localhost:3001/users/" + email, {
               "psw": password
             });
-      
+            
+            //TODO el codigo de status correcto seria 202 que es acepted
             if (response.status === 200) {
+              setToken(response.data.token);
               navigate("/homepage");
             }
           } catch (error) {
@@ -69,17 +77,19 @@ export const LoginPage = () => {
     };
 
     return (
-        <PageWrapper>
-            <Title>
-                <Spot>Spot</Spot>
-                <Finder>Finder</Finder>
-            </Title>
-            <Form name="f1" onSubmit={handleSubmint}>
-            <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            <Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-            <SubmitButton type="submit">Log In</SubmitButton>
-            </Form>
-            <Link onClick={handleRegisterClick}>Don't have an account? Register here.</Link>
-        </PageWrapper>
+      <div className="LogInPageWrapper">
+        <h1 className="LogInTitle">
+          <span className="Spot">Spot</span>
+          <span className="Finder">Finder</span>
+        </h1>
+        <form className="LogForm" onSubmit={handleSubmint}>
+          <input className="LogInput" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input className="LogInput" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <button className="LogSubmit" type="submit">Log In</button>
+        </form>
+        <p className="Link" onClick={handleRegisterClick}>Don't have an account? Register here.</p>
+        </div>
   );
 };
+
+

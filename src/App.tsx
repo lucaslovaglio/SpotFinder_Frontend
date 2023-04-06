@@ -7,16 +7,17 @@ import Button from "./components/LogInButtom";
 import EventBus from "./prueba/common/EventBus";
 import { LoginPage } from './pages/login';
 import { RegisterPage } from './pages/register';
-import { HomePage } from './pages/homepage';
+import { HomePage } from './pages/home';
+import { OwnerPage } from './pages/owner';
 
 function App() {
   return (
-    <div className="container mt-3">
+    <div>
       <Routes>
-        {/* <Route path="/register" element={<Register />} /> */}
         <Route path="/" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/homepage" element={<HomePage />} />
+        <Route path="/ownerpage" element={<OwnerPage />} />
       </Routes>
     </div>
 

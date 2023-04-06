@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {
-  Spot,
-  Finder,
-  Form,
-  Input,
-  SubmitButton,
-  Link
-} from "./styles";
+import './styles/login&register.css';
+// import {
+//   Spot,
+//   Finder,
+//   Form,
+//   Input,
+//   SubmitButton,
+//   Link
+// } from "./styles";
 
 export const PageWrapper = styled.div`
   display: flex;
@@ -58,6 +59,7 @@ export const RegisterPage = () => {
           "psw": password
         });
   
+        // TODO el codigo correcto seria 201 que es created
         if (response.status === 200) {
           //TODO deberia logearse automaticamente
           navigate("/homepage");
@@ -73,26 +75,26 @@ export const RegisterPage = () => {
   };
 
   return (
-    <PageWrapper>
-      <Title>
-        <Spot>Spot</Spot>
-        <Finder>Finder</Finder>
-      </Title>
-      <Form name="f1" onSubmit={handleSubmint}>
-        <Input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
-        <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        <Input
+    <div className="RegisterPageWrapper">
+      <h1 className="RegisterTitle">
+        <span className="Spot">Spot</span>
+        <span className="Finder">Finder</span>
+      </h1>
+      <form className="LogForm" onSubmit={handleSubmint}>
+        <input className="LogInput" type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
+        <input className="LogInput" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <input className="LogInput" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <input className="LogInput"
           type="password"
           placeholder="Repeat password"
           value={repeatPassword}
           onChange={handleRepeatPasswordChange}
           required
         />
-        {passwordError && <PasswordError>{passwordError}</PasswordError>}
-        <SubmitButton type="submit">Sing Up</SubmitButton>
-      </Form>
-      <Link onClick={handleLogInClick}>You're already singed up? Log in here.</Link>
-    </PageWrapper>
+        {passwordError && <span className="PasswordError">{passwordError}</span>}
+        <button className="LogSubmit" type="submit">Sing Up</button>
+      </form>
+      <p className="Link" onClick={handleLogInClick}>You're already singed up? Log in here.</p>
+    </div>
   );
 };
