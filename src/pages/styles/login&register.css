@@ -7,14 +7,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 5rem; 
+  margin-top: 6rem; 
+  background-color: rgb(32, 32, 32);
 }
 
 .LogInPageWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 5rem;
+  margin-top: 7rem;
+  background-color: rgb(32, 32, 32);
 }
 
 /* 
@@ -25,12 +27,14 @@
 
 .RegisterTitle {
   color: rgb(0, 255, 149);
-  font-size: 2rem;
+  font-size: 2.3rem;
   margin-bottom: 2rem;
+  font-weight: bold;
 }
 
 .LogInTitle {
   font-size: 4rem;
+  font-weight: bold;
   margin-bottom: 3rem;
   text-shadow: 0px 0px 10px black;
   transition: all 0.3s ease-in-out;
@@ -67,12 +71,13 @@
 }
 
 .LogInput {
-  padding: 1rem;
+  font-size: small;
+  padding: 0.8rem 1rem;
   margin-bottom: 1rem;
   border: none;
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  width: 100%;
+  width: 230px;
   max-width: 400px;
 }
 
@@ -82,8 +87,9 @@
   color: white;
   border: none;
   border-radius: 5px;
-  padding: 1rem 2rem;
+  padding: 0.7rem 2rem;
   font-size: 1rem;
+  font-weight:500;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 }

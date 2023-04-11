@@ -1,3 +1,7 @@
+.HomeWrapper {
+  background-color: rgb(32, 32, 32);
+}
+
 /* 
 /////////////////////////////////////////////////////////////////////////////
                               Titles
@@ -8,9 +12,9 @@
   font-weight: bold;
   text-shadow: 0px 0px 10px black;
   transition: all 0.5s ease-in-out;
-  cursor: pointer;
-  margin-bottom: 5px;
-  margin-top: 0%;
+  cursor:default;
+  margin-bottom: 1rem;
+  margin-top: 0.1%;
   margin-left: 10px;
 }
 
@@ -97,7 +101,9 @@
 }
 
 .ShowList-buttom {
-  /* padding: 1rem; */
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 01rem;
   /* width: 3rem; */
   border: none;
   border-radius: 30px;
@@ -114,7 +120,7 @@
 }
 
 .ShowList-buttom:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
   transform: scale(1.05);
 }
 

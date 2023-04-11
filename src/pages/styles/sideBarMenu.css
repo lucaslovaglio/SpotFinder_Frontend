@@ -9,10 +9,10 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    width: 18rem;
+    width: 16rem;
     height: calc(100vh - 186px);
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; */
 
     position: absolute;
     left: 0px;
@@ -24,7 +24,7 @@
 
 @keyframes fadeInRight {
     0% {
-        left: -18rem;
+        left: -16rem;
     }
     100% {
         left: 0px;
@@ -36,7 +36,7 @@
         left: 0px;
     }
     100% {
-        left: -18rem;
+        left: -16rem;
     }
 }
 
@@ -46,9 +46,9 @@
 }
 
 .sideMenu-controller {
-    position: absolute;
+    position: relative;
     top: 0px;
-    right: -2rem;
+    right: -8.5rem;
     width: 3rem;
     z-index: auto;
     height: 2rem;
@@ -67,7 +67,8 @@
   }
 
 .sideMenu-button {
-    padding: 1rem;
+    text-align: left;
+    padding: 1.5rem;
     background-color: rgb(32, 32, 32);
     /* margin-bottom: 1rem; */
     border: none;

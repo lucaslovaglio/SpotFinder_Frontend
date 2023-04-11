@@ -1,41 +1,52 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import { render } from 'react-dom';
+
 
 interface Props {
-    children?: React.ReactNode;
+  show: boolean;
+  handleClose: () => void;
 }
 
-const ModifyUser: React.FC<Props> = ({}) =>  {
-    const [showModal, setShowModal] = useState(false);
+const ModifyUser: React.FC<Props> = ({ show, handleClose }) => { 
+  return (
+    <>
+      {/* <Button variant="primary" onClick={handleShow}>
+        Launch static backdrop modal
+      </Button> */}
 
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Profile</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className='EditProfile'>
+          {/* TODO: Darle estilo y modificar los datos realmente en la db, para esto tiene que estar bien implementado el token */}
+          <div>
+            <span>Name</span><span>Lucas</span>
+          </div>
+          <div>
+            <span>Mail</span><span>luckylovaglio@gmail</span>
+          </div>
+          <div>
+            <span>Change password</span>
+          </div>
 
-    return(
-        <>
-        {/* <!-- Button trigger modal --> */}
-<button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button>
-
-{/* <!-- Modal --> */}
-<div className="modal fade" id="exampleModal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h1 className="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-        ...
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-        </>
-
-    )
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary">Save</Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
 }
 
 export default ModifyUser;
