@@ -5,6 +5,14 @@ import { useAuthProvider } from '../services/auth';
 import './styles/home.css';
 import './styles/login&register.css';
 import HeadPage from '../components/HeadPage';
+import SideBarMenu from '../components/SideBarMenu';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCar } from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faComment } from '@fortawesome/free-solid-svg-icons';
+import { faGear } from '@fortawesome/free-solid-svg-icons';
+import { faUserTie } from '@fortawesome/free-solid-svg-icons';
+import { faUserGear } from '@fortawesome/free-solid-svg-icons';
 
 
 export const HomePage = () => {
@@ -16,6 +24,7 @@ export const HomePage = () => {
     //datos del usuario actual
     const [email, setEmail] = useState<string>("");
     const [userName, setUserName] = useState<string>("");
+    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -49,19 +58,21 @@ export const HomePage = () => {
         navigate("/ownerpage");
     };
 
+
     return (
         
         <div className='HomeWrapper'>
             <HeadPage navBar={false}></HeadPage>
-            <div className='prueba'>
-                <div className='sideMenu'>
-                    <button className="sideMenu-button" onClick={handleOwnerClick}><h3 className='sideMenu-options'>Current Park</h3></button>
-                    <button className="sideMenu-button" onClick={handleOwnerClick}><h3 className='sideMenu-options'>Chats</h3></button>
-                    <button className="sideMenu-button" onClick={handleOwnerClick}><h3 className='sideMenu-options'>Favourites</h3></button>
-                    <button className="sideMenu-button" onClick={handleOwnerClick}><h3 className='sideMenu-options'>Change to Owner</h3></button>
-                    <button className="sideMenu-button" onClick={handleOwnerClick}><h3 className='sideMenu-options'>Change to Manager</h3></button>
-                    <button className="sideMenu-button" onClick={handleOwnerClick}><h3 className='sideMenu-options'>Settings</h3></button>
-                </div>
+            <div className='content'>
+                <SideBarMenu>
+                    {/* <button className='sideMenu-button'><FontAwesomeIcon icon={solid} style={{color: "#005eff",}} /></button> */}
+                    <button className="sideMenu-button" onClick={handleOwnerClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faCar} style={{ marginRight: '1rem'}}/>Current Park</h3></button>
+                    <button className="sideMenu-button" onClick={handleOwnerClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faComment} style={{ marginRight: '1rem'}}/>Chats</h3></button>
+                    <button className="sideMenu-button" onClick={handleOwnerClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faHeart} style={{ marginRight: '1rem'}}/>Favourites</h3></button>
+                    <button className="sideMenu-button" onClick={handleOwnerClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faUserTie} style={{ marginRight: '1rem'}}/>Change to Owner</h3></button>
+                    <button className="sideMenu-button" onClick={handleOwnerClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faUserGear} style={{ marginRight: '1rem'}}/>Change to Manager</h3></button>
+                    <button className="sideMenu-button" onClick={handleOwnerClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faGear} style={{ marginRight: '1rem'}}/>Settings</h3></button>
+                </SideBarMenu>
                 <div className='Map'>
                     <div className='ShowList'>
                         <button className='ShowList-buttom'><h3 className='ShowList-title'>Show List</h3></button>

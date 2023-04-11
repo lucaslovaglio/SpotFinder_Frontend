@@ -1,9 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../pages/styles/home.css';
 import '../pages/styles/login&register.css';
 import '../pages/styles/profileButton.css';
 import { useAuthProvider } from '../services/auth';
 import { useNavigate } from 'react-router-dom';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { fa0 } from '@fortawesome/free-solid-svg-icons';
+
 
 interface Props {
     navBar: boolean;
@@ -16,6 +20,24 @@ const HeadPage: React.FC<Props> = ({navBar}) => {
 
     const navigate = useNavigate();
     const auth = useAuthProvider();
+
+    const menuRef = useRef<HTMLDivElement>(null);
+
+
+    //TODO no funciona, es para que el menu se vaya cuando toco en algun otro lugar
+    // useEffect(() => {
+    //     const handleOutsideClick = (event: MouseEvent) => {
+    //         if (menuRef.current && !menuRef.current?.contains(event.target as Node)) {
+    //             setProfileState(false);
+    //         }
+    //     };
+        
+    //     document.addEventListener('mousedown', handleOutsideClick);
+
+    //     return () => {
+    //     document.removeEventListener('mousedown', handleOutsideClick);
+    //     };
+    // }, [menuRef]);
   
     const handleClick = () => {
         setProfileState(!profileState);
@@ -40,8 +62,8 @@ const HeadPage: React.FC<Props> = ({navBar}) => {
             <input className='NavBar' placeholder="Search Users" /><br></br>
             </>
         )}
-        <button className='Profile' onClick={handleClick}></button>
-            {initialState && (<div className={`Profile-menu ${profileState ? 'show' : ''}`}>
+        <button className='Profile' onClick={handleClick}><FontAwesomeIcon icon={faUser} /></button>
+            {initialState && (<div ref={menuRef} className={`Profile-menu ${profileState ? 'show' : ''}`}>
                 <button className='Profile-button'>
                 <h1 className='userName'>luckylovaglio</h1>
                 <h2 className='mail'>luckylovaglio@gmail.com</h2>

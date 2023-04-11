@@ -1,158 +1,120 @@
-  /* 
+/* 
 /////////////////////////////////////////////////////////////////////////////
-                                Titles
+                              Titles
 /////////////////////////////////////////////////////////////////////////////
 */
-  .HomeTitle {
-    font-size: 7rem;
-    font-weight: bold;
-    text-shadow: 0px 0px 10px black;
-    transition: all 0.5s ease-in-out;
-    cursor: pointer;
-    margin-bottom: 5px;
-    margin-top: 0%;
-    margin-left: 10px;
-  }
-  
-  .HomeTitle:hover {
-    text-shadow: 0px 0px 10px rgba(3, 255, 255, 0.416);
-    margin-left: 20px;
-  }
+.HomeTitle {
+  font-size: 7rem;
+  font-weight: bold;
+  text-shadow: 0px 0px 10px black;
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
+  margin-bottom: 5px;
+  margin-top: 0%;
+  margin-left: 10px;
+}
+
+.HomeTitle:hover {
+  text-shadow: 0px 0px 10px rgba(3, 255, 255, 0.416);
+  margin-left: 20px;
+}
 
 /* 
 /////////////////////////////////////////////////////////////////////////////
-                                Nav Bar
+                              Nav Bar
 /////////////////////////////////////////////////////////////////////////////
 */
-  .NavBar-box {
-    background-color: rgb(62, 62, 62);
-    height: 2rem;
-    display: flex;
-    justify-content: right;
-    align-items: center;
-    width: 100%;
-  }
+.NavBar-box {
+  background-color: rgb(62, 62, 62);
+  height: 2rem;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  width: 100%;
+}
 
-  .NavBar {
-    border: none;
-    border-radius: 20px;
-    height: 1.5rem;
-    background-color: grey;
-    position: relative;
-    right: 1%;
-    text-align: justify;
-    padding-left: 1rem;
-    color: white;
-    transition: all 0.5s ease-in-out;
-    /* transition: all 0.1s ease-out; */
-  }
+.NavBar {
+  border: none;
+  border-radius: 20px;
+  height: 1.5rem;
+  background-color: grey;
+  position: relative;
+  right: 1%;
+  text-align: justify;
+  padding-left: 1rem;
+  color: white;
+  transition: all 0.5s ease-in-out;
+  /* transition: all 0.1s ease-out; */
+}
 
-  .NavBar:focus {
-    right: 50%;
-    transform: translate(50%,0);
-    width: 30rem;
-  }
+.NavBar:focus {
+  right: 50%;
+  transform: translate(50%,0);
+  width: 30rem;
+}
 
-  .NavBar::placeholder {
-    color: rgb(89, 89, 89);
-  }
-  
-  /* 
-/////////////////////////////////////////////////////////////////////////////
-                                Map
-/////////////////////////////////////////////////////////////////////////////
-*/
-  .Map {
-    background-image: url(/public/fotoMapa.png);
-    height: 30.9rem;
-    width: 80%;
-    align-items: center;
-    padding: auto;
-    position: relative;
-  }
-
-  /* 
-/////////////////////////////////////////////////////////////////////////////
-                                Prueba
-/////////////////////////////////////////////////////////////////////////////
-*/
-  .prueba {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-  }
-  
-  .sideMenu {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    width: 20%;
-    align-items: center;
-  }
-
-  .sideMenu-button {
-    padding: 1rem;
-    background-color: rgb(32, 32, 32);
-    /* margin-bottom: 1rem; */
-    border: none;
-    /* border-radius: 5px; */
-    /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); */
-    width: 100%;
-    /* max-width: 200px; */
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-  }
-
-  .sideMenu-button:hover {
-    background-color: #393e46;
-  }
-
-  .sideMenu-options {
-    color: darkgrey;
-    font-weight: lighter;
-    font: 1rem sans-serif;
-  }
-
-  .ShowList {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translate(-50%, -130%);
-    width: 7rem;
-  }
+.NavBar::placeholder {
+  color: rgb(89, 89, 89);
+}
 
 /* 
 /////////////////////////////////////////////////////////////////////////////
-                                Show List buttom
+                              Content
 /////////////////////////////////////////////////////////////////////////////
 */
-  .ShowList-buttom {
-    /* padding: 1rem; */
-    /* width: 3rem; */
-    border: none;
-    border-radius: 30px;
-    background-color: rgb(32, 32, 32);
-    /* margin-bottom: 1rem; */
-    border: none;
-    /* border-radius: 5px; */
-    /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); */
-    width: 100%;
-    /* max-width: 200px; */
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    color: white;
-  }
+.content {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
 
-  .ShowList-buttom:hover {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    transform: scale(1.05);
-  }
+/* 
+///////////////////////////////////////////////////////
+                        Map
+///////////////////////////////////////////////////////
+*/
+.Map {
+  background-image: url(/public/fotoMapa.png);
+  height: calc(100vh - 186px);
+  width: 100%;
+  align-items: center;
+  padding: auto;
+  position: relative;
+}
 
-  /* .ShowList-buttom {
-    color: white;
-  } */
+/* 
+/////////////////////////////////////////////////////////////////////////////
+                              Show List buttom
+/////////////////////////////////////////////////////////////////////////////
+*/
+.ShowList {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -130%);
+  width: 7rem;
+}
 
+.ShowList-buttom {
+  /* padding: 1rem; */
+  /* width: 3rem; */
+  border: none;
+  border-radius: 30px;
+  background-color: rgb(32, 32, 32);
+  /* margin-bottom: 1rem; */
+  border: none;
+  /* border-radius: 5px; */
+  /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); */
+  width: 100%;
+  /* max-width: 200px; */
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  color: white;
+}
 
-  
+.ShowList-buttom:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transform: scale(1.05);
+}
+

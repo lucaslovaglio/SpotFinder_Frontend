@@ -1,0 +1,92 @@
+/* 
+///////////////////////////////////////////////////////
+                        SideMenu
+///////////////////////////////////////////////////////
+*/
+.sideMenu {
+    background-color: rgb(32, 32, 32);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 18rem;
+    height: calc(100vh - 186px);
+    align-items: center;
+    justify-content: center;
+
+    position: absolute;
+    left: 0px;
+    z-index: 99;
+    animation: fadeInRight 0.3s ease-out forwards;
+
+
+}
+
+@keyframes fadeInRight {
+    0% {
+        left: -18rem;
+    }
+    100% {
+        left: 0px;
+    }
+}
+
+@keyframes fadeOutLeft {
+    0% {
+        left: 0px;
+    }
+    100% {
+        left: -18rem;
+    }
+}
+
+.sideMenu.show {
+    z-index: 2;
+    animation: fadeOutLeft 0.3s ease-out forwards;
+}
+
+.sideMenu-controller {
+    position: absolute;
+    top: 0px;
+    right: -2rem;
+    width: 3rem;
+    z-index: auto;
+    height: 2rem;
+    border: none;
+    border-radius: 5px;
+    background-color:  rgb(32, 32, 32);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sideMenu-controller svg {
+    color: rgb(230, 230, 230);
+    font-size: 1rem;
+  }
+
+.sideMenu-button {
+    padding: 1rem;
+    background-color: rgb(32, 32, 32);
+    /* margin-bottom: 1rem; */
+    border: none;
+    /* border-radius: 5px; */
+    /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); */
+    width: 100%;
+    /* max-width: 200px; */
+    z-index: 2;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.sideMenu-button:hover {
+    background-color: #393e46;
+}
+
+.sideMenu-options {
+    color: darkgrey;
+    font-weight: lighter;
+    font: 1rem sans-serif;
+}
+
