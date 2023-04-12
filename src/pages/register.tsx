@@ -44,6 +44,10 @@ export const RegisterPage = () => {
     navigate("/");
   };
 
+  function setToken(userToken: any) {
+    sessionStorage.setItem('token', userToken);
+  }
+
   const handleSubmint = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -62,6 +66,7 @@ export const RegisterPage = () => {
         // TODO el codigo correcto seria 201 que es created
         if (response.status === 200) {
           //TODO deberia logearse automaticamente
+          setToken(response.data.token);
           navigate("/homepage");
         }
       } catch (error) {

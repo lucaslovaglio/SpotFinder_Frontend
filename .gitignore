@@ -11,6 +11,10 @@
 # production
 /build
 
+/src/prueba
+/src/components/LogInButtom.tsx
+/src/AppPrueba.tsx
+
 # misc
 .DS_Store
 .env.local
