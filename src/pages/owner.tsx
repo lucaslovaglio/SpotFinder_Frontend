@@ -14,6 +14,14 @@ export const OwnerPage = () => {
         navigate('/homepage')
     }
 
+    const coordenadas = [
+        { lat: -34.603722, lng: -58.381592 }, // Plaza de Mayo
+        { lat: -34.592222, lng: -58.374722 }, // Obelisco
+        { lat: -34.602414, lng: -58.383759 }, // Catedral Metropolitana
+        { lat: -34.613150, lng: -58.377230 }, // Puerto Madero
+      ];
+      
+
     const center = {
         lat: 47.6062095,
         lng: -122.3320708 
@@ -34,8 +42,8 @@ export const OwnerPage = () => {
                     <button className="sideMenu-button" onClick={handleBackToUserClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faAdd} style={{ marginRight: '1rem'}}/>Add Parking Lot</h3></button>
                     <button className="sideMenu-button" onClick={handleBackToUserClick} style={{position: 'absolute', bottom: '0'}}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faArrowCircleLeft} style={{ marginRight: '1rem'}}/>Return to User</h3></button>
                 </SideBarMenu>
-                <div className='Map' style={{backgroundColor:'white'}}>
-                    {/* <Map/> */}
+                <div className='MapBox'>
+                    <Map coordenadas={coordenadas}/>
                 </div>
             </div>
         </div>

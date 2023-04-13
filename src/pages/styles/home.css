@@ -78,8 +78,8 @@
                         Map
 ///////////////////////////////////////////////////////
 */
-.Map {
-  background-image: url(/public/fotoMapa.png);
+.MapBox {
+  background-color: rgb(16, 152, 107);
   height: calc(100vh - 186px);
   width: 100%;
   align-items: center;

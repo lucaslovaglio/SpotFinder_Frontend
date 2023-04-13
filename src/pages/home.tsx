@@ -13,6 +13,7 @@ import { faComment } from '@fortawesome/free-solid-svg-icons';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { faUserGear } from '@fortawesome/free-solid-svg-icons';
+import Map from "../components/Map/Map";
 
 
 export const HomePage = () => {
@@ -73,7 +74,8 @@ export const HomePage = () => {
                     <button className="sideMenu-button" onClick={handleOwnerClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faUserGear} style={{ marginRight: '1rem'}}/>Change to Manager</h3></button>
                     <button className="sideMenu-button" onClick={handleOwnerClick} style={{position: 'absolute', bottom: '0'}}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faGear} style={{ marginRight: '1rem'}}/>Settings</h3></button>
                 </SideBarMenu>
-                <div className='Map'>
+                <div className='MapBox'>
+                    <Map/>
                     <div className='ShowList'>
                         <button className='ShowList-buttom'>Show List</button>
                     </div>

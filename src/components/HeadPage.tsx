@@ -6,9 +6,7 @@ import { useAuthProvider } from '../services/auth';
 import { useNavigate } from 'react-router-dom';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { fa0 } from '@fortawesome/free-solid-svg-icons';
 import ModifyUser from './ModifyUser';
-import { Button } from 'react-bootstrap';
 
 
 interface Props {
