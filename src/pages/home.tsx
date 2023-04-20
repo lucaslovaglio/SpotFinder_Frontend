@@ -70,7 +70,9 @@ export const HomePage = () => {
     return (
         
         <div className='HomeWrapper'>
-            <HeadPage navBar={false} credentials={credentials}></HeadPage>
+            <div className='HeadPage'>
+                <HeadPage navBar={false} credentials={credentials}></HeadPage>
+            </div>
             <div className='content'>
                 <SideBarMenu>
                     {/* <button className='sideMenu-button'><FontAwesomeIcon icon={solid} style={{color: "#005eff",}} /></button> */}

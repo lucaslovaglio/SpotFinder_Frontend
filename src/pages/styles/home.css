@@ -66,11 +66,17 @@
                               Content
 /////////////////////////////////////////////////////////////////////////////
 */
+/* .HeadPage{
+  
+} */
+
 .content {
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  height: calc(100vh - 11.5rem);
 }
 
 /* 
@@ -80,11 +86,11 @@
 */
 .MapBox {
   background-color: rgb(16, 152, 107);
-  height: calc(100vh - 11.5rem);
+  height: 100%;
   width: 100%;
   align-items: center;
   padding: auto;
-  position: relative;
+  position: absolute;
 }
 
 /* 

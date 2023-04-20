@@ -6,6 +6,7 @@
 .Profile {
   display: inline-block;
   margin-right: 1rem;
+  margin-bottom: 0.5rem;
   width: 1.5rem;
   height: 1.5rem;
   /* border-radius: 100%; */

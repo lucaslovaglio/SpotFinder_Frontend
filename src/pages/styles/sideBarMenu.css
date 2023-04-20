@@ -10,11 +10,12 @@
     justify-content: flex-start;
     align-items: flex-start;
     width: 16rem;
-    height: calc(100vh - 11.5rem);
+    height: 100%;
     align-items: center;
     /* justify-content: center; */
 
-    position: absolute;
+    position: relative;
+    top: 0ch;
     left: 0px;
     z-index: 99;
     animation: fadeInRight 0.3s ease-out forwards;
