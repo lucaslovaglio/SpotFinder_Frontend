@@ -67,7 +67,9 @@ export const OwnerPage = () => {
 
     return (
         <div className='HomeWrapper'>
-            <HeadPage navBar={true} credentials={credentials}></HeadPage>
+            <div className='HeadPage'>
+                <HeadPage navBar={false} credentials={credentials}></HeadPage>
+            </div>
             <div className='content'>
                 {/* <div className='ProfileOptions'>
                     <button className="profilOptions-button" onClick={handleBackToUserClick}>Your Profile</button>

@@ -18,6 +18,7 @@ interface Props {
 
 const HeadPage: React.FC<Props> = ({navBar, credentials}) => {
     const [profileState, setProfileState] = useState<boolean>(true); 
+    const [titleState, setTitleState] = useState<boolean>(false); 
     const [showModal, setShowModal] = useState(false);
     const [initialState, setInitialState] = useState(false);
 
@@ -52,6 +53,7 @@ const HeadPage: React.FC<Props> = ({navBar, credentials}) => {
 
     const handleModalClose = () => setShowModal(false);
     const handleModalShow = () => setShowModal(true);
+    const handleTitle = () => setTitleState(!titleState);
 
     const handleLogOutClick = () => {
         auth.removeCredentials();
@@ -61,10 +63,10 @@ const HeadPage: React.FC<Props> = ({navBar, credentials}) => {
 
     return (
         <>
-        <h1 className="HomeTitle">
+        <button className={`HomeTitle ${titleState ? 'show' : ''}`} onClick={handleTitle}>
             <span className="Spot">Spot</span>
             <span className="Finder">Finder</span>
-        </h1>
+        </button>
         <div className='NavBar-box'>
         {navBar && (
             <>
