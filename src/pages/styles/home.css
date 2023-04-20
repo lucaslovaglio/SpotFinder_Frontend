@@ -1,5 +1,8 @@
 .HomeWrapper {
   background-color: rgb(32, 32, 32);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 /* 
@@ -66,9 +69,9 @@
                               Content
 /////////////////////////////////////////////////////////////////////////////
 */
-/* .HeadPage{
-  
-} */
+.HeadPage{
+  flex: 1;
+}
 
 .content {
   position: relative;
