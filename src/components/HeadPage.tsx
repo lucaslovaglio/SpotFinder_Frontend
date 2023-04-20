@@ -7,14 +7,16 @@ import { useNavigate } from 'react-router-dom';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ModifyUser from './ModifyUser';
+import Credentials from '../services/Credentials';
 
 
 interface Props {
     navBar: boolean;
+    credentials: Credentials;
   }
 
 
-const HeadPage: React.FC<Props> = ({navBar}) => {
+const HeadPage: React.FC<Props> = ({navBar, credentials}) => {
     const [profileState, setProfileState] = useState<boolean>(true); 
     const [showModal, setShowModal] = useState(false);
     const [initialState, setInitialState] = useState(false);
@@ -52,7 +54,7 @@ const HeadPage: React.FC<Props> = ({navBar}) => {
     const handleModalShow = () => setShowModal(true);
 
     const handleLogOutClick = () => {
-        auth.removeToken();
+        auth.removeCredentials();
         //TODO borrar el token en el back
         navigate("/");
     };
@@ -72,13 +74,13 @@ const HeadPage: React.FC<Props> = ({navBar}) => {
         <button className='Profile' onClick={handleClick}><FontAwesomeIcon icon={faUser} /></button>
             {initialState && (<div ref={menuRef} className={`Profile-menu ${profileState ? 'show' : ''}`}>
                 <button className='Profile-button'>
-                <h1 className='userName'>luckylovaglio</h1>
-                <h2 className='mail'>luckylovaglio@gmail.com</h2>
+                <h1 className='userName'>{credentials.getUserName()}</h1>
+                <h2 className='mail'>{credentials.getUserMail()}</h2>
                 </button>
                 <button className='Profile-button' onClick={handleModalShow}>Edit</button>
                 <button className='Profile-button' onClick={handleLogOutClick}>LogOut</button>
             </div>)}
-            <ModifyUser show={showModal} handleClose={handleModalClose} />
+            <ModifyUser show={showModal} handleClose={handleModalClose} credentials={credentials} />
         </div>
         </>
     );

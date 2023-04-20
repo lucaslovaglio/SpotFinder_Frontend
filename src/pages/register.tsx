@@ -3,14 +3,8 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import './styles/login&register.css';
-// import {
-//   Spot,
-//   Finder,
-//   Form,
-//   Input,
-//   SubmitButton,
-//   Link
-// } from "./styles";
+import { useAuthProvider } from "../services/auth";
+
 
 export const PageWrapper = styled.div`
   display: flex;
@@ -38,15 +32,13 @@ export const RegisterPage = () => {
   const [repeatPassword, setRepeatPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const navigate = useNavigate();
+  const auth = useAuthProvider();
+
 
 
   const handleLogInClick = () => {
     navigate("/");
   };
-
-  function setToken(userToken: any) {
-    sessionStorage.setItem('token', userToken);
-  }
 
   const handleSubmint = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -66,7 +58,7 @@ export const RegisterPage = () => {
         // TODO el codigo correcto seria 201 que es created
         if (response.status === 200) {
           //TODO deberia logearse automaticamente
-          setToken(response.data.token);
+          auth.addCredenials(response.data.token, response.data.userName, response.data.userMail);
           navigate("/homepage");
         }
       } catch (error) {

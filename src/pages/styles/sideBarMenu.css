@@ -10,7 +10,7 @@
     justify-content: flex-start;
     align-items: flex-start;
     width: 16rem;
-    height: calc(100vh - 186px);
+    height: calc(100vh - 11.5rem);
     align-items: center;
     /* justify-content: center; */
 
@@ -61,6 +61,10 @@
     align-items: center;
 }
 
+.sideMenu-controller:hover {
+    background-color: rgb(32, 32, 32);
+}
+
 .sideMenu-controller svg {
     color: rgb(230, 230, 230);
     font-size: 1rem;
@@ -69,6 +73,7 @@
 .sideMenu-button {
     text-align: left;
     padding: 1.5rem;
+    padding-top: 2rem;
     background-color: rgb(32, 32, 32);
     /* margin-bottom: 1rem; */
     border: none;

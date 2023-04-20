@@ -1,57 +1,15 @@
-// import Button from "../components/LogInButtom";
-
-
-// export const LoginPage = () => {
-//     return (
-//         <div>
-//             <h1 color='green'>SpotFinder </h1>
-//             <form name='f1'>
-//                 <input type="email" required></input>
-//                 <br></br>
-//                 <input type="password" required></input>
-//                 <br></br>
-//                 <input type="submit" value="Log in"></input>
-//                 <br></br>
-//                 <br></br>
-//                 <Button
-//                     border="none"
-//                     color="green"
-//                     height = "50px"
-//                     onClick={() => alert("You clicked on the pink circle!")}
-//                     radius = "35%"
-//                     width = "100px"
-//                     children = "Log In"
-//                 ></Button>
-//             </form>
-//         </div>
-//     )
-// }
-
 import React, { useState } from "react";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import './styles/login&register.css';
-// import {
-//   PageWrapper,
-//   Title,
-//   Spot,
-//   Finder,
-//   Form,
-//   Input,
-//   SubmitButton,
-//   Link
-// } from "./styles";
+import { useAuthProvider } from "../services/auth";
 
-
-function setToken(userToken: any) {
-  sessionStorage.setItem('token', userToken);
-}
 
 export const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const auth = useAuthProvider();
 
 
     const handleRegisterClick = () => {
@@ -67,8 +25,9 @@ export const LoginPage = () => {
             });
             
             //TODO el codigo de status correcto seria 202 que es acepted
+            //TODO ACTUALIZAR LA RESPONSE EN EL BACKEND!!!!!
             if (response.status === 200) {
-              setToken(response.data.token);
+              auth.addCredenials(response.data.token, response.data.userName, response.data.userMail);
               navigate("/homepage");
             }
           } catch (error) {

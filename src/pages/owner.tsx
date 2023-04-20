@@ -5,10 +5,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
 import { faAdd } from '@fortawesome/free-solid-svg-icons';
-import Map from "../components/Map/Map";
+import ParkingList from "../components/MyParkingsLots";
+import QRCode from 'react-qr-code';
+import { useAuthProvider } from "../services/auth";
+import { useEffect, useState } from "react";
+import Credentials from "../services/Credentials";
+
+
 
 export const OwnerPage = () => {
     const navigate = useNavigate();
+    const auth = useAuthProvider();
+
+    const [credentials, setCredentials] = useState<Credentials>(new Credentials('null', 'null', 'null'));
+
+    let qr: string = '';
+    let aux = credentials?.getToken();
+    qr = aux? aux : "";
 
     const handleBackToUserClick = () =>  {
         navigate('/homepage')
@@ -19,17 +32,42 @@ export const OwnerPage = () => {
         { lat: -34.592222, lng: -58.374722 }, // Obelisco
         { lat: -34.602414, lng: -58.383759 }, // Catedral Metropolitana
         { lat: -34.613150, lng: -58.377230 }, // Puerto Madero
-      ];
-      
+    ];
+    
+
+    const parkings = [
+        { id: 1, name: 'Parking 1' },
+        { id: 2, name: 'Parking 2' },
+        { id: 3, name: 'Parking 3' },
+        { id: 4, name: 'Parking 4' },
+        { id: 5, name: 'Parking 5' },
+        { id: 6, name: 'Parking 6' },
+        { id: 7, name: 'Parking 7' },
+        { id: 8, name: 'Parking 8' },
+        { id: 9, name: 'Parking 9' },
+    ];
 
     const center = {
         lat: 47.6062095,
         lng: -122.3320708 
     };
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const token = auth.getCredentials().getToken();
+            if (token != 'null') {
+                setCredentials(auth.getCredentials());
+            } else {
+                alert('Your session expired')
+                navigate("/");
+            }
+        };
+        fetchData();
+    }, [auth, navigate]);
+
     return (
         <div className='HomeWrapper'>
-            <HeadPage navBar={true}></HeadPage>
+            <HeadPage navBar={true} credentials={credentials}></HeadPage>
             <div className='content'>
                 {/* <div className='ProfileOptions'>
                     <button className="profilOptions-button" onClick={handleBackToUserClick}>Your Profile</button>
@@ -43,7 +81,11 @@ export const OwnerPage = () => {
                     <button className="sideMenu-button" onClick={handleBackToUserClick} style={{position: 'absolute', bottom: '0'}}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faArrowCircleLeft} style={{ marginRight: '1rem'}}/>Return to User</h3></button>
                 </SideBarMenu>
                 <div className='MapBox'>
-                    <Map coordenadas={coordenadas}/>
+                    {/* <Map coordenadas={coordenadas}/> */}
+                    <ParkingList parkings={parkings}/>
+                    {/* <QRCode value={qr}/>  */}
+
+
                 </div>
             </div>
         </div>

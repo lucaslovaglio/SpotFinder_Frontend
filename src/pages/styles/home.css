@@ -80,7 +80,7 @@
 */
 .MapBox {
   background-color: rgb(16, 152, 107);
-  height: calc(100vh - 186px);
+  height: calc(100vh - 11.5rem);
   width: 100%;
   align-items: center;
   padding: auto;

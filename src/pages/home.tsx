@@ -14,24 +14,31 @@ import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { faUserGear } from '@fortawesome/free-solid-svg-icons';
 import Map from "../components/Map/Map";
+import Credentials from '../services/Credentials';
+// import jwt, { JwtPayload } from 'jsonwebtoken';
+
 
 
 export const HomePage = () => {
     const navigate = useNavigate();
     const auth = useAuthProvider();
 
-    const [userToken, setUserToken] = useState<string | undefined>(undefined);
+    const [credentials, setCredentials] = useState<Credentials>(new Credentials('null', 'null', 'null'));
 
-    //datos del usuario actual
-    const [email, setEmail] = useState<string>("");
-    const [userName, setUserName] = useState<string>("");
     
+    const coordenadas = [
+        { latitude: -34.603722, longitude: -58.381592 }, // Obelisco
+        { latitude: -34.6131516, longitude: -58.3772316 }, // Casa Rosada
+        { latitude: -34.5861239, longitude: -58.3927121 }, // Aeroparque Jorge Newbery      
+      ];
+
 
     useEffect(() => {
         const fetchData = async () => {
-            const token = auth.getToken();
-            if (token) {
-                setUserToken(token);
+            const token = auth.getCredentials().getToken();
+            if (token != 'null') {
+                setCredentials(auth.getCredentials());
+                
                 // descomentar cuando este hecha la parte del back
 
                 // try {
@@ -63,7 +70,7 @@ export const HomePage = () => {
     return (
         
         <div className='HomeWrapper'>
-            <HeadPage navBar={false}></HeadPage>
+            <HeadPage navBar={false} credentials={credentials}></HeadPage>
             <div className='content'>
                 <SideBarMenu>
                     {/* <button className='sideMenu-button'><FontAwesomeIcon icon={solid} style={{color: "#005eff",}} /></button> */}
@@ -75,7 +82,7 @@ export const HomePage = () => {
                     <button className="sideMenu-button" onClick={handleOwnerClick} style={{position: 'absolute', bottom: '0'}}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faGear} style={{ marginRight: '1rem'}}/>Settings</h3></button>
                 </SideBarMenu>
                 <div className='MapBox'>
-                    <Map/>
+                    <Map coordinates={coordenadas}/>
                     <div className='ShowList'>
                         <button className='ShowList-buttom'>Show List</button>
                     </div>
