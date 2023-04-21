@@ -2,12 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import '../pages/styles/home.css';
 import '../pages/styles/login&register.css';
 import '../pages/styles/profileButton.css';
-import { useAuthProvider } from '../services/auth';
-import { useNavigate } from 'react-router-dom';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ModifyUser from './ModifyUser';
 import Credentials from '../services/Credentials';
+import { useAuthProvider } from '../services/auth';
+import { useNavigate } from 'react-router-dom';
 
 
 interface Props {
@@ -22,13 +22,13 @@ const HeadPage: React.FC<Props> = ({navBar, credentials}) => {
     const [showModal, setShowModal] = useState(false);
     const [initialState, setInitialState] = useState(false);
 
-    const navigate = useNavigate();
-    const auth = useAuthProvider();
-
     const menuRef = useRef<HTMLDivElement>(null);
 
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
+
+    const auth = useAuthProvider();
+    const navigate = useNavigate();
 
 
     //TODO no funciona, es para que el menu se vaya cuando toco en algun otro lugar
@@ -54,11 +54,9 @@ const HeadPage: React.FC<Props> = ({navBar, credentials}) => {
     const handleModalClose = () => setShowModal(false);
     const handleModalShow = () => setShowModal(true);
     const handleTitle = () => setTitleState(!titleState);
-
+ 
     const handleLogOutClick = () => {
-        auth.removeCredentials();
-        //TODO borrar el token en el back
-        navigate("/");
+        auth.logOut(navigate);
     };
 
     return (

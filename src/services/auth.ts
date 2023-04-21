@@ -1,3 +1,4 @@
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import Credentials from './Credentials'
 
 
@@ -22,7 +23,12 @@ const AuthProvider = {
         sessionStorage.setItem('token', userToken);
         sessionStorage.setItem('userName', userName);
         sessionStorage.setItem('userMail', userMail);
-    }
+    },
+    logOut: (navigate: NavigateFunction) => {
+        AuthProvider.removeCredentials(); // Utiliza la función removeCredentials directamente desde AuthProvider
+        // TODO: borrar el token en el back
+        navigate("/");
+    }  
 };
 
 const useAuthProvider = () => AuthProvider
