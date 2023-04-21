@@ -27,7 +27,7 @@ const SideBarMenu: React.FC<Props> = ({
                 <h3 className='sideMenu-options'><FontAwesomeIcon icon={faGear} style={{ marginRight: '1rem'}}/>Settings</h3>
             </button>
             <button className={`deleteUser ${settingsState ? 'show' : ''}`} onClick={handleOptions} >
-                <h3 className='sideMenu-options'><FontAwesomeIcon icon={faTrash} style={{ marginRight: '1rem'}}/>Delete User</h3>
+                <h3 className='sideMenu-options delete'><FontAwesomeIcon icon={faTrash} style={{ marginRight: '1rem'}}/>Delete User</h3>
             </button>
         </div>
     )
