@@ -49,7 +49,6 @@ const SideBarMenu: React.FC<Props> = ({
           } catch (error) {
             alert(error);
         }
-        //logOut
     }
 
     return (

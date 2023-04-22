@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import { render } from 'react-dom';
 import Credentials from '../services/Credentials';
 import '../pages/styles/modifyUser.css'
+import axios from 'axios';
 
 
 interface Props {
@@ -13,6 +14,41 @@ interface Props {
 }
 
 const ModifyUser: React.FC<Props> = ({ show, handleClose, credentials }) => { 
+  const [name, setName] = useState(credentials.getUserName());
+  const [email, setEmail] = useState(credentials.getUserMail());
+
+  const handleSubmit = async () => {
+    alert(`name: ${name} mail: ${email}`)
+
+    //TODO en el back creo que solo se puede cambiar la psw, checkear como cambiar el resto
+
+    // try {
+    //   alert('1')
+    //   const config = {
+    //       headers: {
+    //         Authorization: `Bearer ${token}` // Token en el header
+    //       },
+    //     };
+    //   const response = await axios.put("http://localhost:3001/users/" + email, config);
+  
+    //   if (response.status === 200) {
+    //     alert('The user information was updated successfully!')
+    //   }
+    // } catch (error) {
+    //   alert(error);
+    // }
+  };
+
+  const handleRestart = () => {
+    setName(credentials.getUserName());
+    setEmail(credentials.getUserMail());
+  }
+
+  const handleCloseButtonClick = () => {
+    handleRestart();
+    handleClose();
+  }
+
   return (
     <>
       {/* <Button variant="primary" onClick={handleShow}>
@@ -33,12 +69,12 @@ const ModifyUser: React.FC<Props> = ({ show, handleClose, credentials }) => {
 
           <div className="form-container">
             <label htmlFor="nameInput">Name:</label>
-            <input type="text" id="nameInput" defaultValue={credentials.getUserName()} required/>
+            <input type="text" id="nameInput" defaultValue={credentials.getUserName()} onChange={(e) => setName(e.target.value)} required/>
 
             <label htmlFor="mailInput">Mail:</label>
-            <input type="email" id="mailInput" defaultValue={credentials.getUserMail()} required/>
+            <input type="email" id="mailInput" defaultValue={credentials.getUserMail()} onChange={(e) => setEmail(e.target.value)} required/>
 
-            <button type="button">Change Password</button>
+            <button type="button" onClick={handleSubmit}>Change Password</button>
           </div>
 
 
@@ -54,7 +90,7 @@ const ModifyUser: React.FC<Props> = ({ show, handleClose, credentials }) => {
 
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleCloseButtonClick}>
             Close
           </Button>
           <Button variant="primary">Save</Button>
