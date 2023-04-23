@@ -31,7 +31,7 @@ const SideBarMenu: React.FC<Props> = ({
     const handleDelete = async () => {
         //borrar al user
         try {
-            alert('1')
+            alert('4')
             const config = {
                 headers: {
                   Authorization: `Bearer ${token}` // Token en el header

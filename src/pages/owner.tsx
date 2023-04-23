@@ -10,6 +10,8 @@ import QRCode from 'react-qr-code';
 import { useAuthProvider } from "../services/auth";
 import { useEffect, useState } from "react";
 import Credentials from "../services/Credentials";
+import AddParking from "../components/AddParking";
+import axios from "axios";
 
 
 
@@ -65,6 +67,27 @@ export const OwnerPage = () => {
         fetchData();
     }, [auth, navigate]);
 
+    // const getParkings = async () => {
+    //     try {
+    //         alert('5')
+    //         const config = {
+    //             headers: {
+    //               Authorization: `Bearer ${credentials.getToken()}` // Token en el header
+    //             },
+    //             body: {
+    //               psw: ''
+    //             }
+    //           };
+    //         const response = await axios.put("http://localhost:3001/users/" + credentials.getUserMail(), config);
+    //         if (response.status === 200) {
+    //           alert('The user information was updated successfully!')
+    //         }
+    //       } catch (error) {
+    //         alert(error);
+    //       }
+    // };
+    
+
     return (
         <div className='HomeWrapper'>
             <div className='HeadPage'>
@@ -78,9 +101,10 @@ export const OwnerPage = () => {
                     <button className="profilOptions-button" onClick={handleBackToUserClick}>Log Out</button>
                 </div> */}
                 <SideBarMenu>
-                    <button className="sideMenu-button" onClick={handleBackToUserClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faHouse} style={{ marginRight: '1rem'}}/>My Parking Lots</h3></button>
-                    <button className="sideMenu-button" onClick={handleBackToUserClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faAdd} style={{ marginRight: '1rem'}}/>Add Parking Lot</h3></button>
                     <button className="sideMenu-button" onClick={handleBackToUserClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faArrowCircleLeft} style={{ marginRight: '1rem'}}/>Return to User</h3></button>
+                    <button className="sideMenu-button" onClick={handleBackToUserClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faHouse} style={{ marginRight: '1rem'}}/>My Parking Lots</h3></button>
+                    {/* <button className="sideMenu-button"><h3 className='sideMenu-options'><FontAwesomeIcon icon={faAdd} style={{ marginRight: '1rem'}}/>Add Parking Lot</h3></button> */}
+                    <AddParking></AddParking>
                 </SideBarMenu>
                 <div className='MapBox'>
                     {/* <Map coordenadas={coordenadas}/> */}
