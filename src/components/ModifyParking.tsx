@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { useAuthProvider } from '../services/auth';
 
+  
 interface Props {
     id: string,
     iName: string,
@@ -12,9 +13,10 @@ interface Props {
     iOpenHs: string,
     iCloseHs: string,
     iPhone: string,
-  }
+    handleRefresh: () => void,
+}
 
-const AddParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity, iOpenHs, iCloseHs, iPhone }) => {
+const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity, iOpenHs, iCloseHs, iPhone, handleRefresh }) => {
   const token = useAuthProvider().getCredentials().getToken();
   const [showModal, setShowModal] = useState(false);
   const [parkingInfo, setParkingInfo] = useState({
@@ -38,6 +40,7 @@ const AddParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity, i
         phone: iPhone,
     });
     setShowModal(false);
+    handleRefresh();
   };
   
   const handleShow = () => setShowModal(true);
@@ -47,7 +50,7 @@ const AddParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity, i
     setParkingInfo({ ...parkingInfo, [id]: value });
   };
 
-  const handleAdd = async () => {
+  const handleSave = async () => {
     // Lógica para agregar el parking con la información ingresada
     // Puedes acceder a los valores de los campos de entrada de información utilizando el estado parkingInfo
 
@@ -60,17 +63,17 @@ const AddParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity, i
         headers: {
           Authorization: `Bearer ${token}` // Token en el header
         },
-          body: {
-            "name": parkingInfo.name,
-            "lat": parkingInfo.latitude,
-            "lon": parkingInfo.longitude,
-            "capacity": parkingInfo.capacity,
-            "openHour": parkingInfo.openHour,
-            "closeHour": parkingInfo.closeHour,
-            "phone": parkingInfo.phone,
-          }
-        };
-      const response = await axios.post("http://localhost:3001/parkings/" + id, config);
+      };
+      const data = {
+        "name": parkingInfo.name,
+        "lat": parkingInfo.latitude,
+        "lon": parkingInfo.longitude,
+        "capacity": parkingInfo.capacity,
+        "openHour": parkingInfo.openHour,
+        "closeHour": parkingInfo.closeHour,
+        "phone": parkingInfo.phone,
+      }
+      const response = await axios.post("http://localhost:3001/parkings/" + id, data, config);
   
       if (response.status === 200) {
           alert('Parking modified successfully!')
@@ -162,8 +165,8 @@ const AddParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity, i
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleAdd}>
-            Add
+          <Button variant="primary" onClick={handleSave}>
+            Save
           </Button>
         </Modal.Footer>
       </Modal>
@@ -172,4 +175,4 @@ const AddParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity, i
 }
 
 
-export default AddParkingButton;
+export default ModifyParkingButton;

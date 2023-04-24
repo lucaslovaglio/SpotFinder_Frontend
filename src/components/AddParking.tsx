@@ -1,8 +1,15 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
+import { useAuthProvider } from '../services/auth';
 
-const AddParkingButton = () => {
+
+interface Props {
+  handleRefresh: () => void,
+}
+
+const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
+  const credentials = useAuthProvider().getCredentials();
   const [showModal, setShowModal] = useState(false);
   const [parkingInfo, setParkingInfo] = useState({
     name: '',
@@ -25,6 +32,7 @@ const AddParkingButton = () => {
       phone: '',
     });
     setShowModal(false);
+    handleRefresh();
   };
   
   const handleShow = () => setShowModal(true);
@@ -41,18 +49,17 @@ const AddParkingButton = () => {
     //TODO arreglar la conexion con el back porq no funciona
     try {
       alert(`${parkingInfo.openHour}`)
-      const config = {
-          body: {
+      const data = {
             "name": parkingInfo.name,
             "lat": parkingInfo.latitude,
             "lon": parkingInfo.longitude,
             "capacity": parkingInfo.capacity,
+            "ownerMail": credentials.getUserMail(),
             "openHour": parkingInfo.openHour,
             "closeHour": parkingInfo.closeHour,
             "phone": parkingInfo.phone,
-          }
         };
-      const response = await axios.post("http://localhost:3001/parkings/", config);
+      const response = await axios.post("http://localhost:3001/parkings/", data);
   
       if (response.status === 200) {
           alert('Parking added successfully!')
@@ -61,7 +68,7 @@ const AddParkingButton = () => {
       alert(error);
     }
 
-    // handleClose();
+    handleClose();
   };
 
   return (

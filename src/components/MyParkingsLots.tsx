@@ -1,18 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pagination, Button } from 'react-bootstrap';
 import '../pages/styles/parkingList.css'; // Archivo de estilos CSS
+import ModifyParking from './ModifyParking';
+import axios from 'axios';
+import { useAuthProvider } from '../services/auth';
+import { Parking } from '../types/parkingTypes';
+import AddParking from './AddParking';
 
-type Parking = {
-    id: number;
-    name: string;
-    // Otros campos del parking
-};
 
-type ParkingListProps = {
-    parkings: Parking[];
-};
+const ParkingList = () => {
+    const [parkings, setParkings] = useState<Parking[]>([])
 
-const ParkingList: React.FC<ParkingListProps> = ({ parkings }) => {
     const parkingsPerPage = 5; // Cambiar el número de parkings por página según tus necesidades
     const [currentPage, setCurrentPage] = React.useState(1);
     
@@ -20,22 +18,56 @@ const ParkingList: React.FC<ParkingListProps> = ({ parkings }) => {
     const firstIndex = lastIndex - parkingsPerPage;
     const currentParkings = parkings.slice(firstIndex, lastIndex);
 
+    const credentials = useAuthProvider().getCredentials()
+    const token = credentials.getToken();
+
+    useEffect(() => {
+        getParkingsFromDB()
+    }, []);
+
+    const getParkingsFromDB = async () => {
+        try {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${credentials.getToken()}` // Token en el header
+                },
+            };
+            const response = await axios.get("http://localhost:3001/parkings/" + credentials.getUserMail(), config);
+            const myParkings = response.data.parkingsOwned as Parking[];
+            setParkings(myParkings);
+        } catch (error) {
+            alert(error);
+        }   
+    }
+
+    const handleRefresh = () => {
+        getParkingsFromDB();
+    }
+
     const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber);
     };
 
-    const handleRemoveParking = (parkingId: number) => {
-        // Lógica para eliminar el parking con el ID especificado
-        // Puedes definir tu propia lógica aquí
-        console.log(`Eliminar parking con ID: ${parkingId}`);
+    const handleRemoveParking = async (parkingId: string) => {
+        try {
+            alert('3')
+            const config = {
+                headers: {
+                  Authorization: `Bearer ${token}` // Token en el header
+                },
+              };
+            const response = await axios.delete("http://localhost:3001/parkings/" + parkingId, config);
+        
+            if (response.status === 200) {
+                alert(`The Parking ${parkingId} has been deleted`);
+                handleRefresh();
+            }
+          } catch (error) {
+            alert(error);
+        }
     };
 
-    const handleEdit = (parkingId: number) => {
-        // Lógica para manejar la edición del parking
-        // Puedes implementar tu propia lógica aquí
-    };
-
-    const handleConfirmRemove = (parkingId: number) => {
+    const handleConfirmRemove = (parkingId: string) => {
         // Utilizar ventana de confirmación de React-Bootstrap
         if (window.confirm('¿Estás seguro que quieres eliminar este parking?')) {
           handleRemoveParking(parkingId);
@@ -44,13 +76,28 @@ const ParkingList: React.FC<ParkingListProps> = ({ parkings }) => {
 
     return (
         <div className="parking-list-container">
-            <h2 className="parking-list-title">My Parking Lots</h2>
+            <h2 className="parking-list-title">
+                My Parking Lots
+            </h2>
+            <button onClick={handleRefresh}>Refresh</button>
+            <AddParking handleRefresh={handleRefresh}></AddParking>
             <ul className="parking-list">
                 {currentParkings.map((parking, index) => (
                 <li key={index} className="parking-list-item">
                     <div className="parking-list-item-content">
                         <div className="parking-list-item-name">{parking.name}</div>
-                        <button className="parking-list-item-button">Edit</button>
+                        <ModifyParking 
+                            id={parking.id} 
+                            iName={parking.name} 
+                            iLat={parking.latitude} 
+                            iLng={parking.longitude} 
+                            iCapacity={parking.capacity} 
+                            iOpenHs={parking.openhour} 
+                            iCloseHs={parking.closehour} 
+                            iPhone={parking.phone} 
+                            handleRefresh={handleRefresh}
+                        />
+                        {/* <button className="parking-list-item-button">Edit</button> */}
                         <Button
                             variant="danger"
                             onClick={() => handleConfirmRemove(parking.id)} // Llamar a la función de confirmación con el ID del parking
