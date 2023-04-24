@@ -29,15 +29,11 @@ const ModifyUser: React.FC<Props> = ({ show, handleClose, credentials }) => {
           headers: {
             Authorization: `Bearer ${credentials.getToken()}` // Token en el header
           },
-          body: {
-            psw: password
-          }
         };
-      // alert("http://localhost:3001/users/" + credentials.getUserMail());
-      // alert(config.headers.Authorization);
-      // alert(`${credentials.getToken()}`)
-      // console.log(credentials.getToken())
-      const response = await axios.put("http://localhost:3001/users/" + credentials.getUserMail(), config);
+      const response = await axios.put("http://localhost:3001/users/" + credentials.getUserMail(), {
+          "psw": password
+        }, config);
+
       if (response.status === 200) {
         alert('The user information was updated successfully!')
       }

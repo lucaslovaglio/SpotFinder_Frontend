@@ -49,9 +49,9 @@ export const RegisterPage = () => {
     }
 
     try {
-        const response = await axios.post("http://localhost:3001/users", {
+        const response = await axios.post("http://localhost:3001/users/", {
           "mail": email,
-          "userName": name, 
+          "username": name, 
           "psw": password
         });
   
