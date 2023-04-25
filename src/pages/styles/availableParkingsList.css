@@ -1,0 +1,49 @@
+/* ParkingList.css */
+.parking-list {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200px; /* Altura inicial de la lista */
+    background-color: #f8f8f8;
+    border-top: 1px solid #ddd;
+    padding: 16px;
+    overflow-y: auto;
+    transition: height 0.3s ease-in-out; /* Animación de transición suave para la altura */
+  }
+  
+  .parking-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .parking-list li {
+    margin-bottom: 8px;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background-color: #f8f8f8;
+    color: #777;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .close-btn:hover {
+    color: #222;
+  }
+  
+  .resize-handle {
+    position: absolute;
+    top: -0.15rem; /* ajuste para colocar en la parte superior centrada */
+    left: 50%; /* ajuste para centrar horizontalmente */
+    transform: translateX(-50%); /* ajuste para centrar horizontalmente */
+    width: 3rem;
+    height: 0.3rem;
+    background-color: #555;
+    border-radius: 0.15rem;
+    cursor: ns-resize; /* solo redimensionar verticalmente */
+  }
