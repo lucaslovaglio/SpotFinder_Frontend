@@ -2,13 +2,15 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { useAuthProvider } from '../services/auth';
+import { faPen } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
   
 interface Props {
     id: string,
     iName: string,
-    iLat: string,
-    iLng: string,
+    iLat: number,
+    iLng: number,
     iCapacity: string,
     iOpenHs: string,
     iCloseHs: string,
@@ -56,9 +58,6 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
 
     //TODO arreglar la conexion con el back porq no funciona
     try {
-      alert(`
-      // ${parkingInfo.name}
-      `)
       const config = {
         headers: {
           Authorization: `Bearer ${token}` // Token en el header
@@ -73,6 +72,8 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
         "closeHour": parkingInfo.closeHour,
         "phone": parkingInfo.phone,
       }
+      console.log(JSON.stringify(data))
+      console.log(id)
       const response = await axios.post("http://localhost:3001/parkings/" + id, data, config);
   
       if (response.status === 200) {
@@ -87,7 +88,7 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
 
   return (
     <>
-      <Button className="parking-list-item-button" onClick={handleShow}>Edit</Button>
+      <Button className="parking-list-item-button" onClick={handleShow}><FontAwesomeIcon icon={faPen}/></Button>
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Modify Parking</Modal.Title>

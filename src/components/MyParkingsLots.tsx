@@ -6,6 +6,8 @@ import axios from 'axios';
 import { useAuthProvider } from '../services/auth';
 import { Parking } from '../types/parkingTypes';
 import AddParking from './AddParking';
+import { faRotateRight, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 const ParkingList = () => {
@@ -50,7 +52,6 @@ const ParkingList = () => {
 
     const handleRemoveParking = async (parkingId: string) => {
         try {
-            alert('3')
             const config = {
                 headers: {
                   Authorization: `Bearer ${token}` // Token en el header
@@ -76,10 +77,10 @@ const ParkingList = () => {
 
     return (
         <div className="parking-list-container">
-            <h2 className="parking-list-title">
+            <span className="parking-list-title">
                 My Parking Lots
-            </h2>
-            <button onClick={handleRefresh}>Refresh</button>
+            </span>
+            <button onClick={handleRefresh}><FontAwesomeIcon icon={faRotateRight} style={{ marginRight: '1rem'}}/></button>
             <AddParking handleRefresh={handleRefresh}></AddParking>
             <ul className="parking-list">
                 {currentParkings.map((parking, index) => (
@@ -102,7 +103,7 @@ const ParkingList = () => {
                             variant="danger"
                             onClick={() => handleConfirmRemove(parking.id)} // Llamar a la función de confirmación con el ID del parking
                         >
-                        Remove
+                        <FontAwesomeIcon icon={faTrash}/>
                         </Button>
                     </div>
                     <hr className="parking-list-item-divider" />

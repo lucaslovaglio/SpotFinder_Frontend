@@ -4,16 +4,18 @@ import '../pages/styles/parkingList.css'; // Archivo de estilos CSS
 import axios, { AxiosRequestConfig } from 'axios';
 import { useAuthProvider } from '../services/auth';
 import { Parking } from '../types/parkingTypes';
-import { searchArea } from '../types/searchAreaType';
+import { searchArea } from '../types/mapTypes';
 import '../pages/styles/home.css';
+import QRToast from './QrToast';
 
 
 
 interface Props {
-    searchArea: searchArea;
+    searchArea: () => searchArea;
+    handleParkings: (parkings: Parking[]) => void;
   }
 
-const AvailableParkingList: React.FC<Props> = ({searchArea}) => {
+const AvailableParkingList: React.FC<Props> = ({searchArea, handleParkings}) => {
 
     const [showList, setShowList] = useState(false);
     const [listHeight, setListHeight] = useState(200);
@@ -31,9 +33,12 @@ const AvailableParkingList: React.FC<Props> = ({searchArea}) => {
     const firstIndex = lastIndex - parkingsPerPage;
     const currentParkings = parkings ? parkings.slice(firstIndex, lastIndex) : [];
 
-
-    const credentials = useAuthProvider().getCredentials()
+    const auth = useAuthProvider();
+    const credentials = auth.getCredentials()
     const token = credentials.getToken();
+
+    const [showA, setShowA] = useState(true);
+    const toggleShowA = () => setShowA(!showA);
 
     useEffect(() => {
         getParkingsFromDB()
@@ -42,14 +47,19 @@ const AvailableParkingList: React.FC<Props> = ({searchArea}) => {
     const getParkingsFromDB = async () => {
         try {
             const data = {
-                "mLon": searchArea.mLon,
-                "mLat": searchArea.mLat,
-                "MLon": searchArea.MLon,
-                "MLat": searchArea.MLat
+                "mLon": "50",
+                "mLat": "20",
+                "MLon": "51",
+                "MLat": "21"
             };
-            const response = await axios.post("http://localhost:3001/parkings/parkingsFromArea", data);
+            // alert('26')
+            // alert(`${searchArea().mLon}, ${searchArea().mLat}, ${searchArea().MLon}, ${searchArea().MLat}`);
+            const response = await axios.post("http://localhost:3001/parkings/parkingsFromArea", searchArea());
+            // alert('responseee')
+            // alert(response.data.toString())
             const myParkings = response.data as Parking[];
             setParkings(myParkings);
+            handleParkings(myParkings);
         } catch (error) {
             alert(error);
         }   
@@ -62,6 +72,22 @@ const AvailableParkingList: React.FC<Props> = ({searchArea}) => {
     const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber);
     };
+
+    const handleReservate = async (parking: Parking) => {
+        try {
+            const data = {
+                //TODO: no se que data hay que pasarle
+            };
+            alert(parking.id);
+            const response = await axios.post("http://localhost:3001/parkings/" + '7' + "/parkingReservation", data);
+            // auth.addParkingToken(response.data.token);
+            // auth.addParkingToken('123456');
+            // toggleShowA();
+            // auth.removeParkingToken()
+        } catch (error) {
+            alert(error);
+        }   
+    }
 
 
 
@@ -108,7 +134,7 @@ const AvailableParkingList: React.FC<Props> = ({searchArea}) => {
 
     return (
         <div className="availableParkingsList">
-            <button style={{position: 'absolute', bottom: '1rem', width: '7rem', left: '50%', translate: '-50%'}} className='ShowList-buttom' onClick={toggleList}>Show List</button>
+            <button style={{position: 'absolute', bottom: '1rem', width: '7rem', left: '50%', translate: '-50%'}} className='ShowList-buttom' onClick={() => {toggleList(); handleRefresh();}}>Show List</button>
         {showList && (
             <div
             ref={containerRef}
@@ -159,7 +185,8 @@ const AvailableParkingList: React.FC<Props> = ({searchArea}) => {
                 <li key={index} className="parking-list-item">
                     <div className="parking-list-item-content">
                         <div className="parking-list-item-name">{parking.name}</div>
-                        <button>Reservate</button>
+                        <button onClick={() => handleReservate(parking)}>Reservate</button>
+                        {/* <QRToast parking={parking} token={auth.getParkingToken()} showA={showA} toggleShowA={toggleShowA}></QRToast> */}
                     </div>
                     <hr className="parking-list-item-divider" />
                 </li>

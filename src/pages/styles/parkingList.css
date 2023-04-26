@@ -7,10 +7,12 @@
   }
   
   .parking-list-title {
+    position: relative;
     margin-left: 2rem;
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 1rem;
+    padding-bottom: 1rem;
   }
   
   .parking-list {

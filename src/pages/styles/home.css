@@ -86,7 +86,7 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  height: calc(100vh - 11.5rem);
+  /* height: calc(100vh - 11.5rem); */
   flex: 1
 }
 

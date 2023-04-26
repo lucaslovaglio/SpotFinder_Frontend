@@ -1,7 +1,7 @@
 export type Parking = {
     id: string;
-    longitude: string;
-    latitude: string;
+    longitude: number;
+    latitude: number;
     name: string;
     capacity: string;
     openhour: string;

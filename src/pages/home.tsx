@@ -14,8 +14,15 @@ import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { faUserGear } from '@fortawesome/free-solid-svg-icons';
 import Map from "../components/Map/Map";
+import AvailableParkingsList from '../components/AvailableParkings';
 import Credentials from '../services/Credentials';
+import PruebaLista from '../components/PruebaLista';
+import { Parking } from '../types/parkingTypes';
+import { searchArea } from '../types/mapTypes';
+import { currentPossition } from '../types/mapTypes';
 // import jwt, { JwtPayload } from 'jsonwebtoken';
+
+
 
 
 
@@ -24,6 +31,21 @@ export const HomePage = () => {
     const auth = useAuthProvider();
 
     const [credentials, setCredentials] = useState<Credentials>(new Credentials('null', 'null', 'null'));
+
+    const [isListVisible, setListVisible] = useState(false);
+
+    const [parkings, setParkings] = useState<Parking[]>([]);
+
+    const [currentPosition, setCurrentPossition] = useState<currentPossition>({ lat: 0, lng: 0 });
+
+    const [searchArea, setSearchArea] = useState<searchArea>(
+        {
+            "mLon": 50,
+            "mLat": 20,
+            "MLon": 51,
+            "MLat": 21
+        }
+    );
 
     
     const coordenadas = [
@@ -66,6 +88,103 @@ export const HomePage = () => {
         navigate("/ownerpage");
     };
 
+    const handleShowList = () => {
+        setListVisible(true);
+    };
+
+    const handleParkings = (parkings: Parking[]) => {
+        setParkings(parkings);
+    }
+
+    const handleCurrentPosition = (coords: currentPossition) => {
+        setCurrentPossition(coords);
+        const mLon = currentPosition.lng - 1;
+        const mLat = currentPosition.lat - 1;
+        const MLon = currentPosition.lng + 1;
+        const MLat = currentPosition.lat + 1;
+        handleSearchArea(mLon, mLat, MLon, MLat)
+    }
+
+    const handleSearchArea = (mLon: number, mLat: number, MLon: number, MLat: number) => {
+        setSearchArea(
+            {
+                "mLon": mLon,
+                "mLat": mLat,
+                "MLon": MLon,
+                "MLat": MLat
+            }
+        );
+    }
+
+    // navigator.geolocation.watchPosition(
+    //     position => {
+    //         const { latitude, longitude } = position.coords;
+    //         const coords = { lat: latitude, lng: longitude };
+    //         handleCurrentPosition(coords)
+    //     },
+    //     error => console.log(error),
+    //     { enableHighAccuracy: true }
+    //   );
+
+    useEffect(() => {
+        getCurrentPosition();
+    }, []);
+
+    // const getPosition = () => {
+    //     console.log('3')
+    //     const watchId = navigator.geolocation.getCurrentPosition(
+    //         position => {
+    //             const { latitude, longitude } = position.coords;
+    //             const coords = { lat: latitude, lng: longitude };
+    //             handleCurrentPosition(coords)
+    //             console.log('1')
+    //         },
+    //         error => console.log(error),
+    //         { enableHighAccuracy: true }
+    //     );
+    //     console.log('4')
+    
+    //     // Limpieza al desmontar el componente
+    //     // return () => {
+    //     //     navigator.geolocation.clearWatch(watchId);
+    //     // };
+    // }
+
+    const getCurrentPosition = () => {
+        // const [currentPosition, setPosition] = useState<currentPossition>({ lat: 0, lng: 0 });
+      
+        
+        const getCoords = async () => {
+        try {
+            const position = await new Promise<Position>((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(
+                resolve,
+                reject,
+                { enableHighAccuracy: true }
+            );
+            });
+    
+            handleCurrentPosition({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+            });
+        } catch (error) {
+            console.error("Error al obtener la ubicación:", error);
+        }
+        };
+      
+        getCoords();
+        
+
+        return currentPosition;
+      };
+    
+    const getSearchArea = (): searchArea => {
+        console.log('2')
+        getCurrentPosition();
+        return searchArea;
+    }
+
 
     return (
         
@@ -83,10 +202,12 @@ export const HomePage = () => {
                     <button className="sideMenu-button" onClick={handleOwnerClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faUserGear} style={{ marginRight: '1rem'}}/>Change to Manager</h3></button>
                 </SideBarMenu>
                 <div className='MapBox'>
-                    <Map coordinates={coordenadas}/>
-                    <div className='ShowList'>
-                        <button className='ShowList-buttom'>Show List</button>
-                    </div>
+                    <Map currentPosition={currentPosition} parkings={parkings}/>
+                    {/* <div className='ShowList'> */}
+                        {/* <button className='ShowList-buttom' onClick={handleShowList}>Show List</button> */}
+                    {/* </div> */}
+                    <AvailableParkingsList searchArea={getSearchArea} handleParkings={handleParkings}/>
+                    <PruebaLista></PruebaLista>
                 </div>
             </div>
         </div>

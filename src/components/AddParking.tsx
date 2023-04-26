@@ -2,6 +2,9 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { useAuthProvider } from '../services/auth';
+import { faAdd } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import '../pages/styles/buttons.css'
 
 
 interface Props {
@@ -13,8 +16,8 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
   const [showModal, setShowModal] = useState(false);
   const [parkingInfo, setParkingInfo] = useState({
     name: '',
-    latitude: '',
-    longitude: '',
+    latitude: 0,
+    longitude: 0,
     capacity: '',
     openHour: '',
     closeHour: '',
@@ -24,8 +27,8 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
   const handleClose = () => {
     setParkingInfo({
       name: '',
-      latitude: '',
-      longitude: '',
+      latitude: 0,
+      longitude: 0,
       capacity: '',
       openHour: '',
       closeHour: '',
@@ -48,7 +51,6 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
 
     //TODO arreglar la conexion con el back porq no funciona
     try {
-      alert(`${parkingInfo.openHour}`)
       const data = {
             "name": parkingInfo.name,
             "lat": parkingInfo.latitude,
@@ -73,7 +75,7 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
 
   return (
     <>
-      <Button onClick={handleShow}>Add Parking</Button>
+      <button className='spotFinder-button' onClick={handleShow}><FontAwesomeIcon icon={faAdd}/></button>
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Add Parking</Modal.Title>
@@ -94,7 +96,6 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
               <Form.Control
                 type="number"
                 placeholder="Enter latitude"
-                value={parkingInfo.latitude}
                 onChange={handleInputChange}
               />
             </Form.Group>
@@ -103,7 +104,6 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
               <Form.Control
                 type="number"
                 placeholder="Enter longitude"
-                value={parkingInfo.longitude}
                 onChange={handleInputChange}
               />
             </Form.Group>

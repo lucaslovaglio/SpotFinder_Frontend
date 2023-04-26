@@ -21,10 +21,7 @@ const ModifyUser: React.FC<Props> = ({ show, handleClose, credentials }) => {
       setPasswordError("Passwords do not match");
       return;
     }
-    alert(`new psw: ${password}`)
-
     try {
-      alert('1')
       const config = {
           headers: {
             Authorization: `Bearer ${credentials.getToken()}` // Token en el header

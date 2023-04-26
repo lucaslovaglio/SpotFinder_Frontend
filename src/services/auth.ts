@@ -24,6 +24,17 @@ const AuthProvider = {
         sessionStorage.setItem('userName', userName);
         sessionStorage.setItem('userMail', userMail);
     },
+    getParkingToken: (): string => {
+        const tokenString = sessionStorage.getItem('parkingToken');
+        const token = tokenString ? tokenString : 'null';
+        return token;
+    },
+    removeParkingToken: () => {
+        sessionStorage.removeItem('parkingToken');
+    },
+    addParkingToken: (parkingToken: string) => {
+        sessionStorage.setItem('parkingToken', parkingToken);
+    },
     logOut: (navigate: NavigateFunction) => {
         AuthProvider.removeCredentials(); // Utiliza la función removeCredentials directamente desde AuthProvider
         // TODO: borrar el token en el back
