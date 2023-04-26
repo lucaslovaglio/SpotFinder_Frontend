@@ -78,15 +78,19 @@ const AvailableParkingList: React.FC<Props> = ({searchArea, handleParkings}) => 
             const data = {
                 //TODO: no se que data hay que pasarle
             };
-            alert(parking.id);
-            const response = await axios.post("http://localhost:3001/parkings/" + '7' + "/parkingReservation", data);
+            // alert(parking.id);
+            const response = await axios.post("http://localhost:3001/parkings/" + parking.id + "/parkingReservation", data);
             // auth.addParkingToken(response.data.token);
             // auth.addParkingToken('123456');
             // toggleShowA();
             // auth.removeParkingToken()
+            if (response.status === 200) {
+                alert('You have succesfully booked!');
+              }
         } catch (error) {
             alert(error);
         }   
+        handleRefresh();
     }
 
 
@@ -185,6 +189,10 @@ const AvailableParkingList: React.FC<Props> = ({searchArea, handleParkings}) => 
                 <li key={index} className="parking-list-item">
                     <div className="parking-list-item-content">
                         <div className="parking-list-item-name">{parking.name}</div>
+                        <div className="parking-list-item-name">| Attendance: </div>
+                        <div className="parking-list-item-name">{parking.attendance}</div>
+                        <div className="parking-list-item-name">/</div>
+                        <div className="parking-list-item-name">{parking.capacity}</div>
                         <button onClick={() => handleReservate(parking)}>Reservate</button>
                         {/* <QRToast parking={parking} token={auth.getParkingToken()} showA={showA} toggleShowA={toggleShowA}></QRToast> */}
                     </div>

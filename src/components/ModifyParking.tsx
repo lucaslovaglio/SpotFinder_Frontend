@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { useAuthProvider } from '../services/auth';
 import { faPen } from '@fortawesome/free-solid-svg-icons'
@@ -18,10 +18,20 @@ interface Props {
     handleRefresh: () => void,
 }
 
+type Park = {
+  name: string,
+  latitude: number,
+  longitude: number,
+  capacity: string,
+  openHour: string,
+  closeHour: string,
+  phone: string,
+}
+
 const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity, iOpenHs, iCloseHs, iPhone, handleRefresh }) => {
   const token = useAuthProvider().getCredentials().getToken();
   const [showModal, setShowModal] = useState(false);
-  const [parkingInfo, setParkingInfo] = useState({
+  const [newParkingInfo, setParkingInfo] = useState<Park>({
     name: iName,
     latitude: iLat,
     longitude: iLng,
@@ -29,7 +39,7 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
     openHour: iOpenHs,
     closeHour: iCloseHs,
     phone: iPhone,
-  });
+})
 
   const handleClose = () => {
     setParkingInfo({
@@ -49,7 +59,7 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
 
   const handleInputChange = (event: { target: { id: any; value: any; }; }) => {
     const { id, value } = event.target;
-    setParkingInfo({ ...parkingInfo, [id]: value });
+    !!newParkingInfo && setParkingInfo({ ...newParkingInfo, [id]: value });
   };
 
   const handleSave = async () => {
@@ -64,13 +74,13 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
         },
       };
       const data = {
-        "name": parkingInfo.name,
-        "lat": parkingInfo.latitude,
-        "lon": parkingInfo.longitude,
-        "capacity": parkingInfo.capacity,
-        "openHour": parkingInfo.openHour,
-        "closeHour": parkingInfo.closeHour,
-        "phone": parkingInfo.phone,
+        "name": newParkingInfo?.name,
+        "lat": newParkingInfo?.latitude,
+        "lon": newParkingInfo?.longitude,
+        "capacity": newParkingInfo?.capacity,
+        "openHour": newParkingInfo?.openHour,
+        "closeHour": newParkingInfo?.closeHour,
+        "phone": newParkingInfo?.phone,
       }
       console.log(JSON.stringify(data))
       console.log(id)
@@ -100,7 +110,7 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
               <Form.Control
                 type="text"
                 placeholder="Enter name"
-                value={parkingInfo.name}
+                value={newParkingInfo?.name}
                 onChange={handleInputChange}
               />
             </Form.Group>
@@ -109,7 +119,7 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
               <Form.Control
                 type="number"
                 placeholder="Enter latitude"
-                value={parkingInfo.latitude}
+                value={newParkingInfo?.latitude}
                 onChange={handleInputChange}
               />
             </Form.Group>
@@ -118,7 +128,7 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
               <Form.Control
                 type="number"
                 placeholder="Enter longitude"
-                value={parkingInfo.longitude}
+                value={newParkingInfo?.longitude}
                 onChange={handleInputChange}
               />
             </Form.Group>
@@ -127,7 +137,7 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
               <Form.Control
                 type="number"
                 placeholder="Enter capacity"
-                value={parkingInfo.capacity}
+                value={newParkingInfo?.capacity}
                 onChange={handleInputChange}
               />
             </Form.Group>
@@ -137,7 +147,7 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
                 type="time"
                 step="1"
                 placeholder="Enter open hour"
-                value={parkingInfo.openHour}
+                value={newParkingInfo?.openHour}
                 onChange={handleInputChange}
               />
             </Form.Group>
@@ -147,7 +157,7 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
                 type="time"
                 step="1"
                 placeholder="Enter close hour"
-                value={parkingInfo.closeHour}
+                value={newParkingInfo?.closeHour}
                 onChange={handleInputChange}
               />
             </Form.Group>
@@ -156,7 +166,7 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
               <Form.Control
                 type="tel"
                 placeholder="Enter phone"
-                value={parkingInfo.phone}
+                value={newParkingInfo?.phone}
                 onChange={handleInputChange}
               />
             </Form.Group>

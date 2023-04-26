@@ -8,4 +8,5 @@ export type Parking = {
     closehour: string;
     phone: string;
     rating: string;
+    attendance: number;
   };

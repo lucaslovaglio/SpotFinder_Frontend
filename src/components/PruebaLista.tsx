@@ -15,7 +15,7 @@ const OffCanvas = () => {
   };
 
   return (
-      <><button className="open-btn" onClick={handleOpenClick} style={{ position: 'absolute', zIndex: 999 }}>
+      <><button className="open-btn" onClick={handleOpenClick} style={{ position: 'absolute'}}>
       Show List
     </button>
     <div className={`off-canvas ${isOpen ? 'open' : ''}`}>
