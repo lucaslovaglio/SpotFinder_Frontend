@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { render } from 'react-dom';
 import Credentials from '../services/Credentials';
-import '../pages/styles/modifyUser.css'
+import '../styles/modifyUser.css'
 import axios from 'axios';
 import { useAuthProvider } from '../services/auth';
 

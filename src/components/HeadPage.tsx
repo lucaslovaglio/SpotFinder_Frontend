@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import '../pages/styles/home.css';
-import '../pages/styles/login&register.css';
-import '../pages/styles/profileButton.css';
+import '../styles/home.css';
+import '../styles/login&register.css';
+import '../styles/profileButton.css';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ModifyUser from './ModifyUser';

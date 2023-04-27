@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Pagination, Button } from 'react-bootstrap';
-import '../pages/styles/parkingList.css'; // Archivo de estilos CSS
-import '../pages/styles/buttons.css'; // Archivo de estilos CSS
+import '../styles/parkingList.css'; // Archivo de estilos CSS
+import '../styles/buttons.css'; // Archivo de estilos CSS
 import ModifyParking from './ModifyParking';
 import axios from 'axios';
 import { useAuthProvider } from '../services/auth';
@@ -38,7 +38,7 @@ const ParkingList = () => {
 
     useEffect(() => {
         getParkingsFromDB()
-    }, [getParkingsFromDB]);
+    }, []);
 
 
     const parkingsPerPage = 5; // Cambiar el número de parkings por página según tus necesidades

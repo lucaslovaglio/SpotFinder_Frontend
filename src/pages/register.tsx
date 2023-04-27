@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import './styles/login&register.css';
+import '../styles/login&register.css';
 import { useAuthProvider } from "../services/auth";
 
 
@@ -89,7 +89,7 @@ export const RegisterPage = () => {
           required
         />
         {passwordError && <span className="PasswordError">{passwordError}</span>}
-        <button className="LogSubmit" type="submit">Sing Up</button>
+        <button className="LogSubmit" type="submit">Sign Up</button>
       </form>
       <p className="Link" onClick={handleLogInClick}>You're already singed up? Log in here.</p>
     </div>

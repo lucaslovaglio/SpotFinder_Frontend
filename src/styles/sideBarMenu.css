@@ -17,7 +17,7 @@
     position: relative;
     top: 0ch;
     left: 0px;
-    z-index: 99;
+    z-index: 3000;
     animation: fadeInRight 0.3s ease-out forwards;
 
 

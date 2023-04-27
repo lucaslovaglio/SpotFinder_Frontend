@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Pagination, Button } from 'react-bootstrap';
-import '../pages/styles/parkingList.css'; // Archivo de estilos CSS
+import '../styles/parkingList.css'; // Archivo de estilos CSS
 import axios, { AxiosRequestConfig } from 'axios';
 import { useAuthProvider } from '../services/auth';
 import { Parking } from '../types/parkingTypes';
 import { searchArea } from '../types/mapTypes';
-import '../pages/styles/home.css';
+import '../styles/home.css';
 import QRToast from './QrToast';
 
 

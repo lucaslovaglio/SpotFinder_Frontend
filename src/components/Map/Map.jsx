@@ -2,7 +2,7 @@ import React from 'react';
 import H from "@here/maps-api-for-javascript";
 import onResize from 'simple-element-resize-detector';
 import AvailableParkingsList from '../AvailableParkings';
-import '../../pages/styles/home.css';
+import '../../styles/home.css';
 
 export default class Map extends React.Component {
   constructor(props) {

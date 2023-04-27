@@ -2,8 +2,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthProvider } from '../services/auth';
-import './styles/home.css';
-import './styles/login&register.css';
+import '../styles/home.css';
+import '../styles/login&register.css';
 import HeadPage from '../components/HeadPage';
 import SideBarMenu from '../components/SideBarMenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -206,8 +206,8 @@ export const HomePage = () => {
                     {/* <div className='ShowList'> */}
                         {/* <button className='ShowList-buttom' onClick={handleShowList}>Show List</button> */}
                     {/* </div> */}
-                    <AvailableParkingsList searchArea={getSearchArea} handleParkings={handleParkings}/>
-                    <PruebaLista></PruebaLista>
+                    {/* <AvailableParkingsList searchArea={getSearchArea} handleParkings={handleParkings}/> */}
+                    <PruebaLista searchArea={getSearchArea} handleParkings={handleParkings}/>
                 </div>
             </div>
         </div>

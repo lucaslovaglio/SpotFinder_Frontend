@@ -1,0 +1,114 @@
+.off-canvas {
+    position: fixed;
+    bottom: -2rem;
+    left: 25%;
+    translate: 18%;
+    left: 0;
+    width: 75%;
+    height: 0;
+    border-radius: 20px;
+    background-color: #111;
+    overflow: hidden;
+    transition: height 0.3s ease-in-out;
+    z-index: 99;
+  }
+  
+  /* .open-btn {
+    position: relative;
+    bottom: 16px;
+    right: 16px;
+    background-color: rgb(0, 255, 149);
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    z-index: 1;
+  } */
+
+  .show-list {
+    position: absolute;
+    bottom: 14%;
+    left: 50%;
+    transform: translate(-50%, -130%);
+    width: 7rem;
+  }
+
+  .open-btn {
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 01rem;
+    /* width: 3rem; */
+    border: none;
+    border-radius: 30px;
+    background-color: rgb(32, 32, 32);
+    /* margin-bottom: 1rem; */
+    border: none;
+    /* border-radius: 5px; */
+    /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); */
+    width: 100%;
+    /* max-width: 200px; */
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    color: white;
+  }
+  
+  .open-btn:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+    transform: scale(1.05);
+    background-color: rgb(32, 32, 32);
+  }
+  
+  .off-canvas.open {
+    height: 70%;
+  }
+  
+  .off-canvas-content {
+    padding: 32px;
+  }
+  
+  .close-btn {
+    position: relative;
+    margin-left: 1rem;
+    background-color: rgb(1, 223, 130);
+    color: #ffffff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+  }
+
+  .close-btn:hover {
+    background-color: rgb(3, 142, 105);
+
+  }
+  
+  .buttons {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+  }
+
+  .parking-list-pagination {
+    position: absolute;
+    bottom: 1.5rem;
+    right: 0.5rem;
+  }
+
+  .reserve {
+    position: absolute;
+    right: 3rem;
+    background-color: rgb(0, 206, 225);
+    color: #ffffff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .reserve:hover {
+    background-color: rgb(48, 137, 130);
+  }

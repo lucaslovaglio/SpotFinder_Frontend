@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import '../pages/styles/sideBarMenu.css';
+import '../styles/sideBarMenu.css';
 import { faBars, faGear, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useNavigate } from "react-router-dom";
@@ -50,6 +50,13 @@ const SideBarMenu: React.FC<Props> = ({
         }
     }
 
+    const handleConfirmDelete = () => {
+        // TODO: cambiar alert por componente
+        if (window.confirm('¿Estás seguro que quieres eliminar este usuario?')) {
+          handleDelete();
+        }
+    };
+
     return (
         <div className={`sideMenu ${sideMenuState ? 'show' : ''}`}>
             <button className='sideMenu-controller' onClick={handleClick}><FontAwesomeIcon icon={faBars} style={{marginLeft: '0.8rem'}}/></button>
@@ -57,7 +64,7 @@ const SideBarMenu: React.FC<Props> = ({
             <button className="sideMenu-button settings" onClick={handleOptions} style={{position: 'absolute', bottom: '0'}}>
                 <h3 className='sideMenu-options'><FontAwesomeIcon icon={faGear} style={{ marginRight: '1rem'}}/>Settings</h3>
             </button>
-            <button className={`deleteUser ${settingsState ? 'show' : ''}`} onClick={handleDelete} >
+            <button className={`deleteUser ${settingsState ? 'show' : ''}`} onClick={handleConfirmDelete} >
                 <h3 className='sideMenu-options delete'><FontAwesomeIcon icon={faTrash} style={{ marginRight: '1rem'}}/>Delete User</h3>
             </button>
         </div>

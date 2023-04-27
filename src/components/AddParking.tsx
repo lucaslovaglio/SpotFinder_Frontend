@@ -4,7 +4,7 @@ import { Button, Modal, Form } from 'react-bootstrap';
 import { useAuthProvider } from '../services/auth';
 import { faAdd } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import '../pages/styles/buttons.css'
+import '../styles/buttons.css'
 
 
 interface Props {
