@@ -22,29 +22,11 @@ const HeadPage: React.FC<Props> = ({navBar, credentials}) => {
     const [showModal, setShowModal] = useState(false);
     const [initialState, setInitialState] = useState(false);
 
-    const menuRef = useRef<HTMLDivElement>(null);
-
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
 
     const auth = useAuthProvider();
     const navigate = useNavigate();
-
-
-    //TODO no funciona, es para que el menu se vaya cuando toco en algun otro lugar
-    // useEffect(() => {
-    //     const handleOutsideClick = (event: MouseEvent) => {
-    //         if (menuRef.current && !menuRef.current?.contains(event.target as Node)) {
-    //             setProfileState(false);
-    //         }
-    //     };
-        
-    //     document.addEventListener('mousedown', handleOutsideClick);
-
-    //     return () => {
-    //     document.removeEventListener('mousedown', handleOutsideClick);
-    //     };
-    // }, [menuRef]);
   
     const handleClick = () => {
         setProfileState(!profileState);
@@ -72,7 +54,7 @@ const HeadPage: React.FC<Props> = ({navBar, credentials}) => {
             </>
         )}
         <button className='Profile' onClick={handleClick}><FontAwesomeIcon icon={faUser} /></button>
-            {initialState && (<div ref={menuRef} className={`Profile-menu ${profileState ? 'show' : ''}`}>
+            {initialState && (<div className={`Profile-menu ${profileState ? 'show' : ''}`}>
                 <button className='Profile-button'>
                 <h1 className='userName'>{credentials.getUserName()}</h1>
                 <h2 className='mail'>{credentials.getUserMail()}</h2>

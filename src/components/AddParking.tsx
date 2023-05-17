@@ -49,7 +49,6 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
     // Lógica para agregar el parking con la información ingresada
     // Puedes acceder a los valores de los campos de entrada de información utilizando el estado parkingInfo
 
-    //TODO arreglar la conexion con el back porq no funciona
     try {
       const data = {
             "name": parkingInfo.name,

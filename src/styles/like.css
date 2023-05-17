@@ -1,0 +1,18 @@
+.like-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: auto;
+    margin-right: 0;
+  }
+  
+  .like-button svg {
+    fill: red;
+    transition: fill .7s;
+  }
+  
+  .like-button.liked svg {
+    fill: rgb(134, 134, 134);
+  }
+  

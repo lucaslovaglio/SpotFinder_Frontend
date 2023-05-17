@@ -2,17 +2,30 @@
     background-color: #fff;
     /* margin: 1rem; */
     padding: 1rem;
-    overflow-y: auto;
+    overflow-y: hidden;
+    overflow: hidden;
     height: 100%;
+    min-height: max-content;
+  }
+
+  .parking-list-title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 3rem;
+    padding: 0 1rem;
   }
   
   .parking-list-title {
+    text-align: left;
     position: relative;
+    margin-top: 1rem;
     margin-left: 2rem;
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 1rem;
     padding-bottom: 1rem;
+    width: max-content;
   }
   
   .parking-list {

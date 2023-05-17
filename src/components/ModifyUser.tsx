@@ -21,6 +21,10 @@ const ModifyUser: React.FC<Props> = ({ show, handleClose, credentials }) => {
       setPasswordError("Passwords do not match");
       return;
     }
+    if (password.length < 1) {
+      setPasswordError("Your new password is empty");
+      return;
+    }
     try {
       const config = {
           headers: {
@@ -80,8 +84,6 @@ const ModifyUser: React.FC<Props> = ({ show, handleClose, credentials }) => {
           <Modal.Title>Edit Profile</Modal.Title>
         </Modal.Header>
         <Modal.Body className='EditProfile'>
-          {/* TODO: Darle estilo y modificar los datos realmente en la db, para esto tiene que estar bien implementado el token */}
-
           <div className="form-container">
             {/* <label htmlFor="nameInput">Name:</label>
             <input type="text" id="nameInput" defaultValue={credentials.getUserName()} onChange={(e) => setName(e.target.value)} required/>

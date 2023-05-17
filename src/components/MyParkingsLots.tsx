@@ -83,12 +83,15 @@ const ParkingList = () => {
 
     return (
         <div className="parking-list-container">
-        
-            <span className="parking-list-title" style={{marginRight: '74rem'}}> 
-                My Parking Lots
-            </span>
-            <button onClick={handleRefresh} className='spotFinder-button'><FontAwesomeIcon icon={faRotateRight}/></button>
-            <AddParking handleRefresh={handleRefresh}></AddParking>
+            <div className='parking-list-title-container'>
+                <span className="parking-list-title"> 
+                    My Parking Lots
+                </span>
+                <div className='spotFinder-buttons'>
+                    <button onClick={handleRefresh} className='spotFinder-button'><FontAwesomeIcon icon={faRotateRight}/></button>
+                    <AddParking handleRefresh={handleRefresh}></AddParking>
+                </div>
+            </div>
             <ul className="parking-list">
                 {currentParkings.map((parking, index) => (
                 <li key={`${parking.id}-index`} className="parking-list-item">
@@ -110,6 +113,7 @@ const ParkingList = () => {
                         <Button
                             variant="danger"
                             onClick={() => handleConfirmRemove(parking.id)} // Llamar a la función de confirmación con el ID del parking
+                            style={{marginRight: '0.5rem', borderRadius: '50%', backgroundColor: '#FF4140', border: 'none'}}
                         >
                         <FontAwesomeIcon icon={faTrash}/>
                         </Button>

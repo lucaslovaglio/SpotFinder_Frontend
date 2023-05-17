@@ -1,4 +1,5 @@
 .spotFinder-button {
+    position: relative;
     margin-left: 1rem;
     width: 2.3rem;
     height: 2.3rem;
@@ -9,12 +10,15 @@
     align-items: center; 
     justify-content: center;
     margin-bottom: 1rem;
-    right: 1rem;
     transition: all 0.2s ease-in-out;
-    position: relative;
     
 }
 
 .spotFinder-button:hover {
     background-color: rgb(0, 206, 120);
+}
+
+.spotFinder-buttons {
+    display: flex;
+    align-items: center;
 }

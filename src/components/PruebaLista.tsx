@@ -98,7 +98,7 @@ const AvailableParkingList: React.FC<Props> = ({searchArea, handleParkings}) => 
                 Close
               </button>
             </div>
-            <h1>Parkings Availables</h1>
+            <h1 style={{color: 'white'}}>Parkings Availables</h1>
             <ul>
               {currentParkings.map((parking, index) => (
                 <li key={index} className="parking-list-item">

@@ -112,3 +112,7 @@
   .reserve:hover {
     background-color: rgb(48, 137, 130);
   }
+
+  .parking-list-item-name {
+    color: white;
+  }

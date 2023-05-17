@@ -57,7 +57,6 @@ export const RegisterPage = () => {
   
         // TODO el codigo correcto seria 201 que es created
         if (response.status === 200) {
-          //TODO deberia logearse automaticamente
           auth.addCredenials(response.data.token, response.data.userName, response.data.userMail);
           navigate("/homepage");
         }

@@ -98,7 +98,7 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
 
   return (
     <>
-      <Button className="parking-list-item-button" onClick={handleShow}><FontAwesomeIcon icon={faPen}/></Button>
+      <Button className="parking-list-item-button" onClick={handleShow} style={{marginRight: '0.5rem', borderRadius: '50%', backgroundColor: '#14B3CC', border: 'none'}}><FontAwesomeIcon icon={faPen} /></Button>
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Modify Parking</Modal.Title>

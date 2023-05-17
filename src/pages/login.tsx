@@ -25,7 +25,6 @@ export const LoginPage = () => {
             });
             
             //TODO el codigo de status correcto seria 202 que es acepted
-            //TODO ACTUALIZAR LA RESPONSE EN EL BACKEND!!!!!
             if (response.status === 200) {
               auth.addCredenials(response.data.token, response.data.userName, response.data.userMail);
               navigate("/homepage");

@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import Credentials from "../services/Credentials";
 import AddParking from "../components/AddParking";
 import { Parking } from "../types/parkingTypes";
+import CommonLayout from "../components/CommonLayout";
 
 
 
@@ -44,23 +45,25 @@ export const OwnerPage = () => {
         fetchData();
     }, [auth, navigate]);
 
-    return (
-        <div className='HomeWrapper'>
-            <div className='HeadPage'>
-                <HeadPage navBar={false} credentials={credentials}></HeadPage>
-            </div>
-            <div className='content'>
-                <SideBarMenu>
-                    <button className="sideMenu-button" onClick={handleBackToUserClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faArrowCircleLeft} style={{ marginRight: '1rem'}}/>Return to User</h3></button>
-                    <button className="sideMenu-button"><h3 className='sideMenu-options'><FontAwesomeIcon icon={faHouse} style={{ marginRight: '1rem'}}/>My Parking Lots</h3></button>
-                    {/* <AddParking></AddParking> */}
-                </SideBarMenu>
-                <div className='MapBox'>
-                    <ParkingList/>
-                    {/* <QRCode value={qr}/>  */}
 
-
-                </div>
-            </div>
+    const childrenSideMenu = (
+        <div>
+        <button className="sideMenu-button" onClick={handleBackToUserClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faArrowCircleLeft} style={{ marginRight: '1rem'}}/>Return to User</h3></button>
+        <button className="sideMenu-button"><h3 className='sideMenu-options'><FontAwesomeIcon icon={faHouse} style={{ marginRight: '1rem'}}/>My Parking Lots</h3></button>
         </div>
-)}
+    );
+
+    const childrenContent = (
+        <div>
+            <ParkingList/>
+        </div>
+    );
+
+
+    return (
+        <CommonLayout
+        sideMenuContent={childrenSideMenu}
+        mainContent={childrenContent}
+        />
+    )
+}
