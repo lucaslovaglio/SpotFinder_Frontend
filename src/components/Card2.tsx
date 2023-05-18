@@ -17,13 +17,13 @@ const ParkingCard: React.FC<Props> = ({parking}) => {
 
   return (
     <>
-      <div className="card">
+      <div className="card-availableParkings">
         <div className="card-details">
           <div className="title-box">
             <p className="text-title">{parking.name}</p>
             <Checkbox/>
-            <button style={{marginLeft: '0rem', height: '1rem', border: 'none', backgroundColor: 'transparent', color: 'rgb(0, 206, 225)'}}>
-              <FontAwesomeIcon icon={faArrowCircleUp} style={{marginBottom: '0.25rem'}}/>
+            <button style={{marginLeft: '0rem', border: 'none', backgroundColor: 'transparent', color: 'rgb(0, 206, 225)'}}>
+              <FontAwesomeIcon icon={faArrowCircleUp} style={{height: '1.1rem', marginTop: 8}}/>
             </button>
           </div>
           <br />
@@ -37,7 +37,7 @@ const ParkingCard: React.FC<Props> = ({parking}) => {
             <p className="text">Close Hour:<span className='data'>{parking.closehour}</span></p>
           </div>
         </div>
-        <button className="card-button">More info</button>
+        <button className="card-infoButton">More info</button>
       </div>
     </>
   );

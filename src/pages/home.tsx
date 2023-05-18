@@ -21,6 +21,7 @@ import { searchArea } from '../types/mapTypes';
 import { currentPossition } from '../types/mapTypes';
 import MenuAppBar from '../components/AppBar';
 import CommonLayout from '../components/CommonLayout';
+import Card2 from '../components/Card2';
 // import jwt, { JwtPayload } from 'jsonwebtoken';
 
 
@@ -115,13 +116,26 @@ export const HomePage = () => {
 
     const childrenSideMenu = (
         <div>
-        <button className="sideMenu-button" onClick={handleOwnerClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faCar} style={{ marginRight: '1rem'}}/>Current Park</h3></button>
-        <button className="sideMenu-button" onClick={handleOwnerClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faComment} style={{ marginRight: '1rem'}}/>Chats</h3></button>
-        <button className="sideMenu-button" onClick={handleOwnerClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faHeart} style={{ marginRight: '1rem'}}/>Favourites</h3></button>
+        <button className="sideMenu-button" onClick={()=>{}}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faCar} style={{ marginRight: '1rem'}}/>Current Park</h3></button>
+        <button className="sideMenu-button" onClick={()=>{}}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faComment} style={{ marginRight: '1rem'}}/>Chats</h3></button>
+        <button className="sideMenu-button" onClick={()=>{}}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faHeart} style={{ marginRight: '1rem'}}/>Favourites</h3></button>
         <button className="sideMenu-button" onClick={handleOwnerClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faUserTie} style={{ marginRight: '1rem'}}/>Change to Owner</h3></button>
-        <button className="sideMenu-button" onClick={handleOwnerClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faUserGear} style={{ marginRight: '1rem'}}/>Change to Manager</h3></button>
+        <button className="sideMenu-button" onClick={()=>{}}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faUserGear} style={{ marginRight: '1rem'}}/>Change to Manager</h3></button>
         </div>
     );
+
+    const parking: Parking = {
+        id: '1234',
+        longitude: -33,
+        latitude: -54,
+        name: 'My Parking', 
+        capacity: '50',
+        openhour: '18:00:00',
+        closehour: '20:00:00',
+        phone: '1122558877',
+        rating: '5',
+        attendance: 10,
+      }
 
     const childrenContent = (
         <div>

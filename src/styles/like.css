@@ -8,11 +8,14 @@
   }
   
   .like-button svg {
-    fill: red;
+    fill: rgb(134, 134, 134);
     transition: fill .7s;
   }
   
   .like-button.liked svg {
-    fill: rgb(134, 134, 134);
+    fill: red;
   }
   
+  .like-button:hover {
+    background: transparent;
+  }

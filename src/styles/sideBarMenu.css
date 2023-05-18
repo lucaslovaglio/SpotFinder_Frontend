@@ -42,7 +42,7 @@
 }
 
 .sideMenu.show {
-    z-index: 2;
+    z-index: 1000;
     animation: fadeInRight 0.3s ease-out forwards;
 
 }
