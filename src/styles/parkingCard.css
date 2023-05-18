@@ -9,10 +9,11 @@
     border: 2px solid #c3c6ce;
     transition: 0.5s ease-out;
     border-radius: 30px;
-    background: #212121;
+    background: #030a18;
     box-shadow: 10px 10px 20px rgb(25, 25, 25),
       -10px -10px 20px rgb(45, 45, 45);
     overflow: visible;
+    position: relative;
   }
   
   .card-details {
@@ -77,6 +78,7 @@
   .card-availableParkings:hover {
     border-color: rgb(0, 255, 149);
     box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+    scale: 0.98;
   }
   
   .card-availableParkings:hover .card-infoButton {
@@ -85,7 +87,7 @@
   }
 
   .data {
-    margin-left: 1rem;
+    margin-left: 2rem;
     color:#A7C8F2;
   }
 
@@ -95,3 +97,12 @@
     justify-content: space-between;
   }
   
+  .parkingState {
+    position: absolute;
+    right: 50%;
+    transform: translate(50%);
+    top: 0.5rem;
+    width: 30%;
+    height: 5px;
+    border-radius: 10px;
+  }

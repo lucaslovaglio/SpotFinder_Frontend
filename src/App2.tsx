@@ -4,7 +4,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "./styles/theme";
 import { Status } from "./types/alertTypes";
 import { Parking } from "./types/parkingTypes";
-import ParkingCard from "./components/Card2";
+import ParkingCard from "./components/ParkingCard";
 
 
 const App: React.FC = () => {
@@ -42,7 +42,7 @@ const App: React.FC = () => {
         type={Status.SUCCESS}
         action={() => {}}
       /> */}
-      <ParkingCard parking={parking}></ParkingCard>
+      <ParkingCard parking={parking} handleReserve={()=>{}}></ParkingCard>
     </>
   );
 };

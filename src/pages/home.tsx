@@ -1,11 +1,7 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuthProvider } from '../services/auth';
 import '../styles/home.css';
 import '../styles/login&register.css';
-import HeadPage from '../components/HeadPage';
-import SideBarMenu from '../components/SideBarMenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCar } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
@@ -14,15 +10,11 @@ import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { faUserTie } from '@fortawesome/free-solid-svg-icons';
 import { faUserGear } from '@fortawesome/free-solid-svg-icons';
 import Map from "../components/Map";
-import Credentials from '../services/Credentials';
-import PruebaLista from '../components/PruebaLista';
+import AvailableParkingList from '../components/AvailableParkingList';
 import { Parking } from '../types/parkingTypes';
 import { searchArea } from '../types/mapTypes';
 import { currentPossition } from '../types/mapTypes';
-import MenuAppBar from '../components/AppBar';
 import CommonLayout from '../components/CommonLayout';
-import Card2 from '../components/Card2';
-// import jwt, { JwtPayload } from 'jsonwebtoken';
 
 
 
@@ -138,13 +130,13 @@ export const HomePage = () => {
       }
 
     const childrenContent = (
-        <div>
+        <div className='homeBox'>
             <Map currentPosition={currentPosition} parkings={parkings}/>
             {/* <div className='ShowList'> */}
                 {/* <button className='ShowList-buttom' onClick={handleShowList}>Show List</button> */}
             {/* </div> */}
             {/* <AvailableParkingsList searchArea={getSearchArea} handleParkings={handleParkings}/> */}
-            <PruebaLista searchArea={getSearchArea} handleParkings={handleParkings}/>
+            <AvailableParkingList searchArea={getSearchArea} handleParkings={handleParkings}/>
         </div>
     );
 

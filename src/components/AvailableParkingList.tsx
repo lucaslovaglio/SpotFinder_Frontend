@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import "../styles/modalPrueba.css"; // Archivo CSS para aplicar estilos
+import "../styles/availableParkingList.css"; // Archivo CSS para aplicar estilos
 import { searchArea } from '../types/mapTypes';
 import { Parking } from '../types/parkingTypes';
 import { useAuthProvider } from '../services/auth';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
-import Card2 from './Card2';
+import ParkingCard from './ParkingCard';
 
 
 interface Props {
@@ -93,7 +93,7 @@ const AvailableParkingList: React.FC<Props> = ({searchArea, handleParkings}) => 
             <div className='parkingsAvailable-list'>
               {parkings.map((parking, index) => (
                 <li key={`${parking.id}-index`} className='parkingsAvailable-list-item'>
-                  <Card2 parking={parking}></Card2>
+                  <ParkingCard parking={parking} handleReserve={() => handleConfirmReserve(parking)}/>
                 </li>
               ))}
             </div>       

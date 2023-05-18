@@ -1,5 +1,6 @@
 .off-canvas {
-    position: fixed;
+    flex: 1;
+    position: absolute;
     bottom: -2rem;
     left: 25%;
     translate: 18%;
@@ -47,7 +48,8 @@
   }
 
   .off-canvas.open {
-    height: 70%;
+    
+    height: 100%;
     overflow: auto;
     /* max-height: 300px; Ajusta la altura máxima según tus necesidades */
     padding: 10px;
