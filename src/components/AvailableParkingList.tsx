@@ -10,39 +10,29 @@ import ParkingCard from './ParkingCard';
 
 
 interface Props {
-  searchArea: () => searchArea;
-  handleParkings: (parkings: Parking[]) => void;
+  myParkings: Parking[]
 }
 
-const AvailableParkingList: React.FC<Props> = ({searchArea, handleParkings}) => {
+const AvailableParkingList: React.FC<Props> = ({myParkings}) => {
   const [isOpen, setIsOpen] = useState(false); // Estado para controlar si el panel está abierto o cerrado
   
-  const [parkings, setParkings] = useState<Parking[]>([]);
+  const [parkings, setParkings] = useState(myParkings)
 
   const auth = useAuthProvider();
   const credentials = auth.getCredentials();
 
+  // Actualizar 'parkings' cuando 'myParkings' cambie
   useEffect(() => {
-      getParkingsFromDB()
-  }, []);
+    console.log(`llegue aca ${myParkings.length}`)
+    setParkings(myParkings);
+  }, [myParkings]);
 
-
-  const getParkingsFromDB = async () => {
-    try {
-      const response = await axios.post("http://localhost:3001/parkings/parkingsFromArea", searchArea());
-      const myParkings = response.data as Parking[];
-      setParkings(myParkings);
-      handleParkings(myParkings);
-    } catch (error) {
-      alert(error);
-    }   
-  }
 
   const handleOpenClick = () => setIsOpen(true);
   
   const handleCloseClick = () => setIsOpen(false);
   
-  const handleRefresh = () => getParkingsFromDB();
+  const handleRefresh = () => {}; //TODO refresh
   
   const handleReservate = async (parking: Parking) => {
     try {

@@ -136,7 +136,6 @@ export const HomePage = () => {
                 {/* <button className='ShowList-buttom' onClick={handleShowList}>Show List</button> */}
             {/* </div> */}
             {/* <AvailableParkingsList searchArea={getSearchArea} handleParkings={handleParkings}/> */}
-            <AvailableParkingList searchArea={getSearchArea} handleParkings={handleParkings}/>
         </div>
     );
 

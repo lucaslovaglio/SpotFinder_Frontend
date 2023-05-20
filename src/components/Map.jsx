@@ -2,10 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import H from '@here/maps-api-for-javascript';
 import onResize from 'simple-element-resize-detector';
 import axios from 'axios';
+import AvailableParkingList from '../components/AvailableParkingList';
+
 
 const Map = () => {
   const mapRef = useRef(null);
-  let parkings = []
+  const [parkings, setParkings] = useState([]);
   let map = null;
   let currentPosition = null;
 
@@ -19,8 +21,8 @@ const Map = () => {
       defaultLayers.vector.normal.map,
       {
         pixelRatio: window.devicePixelRatio,
-        center: { lat: 52.516, lng: 13.378 },
-        zoom: 15
+        center: { lat: -34.5833472, lng: -58.8644352 },
+        zoom: 7
       }
     );
 
@@ -41,6 +43,8 @@ const Map = () => {
         position => {
           const { latitude, longitude } = position.coords;
           currentPosition = { lat: latitude, lng: longitude };
+          console.log('currentPosition')
+          console.log(currentPosition)
 
           // Crear un marcador para la posición actual
           const marker = new H.map.Marker(currentPosition);
@@ -53,22 +57,12 @@ const Map = () => {
 
           // Obtener los parkings desde la base de datos
           getParkingsFromDB();
-          console.log(parkings)
-          // Agregar marcadores al mapa por cada parking
-          parkings.forEach(parking => {
-            console.log('name')
-            console.log(parking.name)
-            const coordinates = new H.geo.Point(parking.latitude, parking.longitude);
-            const marker = new H.map.Marker(coordinates);
-            map.addObject(marker);
-          });
-
         },
         error => console.log(error),
         { enableHighAccuracy: true }
       );
     };
-
+    console.log('pos')
     getCurrentPosition();
 
     return () => {
@@ -80,15 +74,11 @@ const Map = () => {
   const getParkingsFromDB = async () => {
     try {
       const response = await axios.post("http://localhost:3001/parkings/parkingsFromArea", searchArea());
-      const myParkings = response.data;
-      console.log(myParkings)
-
-      parkings = myParkings;
-      console.log('get')
+      setParkings(response.data);
       console.log('parkings')
       console.log(parkings)
       console.log('myParkings')
-      console.log(myParkings)
+      console.log(response.data)
 
     } catch (error) {
       alert(`maldito error ${error}`);
@@ -108,9 +98,24 @@ const Map = () => {
     };
   };
 
+  useEffect(() => {
+    if (map) {
+      console.log(`aca no ${parkings.length}`)
+      // Agregar marcadores al mapa por cada parking
+      parkings.forEach(parking => {
+        console.log('name')
+        console.log(parking.name)
+        const coordinates = new H.geo.Point(parking.latitude, parking.longitude);
+        const marker = new H.map.Marker(coordinates);
+        map.addObject(marker);
+      });
+    }
+  }, [parkings])
+
   return (
     <div className='MapBox'>
       <div style={{ position: 'relative', width: '100%', height: '100%' }} ref={mapRef} />
+      <AvailableParkingList myParkings={parkings}/>
     </div>
   );
 };
