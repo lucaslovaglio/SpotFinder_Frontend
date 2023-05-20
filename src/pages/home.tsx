@@ -131,7 +131,7 @@ export const HomePage = () => {
 
     const childrenContent = (
         <div className='homeBox'>
-            <Map currentPosition={currentPosition} parkings={parkings}/>
+            <Map/>
             {/* <div className='ShowList'> */}
                 {/* <button className='ShowList-buttom' onClick={handleShowList}>Show List</button> */}
             {/* </div> */}
