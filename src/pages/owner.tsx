@@ -30,6 +30,7 @@ export const OwnerPage = () => {
 
     const handleBackToUserClick = () =>  {
         navigate('/homepage')
+        window.location.reload(); // TODO: no deberia refreshear, hay que arreglar el mapa
     }
 
     useEffect(() => {
@@ -64,6 +65,7 @@ export const OwnerPage = () => {
         <CommonLayout
         sideMenuContent={childrenSideMenu}
         mainContent={childrenContent}
+        isOwner={true}
         />
     )
 }

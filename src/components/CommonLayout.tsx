@@ -12,9 +12,10 @@ import SideBarMenu from "./SideBarMenu";
 interface Props {
     sideMenuContent?: React.ReactNode;
     mainContent?: React.ReactNode;
+    isOwner: boolean;
 }
 
-const CommonLayout: React.FC<Props> = ({ sideMenuContent, mainContent}) => {
+const CommonLayout: React.FC<Props> = ({ sideMenuContent, mainContent, isOwner }) => {
     const navigate = useNavigate();
     const auth = useAuthProvider();
     const [credentials, setCredentials] = useState<Credentials>(new Credentials('null', 'null', 'null'));
@@ -39,7 +40,7 @@ const CommonLayout: React.FC<Props> = ({ sideMenuContent, mainContent}) => {
     return (
         <div className='HomeWrapper'>
             <div className='HeadPage'>
-                <MenuAppBar handleShowSideMenu={handleShowSideMenu}></MenuAppBar>
+                <MenuAppBar handleShowSideMenu={handleShowSideMenu} isOwner={isOwner}></MenuAppBar>
             </div>
             <div className='content'>
                 <SideBarMenu show={showSideMenu} handleClose={handleShowSideMenu}>

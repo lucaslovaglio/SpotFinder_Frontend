@@ -1,4 +1,8 @@
-/* @import url('./theme.tsx'); */
+/* 
+/////////////////////////////////////////////////////////////////////////////
+                            Available Parking Card
+/////////////////////////////////////////////////////////////////////////////
+*/
 
 
 .card-availableParkings {
@@ -105,4 +109,149 @@
     width: 30%;
     height: 5px;
     border-radius: 10px;
+  }
+
+
+/* 
+/////////////////////////////////////////////////////////////////////////////
+                                My Parking Card
+/////////////////////////////////////////////////////////////////////////////
+*/
+  .card-myParkingLots {
+    width: 350px;
+    height: 210px;
+    padding: 1.5rem;
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+    border: 2px solid #c3c6ce;
+    transition: 0.5s ease-out;
+    border-radius: 30px;
+    background: #030a18;
+    box-shadow: 10px 10px 20px rgb(25, 25, 25),
+      -10px -10px 20px rgb(45, 45, 45);
+    overflow: visible;
+    position: relative;
+  }
+
+  .card-myParkingLots:hover {
+    border-color: rgb(0, 206, 225);
+    box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+    scale: 0.98;
+  }
+
+  .card-details-owner {
+    height: 100%;
+    /* background-color: aqua; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .title-box-owner {
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between; */
+    margin-bottom: auto;
+  }
+    
+  .text-title-owner {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: rgb(0, 206, 225);
+    margin: 0;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .buttons-box-owner {
+    margin-left: auto;
+  }
+
+  .buttons-header-owner {
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    padding: 3px;
+    color: white;
+    height: 1.3rem;
+    width: 1.3rem;
+    border-radius: 100%;
+    margin: 3px;
+  }
+
+  .card-columns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+  }
+  
+  .card-leftColumn {
+    margin-right: .75rem;
+    /* background-color: aqua; */
+    width: 50%;
+    text-overflow: ellipsis;
+
+  }
+
+  .card-rightColumn {
+    margin-left: .75rem;
+    /* background-color: red; */
+    width:50%;
+    overflow: hidden;
+
+
+  }
+    
+  .text-box-owner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+    
+  .text-owner {
+    font-size: 0.8rem;
+    color: #76A5AF;
+    margin: 3px;
+    margin-left: 0;
+    margin-right: 0;
+    text-align: right;
+    white-space: nowrap;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+  }
+  
+  .data-owner {
+    margin-left: 1rem;
+    color:#A7C8F2;
+    /* margin-left: 0.5rem; */
+    white-space: nowrap;
+  }
+
+  .card-statusButton {
+    margin-top: auto;
+    width: 100%;
+    border-radius: 2rem;
+    border: none;
+    background-color: rgb(0, 206, 225);
+    color: rgb(32, 32, 32);
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: .4rem 1rem;
+    position: relative;
+    transition: 0.3s ease-out;
+    z-index: 90;
+  }
+
+  .card-statusButton:hover {
+    background-color: rgb(2, 177, 193);
   }

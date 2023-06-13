@@ -21,9 +21,10 @@ import ModifyUser from './ModifyUser';
 
 interface Props {
     handleShowSideMenu: () => void
+    isOwner: boolean;
 }
 
-const MenuAppBar: React.FC<Props> = ({ handleShowSideMenu }) => {//   const [auth, setAuth] = React.useState(true);
+const MenuAppBar: React.FC<Props> = ({ handleShowSideMenu, isOwner }) => {//   const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const [titleState, setTitleState] = useState<boolean>(false); 
@@ -55,7 +56,7 @@ const MenuAppBar: React.FC<Props> = ({ handleShowSideMenu }) => {//   const [aut
         auth.logOut(navigate);
     };
 
-  
+
     return (
       <Box sx={{ flexGrow: 1, mt: 0 }}>
         {/* <FormGroup>
@@ -72,7 +73,7 @@ const MenuAppBar: React.FC<Props> = ({ handleShowSideMenu }) => {//   const [aut
         </FormGroup> */}
           <button className={`HomeTitle ${titleState ? 'show' : ''}`} onClick={handleTitle}>
               <span className="Spot">Spot</span>
-              <span className="Finder">Finder</span>
+              <span className={`Finder ${isOwner ? 'owner' : ''}`}>Finder</span>
           </button>
           <AppBar position="static">
               <div className='NavBar-box'>

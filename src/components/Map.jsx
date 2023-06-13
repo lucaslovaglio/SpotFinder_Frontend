@@ -8,23 +8,27 @@ import AvailableParkingList from '../components/AvailableParkingList';
 const Map = () => {
   const mapRef = useRef(null);
   const [parkings, setParkings] = useState([]);
+  console.log('NULL')
   let map = null;
   let currentPosition = null;
 
   useEffect(() => {
+    console.log('primero')
     const platform = new H.service.Platform({
       apikey: "anJGEw6wvbEyM5IY8P_4hUzpvQCFB6LLuuXX86WTd-M" // Reemplaza con tu clave de API de HERE
     });
     const defaultLayers = platform.createDefaultLayers();
+    console.log('mapa')
     map = new H.Map(
       mapRef.current,
       defaultLayers.vector.normal.map,
       {
         pixelRatio: window.devicePixelRatio,
         center: { lat: -34.5833472, lng: -58.8644352 },
-        zoom: 7
+        zoom: 15
       }
     );
+    console.log(map)
 
     const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
     behavior.enable(H.mapevents.Behavior.DRAGGING);
@@ -64,12 +68,30 @@ const Map = () => {
     };
     console.log('pos')
     getCurrentPosition();
+    
 
     return () => {
       // Eliminar el listener de redimensionamiento al desmontar el componente
       map.dispose();
     };
   }, []);
+
+  useEffect(() => {
+    console.log('segundo')
+    console.log('Updated parkings:', parkings);
+    console.log(map)
+    if (map) {
+      console.log(`aca no ${parkings.length}`)
+      // Agregar marcadores al mapa por cada parking
+      parkings.forEach(parking => {
+        console.log('name')
+        console.log(parking.name)
+        const coordinates = new H.geo.Point(parking.latitude, parking.longitude);
+        const marker = new H.map.Marker(coordinates);
+        map.addObject(marker);
+      });
+    }
+  }, [parkings, map]);
 
   const getParkingsFromDB = async () => {
     try {
@@ -98,19 +120,19 @@ const Map = () => {
     };
   };
 
-  useEffect(() => {
-    if (map) {
-      console.log(`aca no ${parkings.length}`)
-      // Agregar marcadores al mapa por cada parking
-      parkings.forEach(parking => {
-        console.log('name')
-        console.log(parking.name)
-        const coordinates = new H.geo.Point(parking.latitude, parking.longitude);
-        const marker = new H.map.Marker(coordinates);
-        map.addObject(marker);
-      });
-    }
-  }, [parkings])
+  // useEffect(() => {
+  //   if (map) {
+  //     console.log(`aca no ${parkings.length}`)
+  //     // Agregar marcadores al mapa por cada parking
+  //     parkings.forEach(parking => {
+  //       console.log('name')
+  //       console.log(parking.name)
+  //       const coordinates = new H.geo.Point(parking.latitude, parking.longitude);
+  //       const marker = new H.map.Marker(coordinates);
+  //       map.addObject(marker);
+  //     });
+  //   }
+  // }, [parkings])
 
   return (
     <div className='MapBox'>
