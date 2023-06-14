@@ -7,6 +7,8 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import ParkingCard from './ParkingCard';
+import { Status, alertProps } from '../types/alertTypes';
+import Alert from './Alert';
 
 
 interface Props {
@@ -45,20 +47,45 @@ const AvailableParkingList: React.FC<Props> = ({myParkings}) => {
       // toggleShowA();
       // auth.removeParkingToken()
       if (response.status === 200) {
-        alert('You have succesfully booked!');
+        handleOpenAlert(()=>{}, Status.SUCCESS, 'You have succesfully booked!', false);
       }
     } catch (error) {
-      alert(error);
+        const errorMessage = error ? (error as any).message : '';
+        handleOpenAlert(()=>{}, Status.ERROR, errorMessage, false)
     }   
     handleRefresh();
   }
 
   const handleConfirmReserve = (parking: Parking) => {
     //TODO usar componente alert
-    if (window.confirm('¿Estás seguro que quieres reservar este parking?')) {
-      handleReservate(parking);
-    }
+    handleOpenAlert(()=>{handleReservate(parking)}, Status.ALERT, '¿Estás seguro que quieres reservar este parking?', true);
+    // if (window.confirm()) {
+    //   handleReservate(parking);
+    // }
   };
+
+  // // ALERT
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alert, setAlert] = useState<alertProps>(
+      {
+          action: () => {},
+          type: Status.UNDEFINED,
+          message: "",
+          confirmation: false, 
+      }
+  );
+  const handleOpenAlert = (action: () => void, type: Status, message: string, confirmation: boolean) => {
+      setOpenAlert(true);
+      setAlert(
+          {
+              action: action,
+              type: type,
+              message: message,
+              confirmation: confirmation
+          }
+      );
+  }
+  const handleCloseAlert = () => setOpenAlert(false);
 
   return (
     <>
@@ -89,6 +116,13 @@ const AvailableParkingList: React.FC<Props> = ({myParkings}) => {
             </div>       
           </div>
       </div>
+      <Alert
+          open={openAlert}
+          message={alert.message}
+          handleClose={handleCloseAlert}
+          confirmation={alert.confirmation}
+          type={alert.type}
+          action={alert.action} />
     </>
   );
 };

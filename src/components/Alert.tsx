@@ -72,7 +72,7 @@ const Alert: React.FC<AlertProps> = ({ open, message, handleClose, confirmation,
           {icon}
           Alerta
         </DialogTitle>
-        <DialogContent sx={{bgcolor: "secondary.main", }}>
+        <DialogContent sx={{bgcolor: "secondary.main", minWidth: '50vh' }}>
           <DialogContentText color='grey'>{message}</DialogContentText>
         </DialogContent>
         <DialogActions sx={{ bgcolor: "secondary.main" }}>

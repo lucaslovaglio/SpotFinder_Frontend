@@ -5,6 +5,8 @@ import { useAuthProvider } from '../services/auth';
 import { faAdd } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../styles/buttons.css'
+import { Status, alertProps } from '../types/alertTypes';
+import Alert from './Alert';
 
 
 interface Props {
@@ -63,14 +65,39 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
       const response = await axios.post("http://localhost:3001/parkings/", data);
   
       if (response.status === 200) {
-          alert('Parking added successfully!')
+          handleOpenAlert(()=>{}, Status.SUCCESS, 'Parking added successfully!', false);
       }
     } catch (error) {
-      alert(error);
+          const errorMessage = error ? (error as any).message : '';
+          handleOpenAlert(()=>{}, Status.ERROR, errorMessage, false)
     }
 
     handleClose();
   };
+
+  // // ALERT
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alert, setAlert] = useState<alertProps>(
+      {
+          action: () => {},
+          type: Status.UNDEFINED,
+          message: "",
+          confirmation: false, 
+      }
+  );
+  const handleOpenAlert = (action: () => void, type: Status, message: string, confirmation: boolean) => {
+      setOpenAlert(true);
+      setAlert(
+          {
+              action: action,
+              type: type,
+              message: message,
+              confirmation: confirmation
+          }
+      );
+  }
+  const handleCloseAlert = () => setOpenAlert(false);
+  
 
   return (
     <>
@@ -155,6 +182,14 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
           </Button>
         </Modal.Footer>
       </Modal>
+      <Alert
+        open={openAlert}
+        message={alert.message}
+        handleClose={handleCloseAlert}
+        confirmation={alert.confirmation}
+        type={alert.type}
+        action={alert.action} />
+      
     </>
   );
 }

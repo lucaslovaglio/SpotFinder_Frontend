@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import '../styles/login&register.css';
 import { useAuthProvider } from "../services/auth";
+import { Status, alertProps } from "../types/alertTypes";
+import Alert from "../components/Alert";
 
 
 export const LoginPage = () => {
@@ -30,11 +32,36 @@ export const LoginPage = () => {
               navigate("/homepage");
             }
           } catch (error) {
-            alert(error);
+              const errorMessage = error ? (error as any).message : '';
+              handleOpenAlert(()=>{}, Status.ERROR, errorMessage, false)
         }
     };
 
+    // // ALERT
+    const [openAlert, setOpenAlert] = useState(false);
+    const [alert, setAlert] = useState<alertProps>(
+        {
+            action: () => {},
+            type: Status.UNDEFINED,
+            message: "",
+            confirmation: false, 
+        }
+    );
+    const handleOpenAlert = (action: () => void, type: Status, message: string, confirmation: boolean) => {
+        setOpenAlert(true);
+        setAlert(
+            {
+                action: action,
+                type: type,
+                message: message,
+                confirmation: confirmation
+            }
+        );
+    }
+    const handleCloseAlert = () => setOpenAlert(false);
+
     return (
+    <>
       <div className="LogInPageWrapper">
         <h1 className="LogInTitle">
           <span className="Spot">Spot</span>
@@ -46,7 +73,16 @@ export const LoginPage = () => {
           <button className="LogSubmit" type="submit">Log In</button>
         </form>
         <p className="Link" onClick={handleRegisterClick}>Don't have an account? Register here.</p>
-        </div>
+      </div>
+      <Alert
+            open={openAlert}
+            message={alert.message}
+            handleClose={handleCloseAlert}
+            confirmation={alert.confirmation}
+            type={alert.type}
+            action={alert.action} />
+        </>
+
   );
 };
 

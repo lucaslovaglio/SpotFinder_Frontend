@@ -6,6 +6,8 @@ import Credentials from '../services/Credentials';
 import '../styles/modifyUser.css'
 import axios from 'axios';
 import { useAuthProvider } from '../services/auth';
+import { Status, alertProps } from '../types/alertTypes';
+import Alert from './Alert';
 
 
 interface Props {
@@ -36,10 +38,11 @@ const ModifyUser: React.FC<Props> = ({ show, handleClose, credentials }) => {
         }, config);
 
       if (response.status === 200) {
-        alert('The user information was updated successfully!')
+        handleOpenAlert(()=>{}, Status.SUCCESS, 'The user information was updated successfully!', false)
       }
     } catch (error) {
-      alert(error);
+        const errorMessage = error ? (error as any).message : '';
+        handleOpenAlert(()=>{}, Status.ERROR, errorMessage, false)
     }
     handleCloseButtonClick();
   };
@@ -66,7 +69,28 @@ const ModifyUser: React.FC<Props> = ({ show, handleClose, credentials }) => {
   };
 
 
-
+  // // ALERT
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alert, setAlert] = useState<alertProps>(
+      {
+          action: () => {},
+          type: Status.UNDEFINED,
+          message: "",
+          confirmation: false, 
+      }
+  );
+  const handleOpenAlert = (action: () => void, type: Status, message: string, confirmation: boolean) => {
+      setOpenAlert(true);
+      setAlert(
+          {
+              action: action,
+              type: type,
+              message: message,
+              confirmation: confirmation
+          }
+      );
+  }
+  const handleCloseAlert = () => setOpenAlert(false);
 
   return (
     <>
@@ -124,6 +148,14 @@ const ModifyUser: React.FC<Props> = ({ show, handleClose, credentials }) => {
           <Button variant="primary" onClick={handleSubmit}>Save</Button>
         </Modal.Footer>
       </Modal>
+      <Alert
+            open={openAlert}
+            message={alert.message}
+            handleClose={handleCloseAlert}
+            confirmation={alert.confirmation}
+            type={alert.type}
+            action={alert.action} />
+        
     </>
   );
 }

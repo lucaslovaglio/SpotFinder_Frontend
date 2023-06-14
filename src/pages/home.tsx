@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/home.css';
 import '../styles/login&register.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCar } from '@fortawesome/free-solid-svg-icons';
+import { faCar, faMap } from '@fortawesome/free-solid-svg-icons';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
@@ -15,9 +15,13 @@ import { Parking } from '../types/parkingTypes';
 import { searchArea } from '../types/mapTypes';
 import { currentPossition } from '../types/mapTypes';
 import CommonLayout from '../components/CommonLayout';
+import CurrentParking from '../components/CurrentParking';
 
 
-
+enum Content {
+    MAP = "MAP",
+    CURRENTPARKING = "CURRENTPARKING",
+}
 
 
 export const HomePage = () => {
@@ -105,10 +109,17 @@ export const HomePage = () => {
         return searchArea;
     };
 
+    const [content, setContent] = useState<Content>(Content.MAP);
+
+    const handleContent = (content: Content) => {
+        setContent(content);
+    }
+
 
     const childrenSideMenu = (
         <div>
-        <button className="sideMenu-button" onClick={()=>{}}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faCar} style={{ marginRight: '1rem'}}/>Current Park</h3></button>
+        <button className="sideMenu-button" onClick={()=>{handleContent(Content.CURRENTPARKING)}}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faCar} style={{ marginRight: '1rem'}}/>Current Park</h3></button>
+        <button className="sideMenu-button" onClick={()=>{handleContent(Content.MAP)}}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faMap} style={{ marginRight: '1rem'}}/>Map</h3></button>
         {/* <button className="sideMenu-button" onClick={()=>{}}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faComment} style={{ marginRight: '1rem'}}/>Chats</h3></button> */}
         {/* <button className="sideMenu-button" onClick={()=>{}}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faHeart} style={{ marginRight: '1rem'}}/>Favourites</h3></button> */}
         <button className="sideMenu-button" onClick={handleOwnerClick}><h3 className='sideMenu-options'><FontAwesomeIcon icon={faUserTie} style={{ marginRight: '1rem'}}/>Change to Owner</h3></button>
@@ -127,17 +138,30 @@ export const HomePage = () => {
         phone: '1122558877',
         rating: '5',
         attendance: 10,
-      }
+    }
 
-    const childrenContent = (
-        <div className='homeBox'>
-            <Map/>
-            {/* <div className='ShowList'> */}
-                {/* <button className='ShowList-buttom' onClick={handleShowList}>Show List</button> */}
-            {/* </div> */}
-            {/* <AvailableParkingsList searchArea={getSearchArea} handleParkings={handleParkings}/> */}
-        </div>
-    );
+    let childrenContent;
+    switch (content) {
+        case Content.MAP:
+            childrenContent = (
+                <div className='homeBox'>
+                    <Map/>
+                </div>
+            );
+            break;
+        case Content.CURRENTPARKING:
+            childrenContent = (
+                <div className='homeBox'>
+                    <CurrentParking/>
+                </div>
+            );
+            break;
+      }
+    // const childrenContent = (
+    //     <div className='homeBox'>
+    //         <Map/>
+    //     </div>
+    // );
 
 
     return (

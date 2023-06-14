@@ -9,6 +9,8 @@ import { Parking } from '../types/parkingTypes';
 import AddParking from './AddParking';
 import { faRotateRight, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Status, alertProps } from '../types/alertTypes';
+import Alert from './Alert';
 
 
 const ParkingList = () => {
@@ -28,7 +30,8 @@ const ParkingList = () => {
             const myParkings = response.data.parkingsOwned as Parking[];
             setParkings(myParkings);
         } catch (error) {
-            alert(error);
+            const errorMessage = error ? (error as any).message : '';
+            handleOpenAlert(()=>{}, Status.ERROR, errorMessage, false)
         }   
     }, [credentials])
 
@@ -66,11 +69,12 @@ const ParkingList = () => {
             const response = await axios.delete("http://localhost:3001/parkings/" + parkingId, config);
         
             if (response.status === 200) {
-                alert(`The Parking ${parkingId} has been deleted`);
+                handleOpenAlert(()=>{}, Status.SUCCESS, `The Parking ${parkingId} has been deleted`, false)
                 handleRefresh();
             }
           } catch (error) {
-            alert(error);
+                const errorMessage = error ? (error as any).message : '';
+                handleOpenAlert(()=>{}, Status.ERROR, errorMessage, false)
         }
     };
 
@@ -81,7 +85,31 @@ const ParkingList = () => {
         }
     };
 
+    // // ALERT
+    const [openAlert, setOpenAlert] = useState(false);
+    const [alert, setAlert] = useState<alertProps>(
+        {
+            action: () => {},
+            type: Status.UNDEFINED,
+            message: "",
+            confirmation: false, 
+        }
+    );
+    const handleOpenAlert = (action: () => void, type: Status, message: string, confirmation: boolean) => {
+        setOpenAlert(true);
+        setAlert(
+            {
+                action: action,
+                type: type,
+                message: message,
+                confirmation: confirmation
+            }
+        );
+    }
+    const handleCloseAlert = () => setOpenAlert(false);
+
     return (
+        <>
         <div className="parking-list-container">
             <div className='parking-list-title-container'>
                 <span className="parking-list-title"> 
@@ -135,6 +163,14 @@ const ParkingList = () => {
                 </Pagination>
             </div>
         </div>
+        <Alert
+            open={openAlert}
+            message={alert.message}
+            handleClose={handleCloseAlert}
+            confirmation={alert.confirmation}
+            type={alert.type}
+            action={alert.action} />
+        </>
     );
 };
 

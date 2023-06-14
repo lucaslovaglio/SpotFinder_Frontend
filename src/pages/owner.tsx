@@ -13,6 +13,8 @@ import Credentials from "../services/Credentials";
 import AddParking from "../components/AddParking";
 import { Parking } from "../types/parkingTypes";
 import CommonLayout from "../components/CommonLayout";
+import { Status, alertProps } from "../types/alertTypes";
+import Alert from "../components/Alert";
 
 
 
@@ -39,7 +41,7 @@ export const OwnerPage = () => {
             if (token != 'null') {
                 setCredentials(auth.getCredentials());
             } else {
-                alert('Your session expired')
+                handleOpenAlert(()=>{}, Status.ERROR, 'Your session expired', false);
                 navigate("/");
             }
         };
@@ -60,12 +62,44 @@ export const OwnerPage = () => {
         </div>
     );
 
+    // // ALERT
+    const [openAlert, setOpenAlert] = useState(false);
+    const [alert, setAlert] = useState<alertProps>(
+        {
+            action: () => {},
+            type: Status.UNDEFINED,
+            message: "",
+            confirmation: false, 
+        }
+    );
+    const handleOpenAlert = (action: () => void, type: Status, message: string, confirmation: boolean) => {
+        setOpenAlert(true);
+        setAlert(
+            {
+                action: action,
+                type: type,
+                message: message,
+                confirmation: confirmation
+            }
+        );
+    }
+    const handleCloseAlert = () => setOpenAlert(false);
+
 
     return (
+    <>
         <CommonLayout
         sideMenuContent={childrenSideMenu}
         mainContent={childrenContent}
         isOwner={true}
         />
+        <Alert
+            open={openAlert}
+            message={alert.message}
+            handleClose={handleCloseAlert}
+            confirmation={alert.confirmation}
+            type={alert.type}
+            action={alert.action} />
+    </>
     )
 }

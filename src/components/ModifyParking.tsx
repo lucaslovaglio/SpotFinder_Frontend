@@ -4,6 +4,8 @@ import { Button, Modal, Form } from 'react-bootstrap';
 import { useAuthProvider } from '../services/auth';
 import { faPen } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Status, alertProps } from '../types/alertTypes';
+import Alert from './Alert';
 
   
 interface Props {
@@ -87,14 +89,39 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
       const response = await axios.post("http://localhost:3001/parkings/" + id, data, config);
   
       if (response.status === 200) {
-          alert('Parking modified successfully!')
+          handleOpenAlert(()=>{}, Status.SUCCESS, 'Parking modified successfully!', false);
       }
     } catch (error) {
-      alert(error);
+          const errorMessage = error ? (error as any).message : '';
+          handleOpenAlert(()=>{}, Status.ERROR, errorMessage, false)
     }
 
     handleClose();
   };
+
+
+  // // ALERT
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alert, setAlert] = useState<alertProps>(
+      {
+          action: () => {},
+          type: Status.UNDEFINED,
+          message: "",
+          confirmation: false, 
+      }
+  );
+  const handleOpenAlert = (action: () => void, type: Status, message: string, confirmation: boolean) => {
+      setOpenAlert(true);
+      setAlert(
+          {
+              action: action,
+              type: type,
+              message: message,
+              confirmation: confirmation
+          }
+      );
+  }
+  const handleCloseAlert = () => setOpenAlert(false);
 
   return (
     <>
@@ -181,6 +208,14 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
           </Button>
         </Modal.Footer>
       </Modal>
+      <Alert
+            open={openAlert}
+            message={alert.message}
+            handleClose={handleCloseAlert}
+            confirmation={alert.confirmation}
+            type={alert.type}
+            action={alert.action} />
+      
     </>
   );
 }

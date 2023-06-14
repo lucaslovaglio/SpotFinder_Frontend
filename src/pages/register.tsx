@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import '../styles/login&register.css';
 import { useAuthProvider } from "../services/auth";
+import { Status, alertProps } from "../types/alertTypes";
+import Alert from "../components/Alert";
 
 
 export const PageWrapper = styled.div`
@@ -61,7 +63,8 @@ export const RegisterPage = () => {
           navigate("/homepage");
         }
       } catch (error) {
-        alert(error);
+          const errorMessage = error ? (error as any).message : '';
+          handleOpenAlert(()=>{}, Status.ERROR, errorMessage, false)
     }
   };
 
@@ -70,7 +73,32 @@ export const RegisterPage = () => {
     setPasswordError("");
   };
 
+
+  // // ALERT
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alert, setAlert] = useState<alertProps>(
+      {
+          action: () => {},
+          type: Status.UNDEFINED,
+          message: "",
+          confirmation: false, 
+      }
+  );
+  const handleOpenAlert = (action: () => void, type: Status, message: string, confirmation: boolean) => {
+      setOpenAlert(true);
+      setAlert(
+          {
+              action: action,
+              type: type,
+              message: message,
+              confirmation: confirmation
+          }
+      );
+  }
+  const handleCloseAlert = () => setOpenAlert(false);
+
   return (
+    <>
     <div className="RegisterPageWrapper">
       <h1 className="RegisterTitle">
         <span className="Spot">Spot</span>
@@ -92,5 +120,13 @@ export const RegisterPage = () => {
       </form>
       <p className="Link" onClick={handleLogInClick}>You're already singed up? Log in here.</p>
     </div>
+    <Alert
+            open={openAlert}
+            message={alert.message}
+            handleClose={handleCloseAlert}
+            confirmation={alert.confirmation}
+            type={alert.type}
+            action={alert.action} />
+    </>
   );
 };

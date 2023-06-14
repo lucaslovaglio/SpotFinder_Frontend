@@ -7,6 +7,8 @@ import { searchArea } from '../types/mapTypes';
 import Credentials from "../services/Credentials";
 import MenuAppBar from "./AppBar";
 import SideBarMenu from "./SideBarMenu";
+import { Status, alertProps } from "../types/alertTypes";
+import Alert from "./Alert";
 
 
 interface Props {
@@ -30,14 +32,38 @@ const CommonLayout: React.FC<Props> = ({ sideMenuContent, mainContent, isOwner }
             if (token != 'null') {
                 setCredentials(auth.getCredentials());
             } else {
-                alert('Your session expired')
+                handleOpenAlert(()=>{}, Status.ERROR, 'Your session expired', false);
                 navigate("/");
             }
         };
         fetchData();
     }, [auth, navigate]);
 
+    // // ALERT
+    const [openAlert, setOpenAlert] = useState(false);
+    const [alert, setAlert] = useState<alertProps>(
+        {
+            action: () => {},
+            type: Status.UNDEFINED,
+            message: "",
+            confirmation: false, 
+        }
+    );
+    const handleOpenAlert = (action: () => void, type: Status, message: string, confirmation: boolean) => {
+        setOpenAlert(true);
+        setAlert(
+            {
+                action: action,
+                type: type,
+                message: message,
+                confirmation: confirmation
+            }
+        );
+    }
+    const handleCloseAlert = () => setOpenAlert(false);
+
     return (
+    <>
         <div className='HomeWrapper'>
             <div className='HeadPage'>
                 <MenuAppBar handleShowSideMenu={handleShowSideMenu} isOwner={isOwner}></MenuAppBar>
@@ -51,6 +77,14 @@ const CommonLayout: React.FC<Props> = ({ sideMenuContent, mainContent, isOwner }
                 </div>
             </div>
         </div>
+        <Alert
+        open={openAlert}
+        message={alert.message}
+        handleClose={handleCloseAlert}
+        confirmation={alert.confirmation}
+        type={alert.type}
+        action={alert.action} />
+    </>
     )
 }
 

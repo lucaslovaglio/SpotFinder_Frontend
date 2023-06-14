@@ -103,7 +103,7 @@ const Map = () => {
       console.log(response.data)
 
     } catch (error) {
-      alert(`maldito error ${error}`);
+      // alert(`maldito error ${error}`);
     }   
   };
 
@@ -133,6 +133,9 @@ const Map = () => {
   //     });
   //   }
   // }, [parkings])
+
+
+  
 
   return (
     <div className='MapBox'>
