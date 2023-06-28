@@ -5,7 +5,10 @@ import theme from "./styles/theme";
 import { Status } from "./types/alertTypes";
 import { Parking } from "./types/parkingTypes";
 import MyParkingCard from "./components/MyParkingCard";
-import './bard.css'
+import { Button } from "react-bootstrap";
+import PayMethodDialog from "./components/PayMethod";
+import MapModal from "./components/MapModal";
+import ModalUbi from "./components/ModalUbi";
 
 
 const App: React.FC = () => {
@@ -30,6 +33,25 @@ const App: React.FC = () => {
     phone: '1122558877',
     rating: '5',
     attendance: 10,
+    address: "",
+    pricexminute: 10,
+  }
+
+  const [payMethodOpen, setPayMethodOpen] = useState<boolean>(false);
+  const [latitude, setLatitude] = useState();
+  const [longitude, setLongitude] = useState();
+
+  const handleOpenPayMethod = () => {
+    setPayMethodOpen(true);
+  };
+
+  const handleClosePayMethod = () => {
+    setPayMethodOpen(false);
+  };
+
+  const handleCoords = (latitude: any, longitude: any) => {
+    setLatitude(latitude);
+    setLongitude(longitude);
   }
 
   return (
@@ -43,7 +65,10 @@ const App: React.FC = () => {
         type={Status.SUCCESS}
         action={() => {}}
       /> */}
-      <MyParkingCard parking={parking} handleReserve={()=>{}}></MyParkingCard>
+      <div>
+      <ModalUbi handleCoords={(latitude: any, longitude: any)=>handleCoords}></ModalUbi>
+      <p>{latitude}, {longitude}</p>
+      </div>
 
     </>
   );

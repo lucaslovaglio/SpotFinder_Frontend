@@ -118,10 +118,10 @@ const MenuAppBar: React.FC<Props> = ({ handleShowSideMenu, isOwner }) => {//   c
                         },
                       }}                      >     
                             <button className='Profile-button'>
-                            <h1 className='userName'>{credentials.getUserName()}</h1>
-                            <h2 className='mail'>{credentials.getUserMail()}</h2>
+                              <h1 className='userName'>{credentials.getUserName()}</h1>
+                              <h2 className='mail'>{credentials.getUserMail()}</h2>
                             </button>
-                            <button className='Profile-button' onClick={() => {handleModalShow(); handleClose();}}>Edit</button>
+                            <button className='Profile-button' onClick={() => {handleModalShow(); handleClose();}}>Change Password</button>
                             <button className='Profile-button' onClick={handleLogOutClick}>LogOut</button>
                       </Menu>
                       <ModifyUser show={showModal} handleClose={handleModalClose} credentials={credentials} />

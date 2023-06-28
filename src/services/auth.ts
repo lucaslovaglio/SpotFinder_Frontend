@@ -25,7 +25,7 @@ const AuthProvider = {
         sessionStorage.setItem('userMail', userMail);
     },
     getParkingToken: (): string => {
-        const tokenString = sessionStorage.getItem('parkingToken');
+        const tokenString = sessionStorage.getItem('parkingToken2');
         const token = tokenString ? tokenString : 'null';
         return token;
     },
@@ -33,7 +33,7 @@ const AuthProvider = {
         sessionStorage.removeItem('parkingToken');
     },
     addParkingToken: (parkingToken: string) => {
-        sessionStorage.setItem('parkingToken', parkingToken);
+        sessionStorage.setItem('parkingToken2', parkingToken);
     },
     logOut: (navigate: NavigateFunction) => {
         AuthProvider.removeCredentials(); // Utiliza la función removeCredentials directamente desde AuthProvider

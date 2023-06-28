@@ -118,19 +118,20 @@
 /////////////////////////////////////////////////////////////////////////////
 */
   .card-myParkingLots {
-    width: 350px;
-    height: 210px;
+    width: 400px;
+    height: 250px;
     padding: 1.5rem;
     padding-top: 1rem;
     padding-bottom: 0.5rem;
     border: 2px solid #c3c6ce;
     transition: 0.5s ease-out;
-    border-radius: 30px;
+    border-radius: 10px;
     background: #030a18;
     box-shadow: 10px 10px 20px rgb(25, 25, 25),
       -10px -10px 20px rgb(45, 45, 45);
     overflow: visible;
     position: relative;
+    margin: 1rem;
   }
 
   .card-myParkingLots:hover {
@@ -255,3 +256,46 @@
   .card-statusButton:hover {
     background-color: rgb(2, 177, 193);
   }
+
+  .action-buttons-container {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .manual-entrance-button-card {
+    width: 50%;
+    background-color: rgb(1, 164, 96);
+    margin-right: 6px;
+    margin-bottom: 6px;
+    border-radius: 10px;
+  }
+
+  .manual-entrance-button-card:hover {
+    background-color: rgb(1, 221, 129);
+  }
+
+  .qr-entrance-button-card {
+    width: 50%;
+    background-color: rgb(0, 137, 149);
+    margin-left: 6px;
+    margin-bottom: 6px;
+    border-radius: 10px;
+  }
+
+  .qr-entrance-button-card:hover {
+    background-color: rgb(1, 187, 204);
+  }
+  
+  .exit-button-card {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+    background-color: rgb(158, 3, 3);
+  }
+
+  .exit-button-card:hover {
+    background-color: rgb(225, 2, 2);
+  }
+  

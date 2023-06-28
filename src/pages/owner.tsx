@@ -32,7 +32,7 @@ export const OwnerPage = () => {
 
     const handleBackToUserClick = () =>  {
         navigate('/homepage')
-        window.location.reload(); // TODO: no deberia refreshear, hay que arreglar el mapa
+        // window.location.reload(); // TODO: no deberia refreshear, hay que arreglar el mapa
     }
 
     useEffect(() => {

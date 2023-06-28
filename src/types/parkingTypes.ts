@@ -9,4 +9,6 @@ export type Parking = {
     phone: string;
     rating: string;
     attendance: number;
+    address: string | null;
+    pricexminute: number;
   };

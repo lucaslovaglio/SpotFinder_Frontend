@@ -13,9 +13,10 @@ import Alert from './Alert';
 
 interface Props {
   myParkings: Parking[]
+  handleRefresh: () => void
 }
 
-const AvailableParkingList: React.FC<Props> = ({myParkings}) => {
+const AvailableParkingList: React.FC<Props> = ({myParkings, handleRefresh}) => {
   const [isOpen, setIsOpen] = useState(false); // Estado para controlar si el panel está abierto o cerrado
   
   const [parkings, setParkings] = useState(myParkings)
@@ -34,26 +35,27 @@ const AvailableParkingList: React.FC<Props> = ({myParkings}) => {
   
   const handleCloseClick = () => setIsOpen(false);
   
-  const handleRefresh = () => {}; //TODO refresh
-  
   const handleReservate = async (parking: Parking) => {
     try {
       const data = {
         "userMail": credentials.getUserMail()
       };
       const response = await axios.post("http://localhost:3001/parkings/" + parking.id + "/parkingReservation", data);
-      // auth.addParkingToken(response.data.token);
+      auth.addParkingToken(response.data.token);
+      console.log(response.data.token)
+      console.log(auth.getParkingToken())
+      console.log("RESERVATION")
       // auth.addParkingToken('123456');
       // toggleShowA();
       // auth.removeParkingToken()
       if (response.status === 200) {
-        handleOpenAlert(()=>{}, Status.SUCCESS, 'You have succesfully booked!', false);
+        handleOpenAlert(()=>{handleRefresh();}, Status.SUCCESS, 'You have succesfully booked!', false);
       }
     } catch (error) {
         const errorMessage = error ? (error as any).message : '';
-        handleOpenAlert(()=>{}, Status.ERROR, errorMessage, false)
+        handleOpenAlert(()=>{handleRefresh();}, Status.ERROR, errorMessage, false)
     }   
-    handleRefresh();
+    
   }
 
   const handleConfirmReserve = (parking: Parking) => {

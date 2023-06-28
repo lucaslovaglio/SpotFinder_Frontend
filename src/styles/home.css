@@ -91,7 +91,8 @@
   align-items: center;
   /* height: calc(100vh - 11.5rem); */
   flex: 1;
-  overflow: hidden;
+  overflow-y: hidden;
+  /* max-height: ; */
 }
 
 /* 
@@ -100,12 +101,41 @@
 ///////////////////////////////////////////////////////
 */
 .MapBox {
-  background-color: rgb(255, 255, 255);
+  background-color: #111;
   height: 100%;
   width: 100%;
   align-items: center;
   padding: auto;
   position: absolute;
+  overflow-y: hidden;
+}
+
+.MapBox.owner {
+  background-color: #111;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  padding: auto;
+  position: absolute;
+  overflow-y: auto;
+}
+
+.refresh-map {
+  background-color: rgba(0, 0, 0, 0.298);
+  border-radius: 100%;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  margin: 0.5rem;
+  position: absolute; 
+  z-index: 100;
+  top: 0;
+  right: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.refresh-map:hover {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 /* 

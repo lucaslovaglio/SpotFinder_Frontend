@@ -24,6 +24,7 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
     openHour: '',
     closeHour: '',
     phone: '',
+    pricexminute: 0,
   });
 
   const handleClose = () => {
@@ -35,6 +36,7 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
       openHour: '',
       closeHour: '',
       phone: '',
+      pricexminute: 0,
     });
     setShowModal(false);
     handleRefresh();
@@ -61,6 +63,7 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
             "openHour": parkingInfo.openHour,
             "closeHour": parkingInfo.closeHour,
             "phone": parkingInfo.phone,
+            "pricexminute": parkingInfo.pricexminute,
         };
       const response = await axios.post("http://localhost:3001/parkings/", data);
   
@@ -168,6 +171,14 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
                 type="tel"
                 placeholder="Enter phone"
                 value={parkingInfo.phone}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="pricexminute">
+              <Form.Label>Price per minute</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Enter the price per minute"
                 onChange={handleInputChange}
               />
             </Form.Group>

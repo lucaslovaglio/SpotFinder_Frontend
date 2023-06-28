@@ -72,7 +72,7 @@ const CommonLayout: React.FC<Props> = ({ sideMenuContent, mainContent, isOwner }
                 <SideBarMenu show={showSideMenu} handleClose={handleShowSideMenu}>
                     {sideMenuContent}
                 </SideBarMenu>
-                <div className='MapBox'>
+                <div className={`MapBox ${isOwner ? 'owner' : ''}`}>
                     {mainContent}
                 </div>
             </div>

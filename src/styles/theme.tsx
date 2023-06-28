@@ -29,7 +29,8 @@ const theme = createTheme({
     info: {
       main: terciaryColor,
       light: terciaryLight,
-    }
+    },
+    
   },
 });
 

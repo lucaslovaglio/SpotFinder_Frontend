@@ -84,7 +84,7 @@
     /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); */
     width: 100%;
     /* max-width: 200px; */
-    z-index: 2;
+    z-index: 4;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
 }
@@ -104,15 +104,15 @@
 }
 
 .settings{
-    z-index: 4;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
-.deleteUser {
+.options  {
     text-align: left;
-    padding: 1.5rem;
-    padding-top: 1rem;
-    padding-bottom: 0.5rem;
-    background-color: #A60F0F;
+    
+    /* background-color: #A60F0F; */
     /* margin-bottom: 1rem; */
     border: none;
     /* border-radius: 5px; */
@@ -128,29 +128,59 @@
 
 }
 
-.deleteUser:hover {
-    background-color: #D91111;
-
+.option {
+    text-align: left;
+    padding: 1.5rem;
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+    /* background-color: #A60F0F; */
+    /* margin-bottom: 1rem; */
+    border: none;
+    /* border-radius: 5px; */
+    /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); */
+    width: 100%;
+    /* max-width: 200px; */
+    z-index: 3;
+    cursor: pointer;
+    position: relative;
+    background-color: rgb(54, 54, 54);
+    transition: background-color 0.2s ease-in-out;
 }
 
-.deleteUser.show {
+/* .deleteUser {
+    background-color: #A60F0F;
+} */
+
+.deleteUser:hover {
+    background-color: #D91111;
+}
+
+/* .addPayMethod {
+    background-color: #383737;
+} */
+
+.addPayMethod:hover {
+    background-color: #008591;
+}
+
+.options.show {
     animation: fadeOutDown 0.3s ease-out forwards;
 }
 
 @keyframes fadeInUp {
     0% {
-        bottom: 0rem;
+        top: 0rem;
     }
     100% {
-        bottom: 5rem;
+        top: -11.4rem;
     }
 }
 
 @keyframes fadeOutDown {
     0% {
-        bottom: 5rem;
+        top: -10rem;
     }
     100% {
-        bottom: 0rem;
+        top: 0rem;
     }
 }

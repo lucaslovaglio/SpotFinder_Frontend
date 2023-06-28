@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import '../styles/sideBarMenu.css';
-import { faAngleLeft, faGear, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faAngleLeft, faDollar, faGear, faMoneyBill, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useNavigate } from "react-router-dom";
 import { useAuthProvider } from "../services/auth";
 import axios from "axios";
 import { Status, alertProps } from "../types/alertTypes";
 import Alert from "./Alert";
+import PayMethodDialog from "./PayMethod";
 
 
 
@@ -76,25 +77,48 @@ const SideBarMenu: React.FC<Props> = ({ children, show, handleClose }) => {
     }
     const handleCloseAlert = () => setOpenAlert(false);
 
+
+    const [payMethodOpen, setPayMethodOpen] = useState<boolean>(false);
+
+    const handleOpenPayMethod = () => {
+      setPayMethodOpen(true);
+    };
+
+    const handleClosePayMethod = () => {
+      setPayMethodOpen(false);
+    };
+    
+
     return (
         <>
         <div className={`sideMenu ${show ? 'show' : ''}`}>
             <button className='sideMenu-controller' onClick={handleClose}><FontAwesomeIcon icon={faAngleLeft} style={{ color: 'rgb(120,120,120)' }} /></button>
             {children}
-            <button className="sideMenu-button settings" onClick={handleOptions} style={{ position: 'absolute', bottom: '0' }}>
-                <h3 className='sideMenu-options'><FontAwesomeIcon icon={faGear} style={{ marginRight: '1rem' }} />Settings</h3>
-            </button>
-            <button 
-                className={`deleteUser ${settingsState ? 'show' : ''}`} 
-                onClick={() => 
-                    handleOpenAlert(
-                        handleDelete, 
-                        Status.ALERT, 
-                        'Are you sure you want to delete this user?',
-                        true
-                    )}>
-                        <h3 className='sideMenu-options delete'><FontAwesomeIcon icon={faTrash} style={{ marginRight: '1rem' }} />Delete User</h3>
-            </button>
+            <div className="settings">
+                <button className="sideMenu-button" onClick={handleOptions} style={{ position: 'absolute', bottom: '0' }}>
+                    <h3 className='sideMenu-options'><FontAwesomeIcon icon={faGear} style={{ marginRight: '1rem' }} />Settings</h3>
+                </button>
+                <div className={`options ${settingsState ? 'show' : ''}`}>
+                    {/* <button 
+                        className="option addPayMethod"
+                        onClick={() => {handleOpenPayMethod(); handleClose();}}>
+                            <h3 className='sideMenu-options delete'><FontAwesomeIcon icon={faDollar} style={{ marginRight: '1rem' }} />Pay Method</h3>
+                    </button> */}
+                    <PayMethodDialog/>
+                    <button 
+                        className= "option deleteUser"
+                        onClick={() => 
+                            handleOpenAlert(
+                                handleDelete, 
+                                Status.ALERT, 
+                                'Are you sure you want to delete this user?',
+                                true
+                            )}>
+                            <h3 className='sideMenu-options delete'><FontAwesomeIcon icon={faTrash} style={{ marginRight: '1rem' }} />Delete User</h3>
+                    </button>
+
+                </div>
+            </div>
         </div>
         <Alert
             open={openAlert}
@@ -103,6 +127,7 @@ const SideBarMenu: React.FC<Props> = ({ children, show, handleClose }) => {
             confirmation={alert.confirmation}
             type={alert.type}
             action={alert.action} />
+        
         </>
     )
 }

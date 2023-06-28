@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { useAuthProvider } from '../services/auth';
-import { faPen } from '@fortawesome/free-solid-svg-icons'
+import { faPen, faPencil } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Status, alertProps } from '../types/alertTypes';
 import Alert from './Alert';
@@ -17,6 +17,7 @@ interface Props {
     iOpenHs: string,
     iCloseHs: string,
     iPhone: string,
+    iPrice: number,
     handleRefresh: () => void,
 }
 
@@ -28,9 +29,10 @@ type Park = {
   openHour: string,
   closeHour: string,
   phone: string,
+  price: number,
 }
 
-const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity, iOpenHs, iCloseHs, iPhone, handleRefresh }) => {
+const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity, iOpenHs, iCloseHs, iPhone, iPrice, handleRefresh }) => {
   const token = useAuthProvider().getCredentials().getToken();
   const [showModal, setShowModal] = useState(false);
   const [newParkingInfo, setParkingInfo] = useState<Park>({
@@ -41,6 +43,7 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
     openHour: iOpenHs,
     closeHour: iCloseHs,
     phone: iPhone,
+    price: iPrice,
 })
 
   const handleClose = () => {
@@ -52,6 +55,7 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
         openHour: iOpenHs,
         closeHour: iCloseHs,
         phone: iPhone,
+        price: iPrice,
     });
     setShowModal(false);
     handleRefresh();
@@ -83,10 +87,11 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
         "openHour": newParkingInfo?.openHour,
         "closeHour": newParkingInfo?.closeHour,
         "phone": newParkingInfo?.phone,
+        "pricexminute": newParkingInfo?.price,
       }
       console.log(JSON.stringify(data))
       console.log(id)
-      const response = await axios.post("http://localhost:3001/parkings/" + id, data, config);
+      const response = await axios.post("http://localhost:3001/parkings/manageParkings/" + id, data, config);
   
       if (response.status === 200) {
           handleOpenAlert(()=>{}, Status.SUCCESS, 'Parking modified successfully!', false);
@@ -125,8 +130,10 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
 
   return (
     <>
-      <Button className="parking-list-item-button" onClick={handleShow} style={{marginRight: '0.5rem', borderRadius: '50%', backgroundColor: '#14B3CC', border: 'none'}}><FontAwesomeIcon icon={faPen} /></Button>
-      <Modal show={showModal} onHide={handleClose}>
+        <button className='buttons-header-owner' style={{backgroundColor: 'rgb(0, 255, 149)'}}  onClick={handleShow}>
+          <FontAwesomeIcon icon={faPencil} style={{height: '.7rem', marginBottom: 8, color: '#030a18'}}/>
+        </button>      
+        <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Modify Parking</Modal.Title>
         </Modal.Header>
@@ -194,6 +201,15 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
                 type="tel"
                 placeholder="Enter phone"
                 value={newParkingInfo?.phone}
+                onChange={handleInputChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="price">
+              <Form.Label>Price per minute</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Enter the price per minute"
+                value={newParkingInfo?.price}
                 onChange={handleInputChange}
               />
             </Form.Group>

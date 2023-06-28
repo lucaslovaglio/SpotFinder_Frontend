@@ -1,9 +1,9 @@
 .parking-list-container {
-    background-color: #fff;
+    background-color: #111;
     /* margin: 1rem; */
     padding: 1rem;
-    overflow-y: hidden;
-    overflow: hidden;
+    /* overflow-y:scroll; */
+    /* overflow:scroll; */
     height: 100%;
     min-height: max-content;
   }
@@ -26,11 +26,19 @@
     margin-bottom: 1rem;
     padding-bottom: 1rem;
     width: max-content;
+    color: rgb(64, 64, 64);
   }
   
   .parking-list {
-    list-style-type: none;
-    padding: 0;
+    /* list-style-type: none;
+    padding: 0; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    padding: 1rem;
+    padding-left: 1rem;
+    border: none;
+    list-style: none;
   }
   
   .parking-list-item {
@@ -42,12 +50,12 @@
     margin-left: 2rem;
     padding-top: 1.25rem;
     padding-bottom: 1.25rem;
-    border-bottom: 1px solid rgb(230, 230, 230);
+    /* border-bottom: 1px solid rgb(230, 230, 230); */
   }
   
-  .parking-list-item:first-child {
+  /* .parking-list-item:first-child {
     border-top: 1px solid rgb(230, 230, 230);
-  }
+  } */
   
   .parking-list-item-content {
     display: flex;
@@ -77,9 +85,20 @@
   }
   
   .parking-list-pagination-container {
-    position: absolute;
+    display: flex;
+    position: relative;
     bottom: 0;
-    right: 1rem;
-    margin-top: 1rem;
+    align-items: center;
+    justify-content: end;
+
+    /* margin-top: 1rem; */
+  }
+  
+  .parking-list-pagination {
+    margin-top: 0.5rem;
+    position:sticky;
+    bottom: 0;
+    right: 0;
+    /* margin-top: 1rem; */
   }
   

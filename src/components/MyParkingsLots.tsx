@@ -7,10 +7,20 @@ import axios from 'axios';
 import { useAuthProvider } from '../services/auth';
 import { Parking } from '../types/parkingTypes';
 import AddParking from './AddParking';
-import { faRotateRight, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faEllipsisVertical, faRotateRight, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Status, alertProps } from '../types/alertTypes';
 import Alert from './Alert';
+import ValidateEntrance from './ValidateEntrance';
+import ValidateExit from './ValidateExit';
+
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import Menu from '@mui/material/Menu';
+import ParkingState from './ParkingState';
+import MyParkingCard from './MyParkingCard';
+
 
 
 const ParkingList = () => {
@@ -26,8 +36,36 @@ const ParkingList = () => {
                     Authorization: `Bearer ${credentials.getToken()}` // Token en el header
                 },
             };
-            const response = await axios.get("http://localhost:3001/parkings/" + credentials.getUserMail(), config);
-            const myParkings = response.data.parkingsOwned as Parking[];
+            const response = await axios.get("http://localhost:3001/parkings/ownedParkings/" + credentials.getUserMail(), config);
+            const dbParkings = response.data.parkingsOwned as Parking[];
+            dbParkings.sort((a, b) => {
+                // Convierte los id a números y los compara
+                const idA = parseInt(a.id);
+                const idB = parseInt(b.id);
+                
+                if (idA < idB) {
+                  return -1; // a viene antes que b
+                } else if (idA > idB) {
+                  return 1; // a viene después de b
+                } else {
+                  return 0; // son iguales
+                }
+            });
+            const updateAddresses = async () => {
+                const updatedParkings = await Promise.all(
+                  dbParkings.map(async (parking) => {
+                    const address = await fetchData(parking);
+                    console.log(address)
+                    const updatedParking: Parking = { ...parking, address };
+                    return updatedParking;
+                  })
+                );
+              
+                return updatedParkings;
+              };
+                          
+            const myParkings = await updateAddresses();
+            console.log(myParkings)
             setParkings(myParkings);
         } catch (error) {
             const errorMessage = error ? (error as any).message : '';
@@ -44,7 +82,7 @@ const ParkingList = () => {
     }, []);
 
 
-    const parkingsPerPage = 5; // Cambiar el número de parkings por página según tus necesidades
+    const parkingsPerPage = 9; // Cambiar el número de parkings por página según tus necesidades
 
     const lastIndex = currentPage * parkingsPerPage;
     const firstIndex = lastIndex - parkingsPerPage;
@@ -59,31 +97,6 @@ const ParkingList = () => {
         setCurrentPage(pageNumber);
     };
 
-    const handleRemoveParking = async (parkingId: string) => {
-        try {
-            const config = {
-                headers: {
-                  Authorization: `Bearer ${token}` // Token en el header
-                },
-              };
-            const response = await axios.delete("http://localhost:3001/parkings/" + parkingId, config);
-        
-            if (response.status === 200) {
-                handleOpenAlert(()=>{}, Status.SUCCESS, `The Parking ${parkingId} has been deleted`, false)
-                handleRefresh();
-            }
-          } catch (error) {
-                const errorMessage = error ? (error as any).message : '';
-                handleOpenAlert(()=>{}, Status.ERROR, errorMessage, false)
-        }
-    };
-
-    const handleConfirmRemove = (parkingId: string) => {
-        // Utilizar ventana de confirmación de React-Bootstrap
-        if (window.confirm('¿Estás seguro que quieres eliminar este parking?')) {
-          handleRemoveParking(parkingId);
-        }
-    };
 
     // // ALERT
     const [openAlert, setOpenAlert] = useState(false);
@@ -108,6 +121,30 @@ const ParkingList = () => {
     }
     const handleCloseAlert = () => setOpenAlert(false);
 
+
+    const fetchData = async (parking: Parking): Promise<string | null> => {
+        const latitude = parking.latitude; // Reemplaza con la latitud real
+        const longitude = parking.longitude; // Reemplaza con la longitud real
+        const apiKey = "anJGEw6wvbEyM5IY8P_4hUzpvQCFB6LLuuXX86WTd-M"; // Reemplaza con tu clave de API de HERE
+      
+        try {
+          const response = await axios.get(
+            `https://geocode.search.hereapi.com/v1/revgeocode?at=${latitude},${longitude}&apiKey=${apiKey}`
+          );
+      
+          const address = response.data.items[0].address.label;
+          return address;
+        } catch (error) {
+          // handleOpenAlert(()=>{}, Status.ERROR, 'Error al obtener la dirección', false);
+          console.log('Error: ', error);
+          return null;
+        }
+        
+          
+      };
+      
+  
+
     return (
         <>
         <div className="parking-list-container">
@@ -124,7 +161,8 @@ const ParkingList = () => {
                 {currentParkings.map((parking, index) => (
                 <li key={`${parking.id}-index`} className="parking-list-item">
                     <div className="parking-list-item-content">
-                        <div className="parking-list-item-name">{parking.name}</div>{parking.capacity}
+                        {/* <div className="parking-list-item-name">{parking.name}</div>{parking.capacity}
+                        
                         <ModifyParking 
                             key={parking.id}
                             id={parking.id} 
@@ -137,7 +175,6 @@ const ParkingList = () => {
                             iPhone={parking.phone} 
                             handleRefresh={handleRefresh}
                         />
-                        {/* <button className="parking-list-item-button">Edit</button> */}
                         <Button
                             variant="danger"
                             onClick={() => handleConfirmRemove(parking.id)} // Llamar a la función de confirmación con el ID del parking
@@ -145,6 +182,39 @@ const ParkingList = () => {
                         >
                         <FontAwesomeIcon icon={faTrash}/>
                         </Button>
+                        <ValidateEntrance parking={parking}></ValidateEntrance>
+                        <ValidateExit parking={parking}></ValidateExit>
+                        <Button
+                            variant="danger"
+                            onClick={handleMenu} // Llamar a la función de confirmación con el ID del parking
+                            style={{marginRight: '0.5rem', borderRadius: '50%', color: 'black', backgroundColor: 'transparent', border: 'none'}}
+                        >
+                        <FontAwesomeIcon icon={faEllipsisVertical}/>
+                        </Button>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorEl}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose}
+                            PaperProps={{
+                              sx: {
+                                width: '12rem',
+                              },
+                            }}                      >     
+                                  <button className='Profile-button' onClick={() => {handleManualAdd(parking); handleClose();}}>Add manually</button>
+                                  <ParkingState parking={parking}></ParkingState>
+                        </Menu> */}
+                        {/* {fetchData(parking)} */}
+                        <MyParkingCard parking={parking} handleRefresh={handleRefresh}></MyParkingCard>
                     </div>
                     <hr className="parking-list-item-divider" />
                 </li>

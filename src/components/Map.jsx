@@ -3,6 +3,8 @@ import H from '@here/maps-api-for-javascript';
 import onResize from 'simple-element-resize-detector';
 import axios from 'axios';
 import AvailableParkingList from '../components/AvailableParkingList';
+import { faArrowCircleRight, faArrowCircleUp, faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 const Map = () => {
@@ -10,7 +12,10 @@ const Map = () => {
   const [parkings, setParkings] = useState([]);
   console.log('NULL')
   let map = null;
-  let currentPosition = null;
+  let currentPosition = { lat: -34.5833472, lng: -58.8644352 };
+
+  const [refreshMap, setRefreshMap] = useState(false);
+
 
   useEffect(() => {
     console.log('primero')
@@ -42,69 +47,115 @@ const Map = () => {
     });
 
     // Obtener la posición actual
-    const getCurrentPosition = () => {
-      navigator.geolocation.watchPosition(
-        position => {
-          const { latitude, longitude } = position.coords;
-          currentPosition = { lat: latitude, lng: longitude };
-          console.log('currentPosition')
-          console.log(currentPosition)
+    // const getCurrentPosition = () => {
+    //   navigator.geolocation.watchPosition(
+    //     position => {
+    //       const { latitude, longitude } = position.coords;
+    //       currentPosition = { lat: latitude, lng: longitude };
+    //       console.log('currentPosition')
+    //       console.log(currentPosition)
 
-          // Crear un marcador para la posición actual
-          const marker = new H.map.Marker(currentPosition);
+    //       // Crear un marcador para la posición actual
+    //       const marker = new H.map.Marker(currentPosition);
 
-          // Agregar el marcador al mapa
-          map.addObject(marker);
+    //       // Agregar el marcador al mapa
+    //       map.addObject(marker);
 
-          // Actualizar el centro del mapa a la posición actual
-          map.setCenter(currentPosition);
+    //       // Actualizar el centro del mapa a la posición actual
+    //       map.setCenter(currentPosition);
 
-          // Obtener los parkings desde la base de datos
-          getParkingsFromDB();
-        },
-        error => console.log(error),
-        { enableHighAccuracy: true }
-      );
-    };
+    //       // Obtener los parkings desde la base de datos
+    //       // getParkingsFromDB();
+    //     },
+    //     error => console.log(error),
+    //     { enableHighAccuracy: true }
+    //   );
+    // };
     console.log('pos')
+    // Crear un marcador para la posición actual
+    // const marker = new H.map.Marker(currentPosition);
+
+    // // Agregar el marcador al mapa
+    // map.addObject(marker);
+
     getCurrentPosition();
+    getParkingsFromDB();
+    console.log(parkings)
     
 
     return () => {
       // Eliminar el listener de redimensionamiento al desmontar el componente
       map.dispose();
     };
-  }, []);
+  }, [refreshMap]);
 
-  useEffect(() => {
-    console.log('segundo')
-    console.log('Updated parkings:', parkings);
-    console.log(map)
-    if (map) {
-      console.log(`aca no ${parkings.length}`)
-      // Agregar marcadores al mapa por cada parking
-      parkings.forEach(parking => {
-        console.log('name')
-        console.log(parking.name)
-        const coordinates = new H.geo.Point(parking.latitude, parking.longitude);
-        const marker = new H.map.Marker(coordinates);
-        map.addObject(marker);
-      });
-    }
-  }, [parkings, map]);
+  // useEffect(() => {
+  //   console.log('segundo')
+  //   console.log('Updated parkings:', parkings);
+  //   console.log(map)
+  //   if (map) {
+  //     console.log(`aca no ${parkings.length}`)
+  //     // Agregar marcadores al mapa por cada parking
+  //     parkings.forEach(parking => {
+  //       console.log('name')
+  //       console.log(parking.name)
+  //       const coordinates = new H.geo.Point(parking.latitude, parking.longitude);
+  //       const marker = new H.map.Marker(coordinates);
+  //       map.addObject(marker);
+  //     });
+  //   }
+  // }, [parkings, map]);
 
   const getParkingsFromDB = async () => {
     try {
       const response = await axios.post("http://localhost:3001/parkings/parkingsFromArea", searchArea());
+      const myParkings = response.data
       setParkings(response.data);
       console.log('parkings')
       console.log(parkings)
       console.log('myParkings')
       console.log(response.data)
+      console.log(map)
+      if (map) {
+        console.log(`aca no ${myParkings.length}`)
+        // Agregar marcadores al mapa por cada parking
+        myParkings.forEach(parking => {
+          console.log('name')
+          console.log(parking.name)
+          const coordinates = new H.geo.Point(parking.latitude, parking.longitude);
+          const marker = new H.map.Marker(coordinates);
+          map.addObject(marker);
+        });
+      }
 
     } catch (error) {
       // alert(`maldito error ${error}`);
     }   
+  };
+
+  const getCurrentPosition = () => {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position.coords;
+        currentPosition = { lat: latitude, lng: longitude };
+        console.log('currentPosition')
+        console.log(currentPosition)
+
+        // Crear un marcador para la posición actual
+        const marker = new H.map.Marker(currentPosition);
+
+        // Agregar el marcador al mapa
+        map.addObject(marker);
+
+        // Actualizar el centro del mapa a la posición actual
+        map.setCenter(currentPosition);
+
+        // Obtener los parkings desde la base de datos
+        // getParkingsFromDB();
+      },
+      error => console.log(error),
+      { enableHighAccuracy: true }
+    );
   };
 
   const searchArea = () => {
@@ -120,6 +171,11 @@ const Map = () => {
     };
   };
 
+  const handleRefresh = () => {
+    getParkingsFromDB();
+  }; //TODO refresh
+
+
   // useEffect(() => {
   //   if (map) {
   //     console.log(`aca no ${parkings.length}`)
@@ -134,13 +190,16 @@ const Map = () => {
   //   }
   // }, [parkings])
 
-
+  const handleRefreshMap = () => {
+    setRefreshMap(!refreshMap);
+  };
   
 
   return (
     <div className='MapBox'>
       <div style={{ position: 'relative', width: '100%', height: '100%' }} ref={mapRef} />
-      <AvailableParkingList myParkings={parkings}/>
+      <AvailableParkingList myParkings={parkings} handleRefresh={handleRefresh}/>
+      <button className='refresh-map' onClick={handleRefreshMap}><FontAwesomeIcon icon={faArrowRotateLeft}/></button>
     </div>
   );
 };

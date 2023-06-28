@@ -2,10 +2,16 @@
     background-color: #111;
     color: #fff;
     padding: 70px;
+    padding-top: 3%;
     width: 100%;
-    height: 100vh;
+    flex: 1;
+    height: 100%;
+    align-items: center;
+    position: absolute;
+    /* height: 100vh; */
     /* display: flex;
     flex-direction: column; Alinea los elementos verticalmente */
+    overflow-y: hidden;
   }
   
   .parking-header {
@@ -24,6 +30,7 @@
   
   .qr-current-parking {
     position: absolute;
+    top: 20%;
     right: 10%;
     border-radius: 10px;
     border: 10px;

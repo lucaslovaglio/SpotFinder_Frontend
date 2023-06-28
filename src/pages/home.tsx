@@ -138,6 +138,8 @@ export const HomePage = () => {
         phone: '1122558877',
         rating: '5',
         attendance: 10,
+        address: null,
+        pricexminute: 10,
     }
 
     let childrenContent;
