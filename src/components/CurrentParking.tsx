@@ -13,6 +13,7 @@ import Alert from "./Alert";
 import clipboardCopy from 'clipboard-copy';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRotateLeft, faClipboard, faClipboardCheck } from "@fortawesome/free-solid-svg-icons";
+import useUrlProvider from "../services/url";
 
 
 
@@ -23,6 +24,7 @@ interface Props {
 
 const CurrentParking: React.FC<Props> = () => {
     const auth = useAuthProvider();
+    const url = useUrlProvider()
     const email = auth.getCredentials().getUserMail();
     const [currentParking, setCurrentParking] = useState<Parking>(
         {
@@ -51,7 +53,7 @@ const CurrentParking: React.FC<Props> = () => {
 
     const getCurrentParking = async () => {
         try {
-            const response = await axios.get("http://localhost:3001/users/" + email + "/getCurrentParking");
+            const response = await axios.get(url + "users/" + email + "/getCurrentParking");
             
             if (response.status === 200) {
               setCurrentParking(response.data.parkingData as Parking);            
@@ -93,7 +95,7 @@ const CurrentParking: React.FC<Props> = () => {
       if (newValue !== null) {
         // Aquí puedes realizar cualquier acción que desees con el nuevo valor del rating
         try {
-          const response = await axios.post("http://localhost:3001/califications/makeCalification", {
+          const response = await axios.post(url + "califications/makeCalification", {
             "parkingID": currentParking.id,
             "userMail": email,
             "calification": newValue,

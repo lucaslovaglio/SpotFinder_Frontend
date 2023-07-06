@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../styles/buttons.css'
 import { Status, alertProps } from '../types/alertTypes';
 import Alert from './Alert';
+import useUrlProvider from '../services/url';
 
 
 interface Props {
@@ -15,6 +16,7 @@ interface Props {
 
 const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
   const credentials = useAuthProvider().getCredentials();
+  const url = useUrlProvider();
   const [showModal, setShowModal] = useState(false);
   const [parkingInfo, setParkingInfo] = useState({
     name: '',
@@ -65,7 +67,7 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
             "phone": parkingInfo.phone,
             "pricexminute": parkingInfo.pricexminute,
         };
-      const response = await axios.post("http://localhost:3001/parkings/", data);
+      const response = await axios.post(url + "parkings/", data);
   
       if (response.status === 200) {
           handleOpenAlert(()=>{}, Status.SUCCESS, 'Parking added successfully!', false);

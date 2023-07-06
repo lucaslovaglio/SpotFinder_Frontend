@@ -13,6 +13,7 @@ import { Parking } from '../types/parkingTypes';
 import { useState, useEffect } from 'react';
 import { Status, alertProps } from '../types/alertTypes';
 import Alert from './Alert';
+import useUrlProvider from '../services/url';
 
 
 interface MyComponentProps {
@@ -28,6 +29,7 @@ enum Option {
 }
 
 const ValidateExit: React.FC<MyComponentProps> = ({ parking, handleRefresh }) => {
+  const url = useUrlProvider();
   const [open, setOpen] = React.useState(false);
   const [input, setInput] = React.useState('');
   const [selectedOption, setSelectedOption] = React.useState<Option | null>(null);
@@ -56,7 +58,7 @@ const ValidateExit: React.FC<MyComponentProps> = ({ parking, handleRefresh }) =>
     }
     // Resto del código para validar por correo electrónico
     try {
-      const response = await axios.post("http://localhost:3001/parkings/" + parking.id + "/modifieAttendance", {
+      const response = await axios.post(url + "parkings/" + parking.id + "/modifieAttendance", {
           "increase": false,
           "userMail": input
       });
@@ -82,7 +84,7 @@ const ValidateExit: React.FC<MyComponentProps> = ({ parking, handleRefresh }) =>
   
     // Resto del código para validar por código QR
     try {
-      const response = await axios.get("http://localhost:3001/parkings/" + parking.id + "/" + input + "/userExit");
+      const response = await axios.get(url + "parkings/" + parking.id + "/" + input + "/userExit");
       
       if (response.status === 200) {
         handleOpenAlert(()=>{handleRefresh()}, Status.SUCCESS, response.data, false);
@@ -100,7 +102,7 @@ const ValidateExit: React.FC<MyComponentProps> = ({ parking, handleRefresh }) =>
   const handleValidateManual = async () => {
     // Código para validar de forma manual
     try {
-      const response = await axios.post("http://localhost:3001/parkings/" + parking.id + "/modifieAttendance", {
+      const response = await axios.post(url + "parkings/" + parking.id + "/modifieAttendance", {
           "increase": false,
       });
       

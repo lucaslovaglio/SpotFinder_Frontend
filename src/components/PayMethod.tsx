@@ -19,6 +19,7 @@ import { Status, alertProps } from '../types/alertTypes';
 import Alert from './Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDollar } from '@fortawesome/free-solid-svg-icons';
+import useUrlProvider from '../services/url';
 
 
 interface PayMethodDialogProps {
@@ -27,6 +28,7 @@ interface PayMethodDialogProps {
 }
 
 const PayMethodDialog: React.FC<PayMethodDialogProps> = () => {
+  const url = useUrlProvider();
   const [payMethodOpen, setPayMethodOpen] = useState<boolean>(false);
   const email = useAuthProvider().getCredentials().getUserMail();
   const [balance, setBalance] = useState<number>(0);
@@ -52,7 +54,7 @@ const PayMethodDialog: React.FC<PayMethodDialogProps> = () => {
 
   const fetchBalanceFromDatabase = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/balance/" + email);
+      const response = await axios.get(url + "balance/" + email);
   
       if (response.status === 200) {
           // handleOpenAlert(()=>{}, Status.SUCCESS, 'Balance added successfully!', false);
@@ -75,14 +77,15 @@ const PayMethodDialog: React.FC<PayMethodDialogProps> = () => {
   const handleClosePayMethod = () => {
     setPayMethodOpen(false);
   };
+  // process.env RECU
 
   const handleAddAmount = async () => {
     try {
       const data = {
           "balance": amount
         };
-      const response = await axios.post("http://localhost:3001/balance/" + email + "/addBalance", data);
-      console.log("http://localhost:3001/balance/" + email + "/addBalance", data)
+      const response = await axios.post(url + "balance/" + email + "/addBalance", data);
+      console.log(url + "balance/" + email + "/addBalance", data)
       if (response.status === 200) {
           handleOpenAlert(()=>{}, Status.SUCCESS, 'Balance added successfully!', false);
       }

@@ -9,6 +9,7 @@ import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import ParkingCard from './ParkingCard';
 import { Status, alertProps } from '../types/alertTypes';
 import Alert from './Alert';
+import useUrlProvider from '../services/url';
 
 
 interface Props {
@@ -23,6 +24,7 @@ const AvailableParkingList: React.FC<Props> = ({myParkings, handleRefresh}) => {
 
   const auth = useAuthProvider();
   const credentials = auth.getCredentials();
+  const url = useUrlProvider()
 
   // Actualizar 'parkings' cuando 'myParkings' cambie
   useEffect(() => {
@@ -40,7 +42,7 @@ const AvailableParkingList: React.FC<Props> = ({myParkings, handleRefresh}) => {
       const data = {
         "userMail": credentials.getUserMail()
       };
-      const response = await axios.post("http://localhost:3001/parkings/" + parking.id + "/parkingReservation", data);
+      const response = await axios.post(url + "parkings/" + parking.id + "/parkingReservation", data);
       auth.addParkingToken(response.data.token);
       console.log(response.data.token)
       console.log(auth.getParkingToken())

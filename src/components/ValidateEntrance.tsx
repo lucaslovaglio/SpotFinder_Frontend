@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { Status, alertProps } from '../types/alertTypes';
 import Alert from './Alert';
 import '../styles/parkingCard.css'
+import useUrlProvider from '../services/url';
 
 
 
@@ -25,6 +26,7 @@ interface MyComponentProps {
 }
 
 const ValidateEntrance: React.FC<MyComponentProps> = ({ parking, handleRefresh }) => {
+  const url = useUrlProvider();
   const [open, setOpen] = React.useState(false);
   const [token, setToken] = React.useState('');
 
@@ -44,7 +46,7 @@ const ValidateEntrance: React.FC<MyComponentProps> = ({ parking, handleRefresh }
   const handleValidate = async () => {
     // Aquí puedes ejecutar el método que necesitas con el texto del TextField
     try {
-        const response = await axios.get("http://localhost:3001/parkings/" + token + "/" + parking.id + "/parkingReservation");
+        const response = await axios.get(url + "parkings/" + token + "/" + parking.id + "/parkingReservation");
         
         if (response.status === 200) {
           handleOpenAlert(()=>{handleRefresh()}, Status.SUCCESS, response.data.message, false);

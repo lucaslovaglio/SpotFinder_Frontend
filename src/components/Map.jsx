@@ -5,9 +5,11 @@ import axios from 'axios';
 import AvailableParkingList from '../components/AvailableParkingList';
 import { faArrowCircleRight, faArrowCircleUp, faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import useUrlProvider from '../services/url';
 
 
 const Map = () => {
+  const url = useUrlProvider()
   const mapRef = useRef(null);
   const [parkings, setParkings] = useState([]);
   console.log('NULL')
@@ -108,7 +110,7 @@ const Map = () => {
 
   const getParkingsFromDB = async () => {
     try {
-      const response = await axios.post("http://localhost:3001/parkings/parkingsFromArea", searchArea());
+      const response = await axios.post(url + "parkings/parkingsFromArea", searchArea());
       const myParkings = response.data
       setParkings(response.data);
       console.log('parkings')

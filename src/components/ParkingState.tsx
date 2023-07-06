@@ -13,6 +13,7 @@ import Alert from './Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfo } from '@fortawesome/free-solid-svg-icons';
 import { Typography } from '@mui/material';
+import useUrlProvider from '../services/url';
 
 
 type UserAtParking = {
@@ -26,6 +27,7 @@ interface Props {
 }
 
 const ParkingState: React.FC<Props> = ({parking}) => {
+  const url = useUrlProvider();
   const [open, setOpen] = useState(false);
 
   const [usersAtParking, setUsersAtParking] = useState<UserAtParking[]>();
@@ -47,7 +49,7 @@ const ParkingState: React.FC<Props> = ({parking}) => {
 
   const getUsersAtParking = async () => {
     try {
-        const response = await axios.get("http://localhost:3001/parkings/" + parking.id + "/usersAtParking");
+        const response = await axios.get(url + "parkings/" + parking.id + "/usersAtParking");
         setUsersAtParking(response.data as UserAtParking[]);
     } catch (error) {
         const errorMessage = error ? (error as any).message : '';

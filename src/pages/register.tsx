@@ -6,6 +6,7 @@ import '../styles/login&register.css';
 import { useAuthProvider } from "../services/auth";
 import { Status, alertProps } from "../types/alertTypes";
 import Alert from "../components/Alert";
+import useUrlProvider from "../services/url";
 
 
 export const PageWrapper = styled.div`
@@ -35,6 +36,7 @@ export const RegisterPage = () => {
   const [passwordError, setPasswordError] = useState("");
   const navigate = useNavigate();
   const auth = useAuthProvider();
+  const url = useUrlProvider();
 
 
 
@@ -51,7 +53,7 @@ export const RegisterPage = () => {
     }
 
     try {
-        const response = await axios.post("http://localhost:3001/users/", {
+        const response = await axios.post(url + "users/", {
           "mail": email,
           "username": name, 
           "psw": password

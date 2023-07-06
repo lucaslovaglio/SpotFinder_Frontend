@@ -14,6 +14,7 @@ import ParkingState from './ParkingState';
 import React from 'react';
 import ValidateEntrance from './ValidateEntrance';
 import ValidateExit from './ValidateExit';
+import useUrlProvider from '../services/url';
 
 
 interface Props {
@@ -24,6 +25,7 @@ interface Props {
 
 const MyParkingCard: React.FC<Props> = ({ parking, handleRefresh }) => {
   const token = useAuthProvider().getCredentials().getToken();
+  const url = useUrlProvider();
 
   const handleCheckboxChange = (checked: boolean) => {
     console.log('Checkbox checked:', checked);
@@ -38,7 +40,7 @@ const MyParkingCard: React.FC<Props> = ({ parking, handleRefresh }) => {
               Authorization: `Bearer ${token}` // Token en el header
             },
           };
-        const response = await axios.delete("http://localhost:3001/parkings/manageParkings/" + parkingId, config);
+        const response = await axios.delete(url + "parkings/manageParkings/" + parkingId, config);
     
         if (response.status === 200) {
             handleOpenAlert(()=>{handleRefresh();}, Status.SUCCESS, `The Parking ${parkingId} has been deleted`, false)
@@ -64,7 +66,7 @@ const MyParkingCard: React.FC<Props> = ({ parking, handleRefresh }) => {
 
   const handleManualAdd = async (parking: Parking) => {
     try {
-        const response = await axios.post("http://localhost:3001/parkings/" + parking.id + "/modifieAttendance", {
+        const response = await axios.post(url + "parkings/" + parking.id + "/modifieAttendance", {
             "increase": true,
             "userMail": null
         });

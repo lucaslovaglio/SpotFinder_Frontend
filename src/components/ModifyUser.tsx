@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useAuthProvider } from '../services/auth';
 import { Status, alertProps } from '../types/alertTypes';
 import Alert from './Alert';
+import useUrlProvider from '../services/url';
 
 
 interface Props {
@@ -17,6 +18,7 @@ interface Props {
 }
 
 const ModifyUser: React.FC<Props> = ({ show, handleClose, credentials }) => { 
+  const url = useUrlProvider();
 
   const handleSubmit = async () => {
     if (password !== repeatPassword) {
@@ -33,7 +35,7 @@ const ModifyUser: React.FC<Props> = ({ show, handleClose, credentials }) => {
             Authorization: `Bearer ${credentials.getToken()}` // Token en el header
           },
         };
-      const response = await axios.put("http://localhost:3001/users/" + credentials.getUserMail(), {
+      const response = await axios.put(url + "users/" + credentials.getUserMail(), {
           "psw": password
         }, config);
 

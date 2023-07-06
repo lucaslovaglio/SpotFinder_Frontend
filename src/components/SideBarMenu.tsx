@@ -8,6 +8,7 @@ import axios from "axios";
 import { Status, alertProps } from "../types/alertTypes";
 import Alert from "./Alert";
 import PayMethodDialog from "./PayMethod";
+import useUrlProvider from "../services/url";
 
 
 
@@ -23,6 +24,7 @@ const SideBarMenu: React.FC<Props> = ({ children, show, handleClose }) => {
 
     const navigate = useNavigate();
     const auth = useAuthProvider();
+    const url = useUrlProvider();
     
     const email = auth.getCredentials().getUserMail();
     const name = auth.getCredentials().getUserName();
@@ -42,7 +44,7 @@ const SideBarMenu: React.FC<Props> = ({ children, show, handleClose }) => {
                 //   mail: email // Nombre de usuario en el body
                 // }
               };
-            const response = await axios.delete("http://localhost:3001/users/" + email, config);
+            const response = await axios.delete(url + "users/" + email, config);
         
             if (response.status === 200) {
                 // succesAlert.setOpen(true)

@@ -5,6 +5,7 @@ import '../styles/login&register.css';
 import { useAuthProvider } from "../services/auth";
 import { Status, alertProps } from "../types/alertTypes";
 import Alert from "../components/Alert";
+import useUrlProvider from "../services/url";
 
 
 export const LoginPage = () => {
@@ -12,6 +13,7 @@ export const LoginPage = () => {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const auth = useAuthProvider();
+    const url = useUrlProvider();
 
 
     const handleRegisterClick = () => {
@@ -22,7 +24,7 @@ export const LoginPage = () => {
         event.preventDefault();
 
         try {
-            const response = await axios.post("http://localhost:3001/users/" + email, {
+            const response = await axios.post(url + "users/" + email, {
               "psw": password
             });
             

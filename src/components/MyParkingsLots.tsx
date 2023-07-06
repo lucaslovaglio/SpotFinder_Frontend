@@ -20,6 +20,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import Menu from '@mui/material/Menu';
 import ParkingState from './ParkingState';
 import MyParkingCard from './MyParkingCard';
+import useUrlProvider from '../services/url';
 
 
 
@@ -28,6 +29,7 @@ const ParkingList = () => {
 
     const [currentPage, setCurrentPage] = React.useState(1);
     const credentials = useAuthProvider().getCredentials()
+    const url = useUrlProvider();
 
     const getParkingsFromDB = useCallback(async () => {
         try {
@@ -36,7 +38,7 @@ const ParkingList = () => {
                     Authorization: `Bearer ${credentials.getToken()}` // Token en el header
                 },
             };
-            const response = await axios.get("http://localhost:3001/parkings/ownedParkings/" + credentials.getUserMail(), config);
+            const response = await axios.get(url + "parkings/ownedParkings/" + credentials.getUserMail(), config);
             const dbParkings = response.data.parkingsOwned as Parking[];
             dbParkings.sort((a, b) => {
                 // Convierte los id a números y los compara

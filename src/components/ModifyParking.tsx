@@ -6,6 +6,7 @@ import { faPen, faPencil } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Status, alertProps } from '../types/alertTypes';
 import Alert from './Alert';
+import useUrlProvider from '../services/url';
 
   
 interface Props {
@@ -34,6 +35,7 @@ type Park = {
 
 const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity, iOpenHs, iCloseHs, iPhone, iPrice, handleRefresh }) => {
   const token = useAuthProvider().getCredentials().getToken();
+  const url = useUrlProvider()
   const [showModal, setShowModal] = useState(false);
   const [newParkingInfo, setParkingInfo] = useState<Park>({
     name: iName,
@@ -91,7 +93,7 @@ const ModifyParkingButton: React.FC<Props> = ({ id, iName, iLat, iLng, iCapacity
       }
       console.log(JSON.stringify(data))
       console.log(id)
-      const response = await axios.post("http://localhost:3001/parkings/manageParkings/" + id, data, config);
+      const response = await axios.post(url + "parkings/manageParkings/" + id, data, config);
   
       if (response.status === 200) {
           handleOpenAlert(()=>{}, Status.SUCCESS, 'Parking modified successfully!', false);
