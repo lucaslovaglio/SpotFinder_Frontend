@@ -27,87 +27,87 @@ enum Content {
 export const HomePage = () => {
     const navigate = useNavigate();
 
-    const [parkings, setParkings] = useState<Parking[]>([]);
+    // const [parkings, setParkings] = useState<Parking[]>([]);
 
-    const [currentPosition, setCurrentPossition] = useState<currentPossition>({ lat: 0, lng: 0 });
+    // const [currentPosition, setCurrentPossition] = useState<currentPossition>({ lat: 0, lng: 0 });
 
-    const [searchArea, setSearchArea] = useState<searchArea>(
-        {
-            "mLon": 50,
-            "mLat": 20,
-            "MLon": 51,
-            "MLat": 21
-        }
-    );
+    // const [searchArea, setSearchArea] = useState<searchArea>(
+    //     {
+    //         "mLon": 50,
+    //         "mLat": 20,
+    //         "MLon": 51,
+    //         "MLat": 21
+    //     }
+    // );
 
     const handleOwnerClick = () => {
         navigate("/ownerpage");
     };
 
-    const handleParkings = (parkings: Parking[]) => {
-        setParkings(parkings);
-    };
+    // const handleParkings = (parkings: Parking[]) => {
+    //     setParkings(parkings);
+    // };
 
-    const handleCurrentPosition = (coords: currentPossition) => {
-        setCurrentPossition(coords);
-        const mLon = currentPosition.lng - 1;
-        const mLat = currentPosition.lat - 1;
-        const MLon = currentPosition.lng + 1;
-        const MLat = currentPosition.lat + 1;
-        handleSearchArea(mLon, mLat, MLon, MLat)
-    };
+    // const handleCurrentPosition = (coords: currentPossition) => {
+    //     setCurrentPossition(coords);
+    //     const mLon = currentPosition.lng - 1;
+    //     const mLat = currentPosition.lat - 1;
+    //     const MLon = currentPosition.lng + 1;
+    //     const MLat = currentPosition.lat + 1;
+    //     handleSearchArea(mLon, mLat, MLon, MLat)
+    // };
 
-    const handleSearchArea = (mLon: number, mLat: number, MLon: number, MLat: number) => {
-        setSearchArea(
-            {
-                "mLon": mLon,
-                "mLat": mLat,
-                "MLon": MLon,
-                "MLat": MLat
-            }
-        );
-    };
-
-
-    useEffect(() => {
-        getCurrentPosition();
-    }, []);
+    // const handleSearchArea = (mLon: number, mLat: number, MLon: number, MLat: number) => {
+    //     setSearchArea(
+    //         {
+    //             "mLon": mLon,
+    //             "mLat": mLat,
+    //             "MLon": MLon,
+    //             "MLat": MLat
+    //         }
+    //     );
+    // };
 
 
-    const getCurrentPosition = () => {
-        // const [currentPosition, setPosition] = useState<currentPossition>({ lat: 0, lng: 0 });
+    // useEffect(() => {
+    //     // getCurrentPosition();
+    // }, []);
+
+
+    // const getCurrentPosition = () => {
+    //     // const [currentPosition, setPosition] = useState<currentPossition>({ lat: 0, lng: 0 });
       
         
-        const getCoords = async () => {
-        try {
-            const position = await new Promise<Position>((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(
-                resolve,
-                reject,
-                { enableHighAccuracy: true }
-            );
-            });
+    //     const getCoords = async () => {
+    //     try {
+    //         const position = await new Promise<Position>((resolve, reject) => {
+    //         navigator.geolocation.getCurrentPosition(
+    //             resolve,
+    //             reject,
+    //             { enableHighAccuracy: true }
+    //         );
+    //         });
     
-            handleCurrentPosition({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-            });
-        } catch (error) {
-            console.error("Error al obtener la ubicación:", error);
-        }
-        };
+    //         handleCurrentPosition({
+    //         lat: position.coords.latitude,
+    //         lng: position.coords.longitude
+    //         });
+    //     } catch (error) {
+    //         console.error("Error al obtener la ubicación:", error);
+    //     }
+    //     };
       
-        getCoords();
+    //     getCoords();
         
 
-        return currentPosition;
-    };
+    //     return currentPosition;
+    // };
     
-    const getSearchArea = (): searchArea => {
-        console.log('2')
-        getCurrentPosition();
-        return searchArea;
-    };
+    // const getSearchArea = (): searchArea => {
+    //     console.log('2')
+    //     getCurrentPosition();
+    //     return searchArea;
+    // };
 
     const [content, setContent] = useState<Content>(Content.MAP);
 

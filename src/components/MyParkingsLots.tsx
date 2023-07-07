@@ -1,24 +1,15 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Pagination, Button } from 'react-bootstrap';
+import { Pagination } from 'react-bootstrap';
 import '../styles/parkingList.css'; // Archivo de estilos CSS
 import '../styles/buttons.css'; // Archivo de estilos CSS
-import ModifyParking from './ModifyParking';
 import axios from 'axios';
 import { useAuthProvider } from '../services/auth';
 import { Parking } from '../types/parkingTypes';
 import AddParking from './AddParking';
-import { faEllipsisVertical, faRotateRight, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faRotateRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Status, alertProps } from '../types/alertTypes';
 import Alert from './Alert';
-import ValidateEntrance from './ValidateEntrance';
-import ValidateExit from './ValidateExit';
-
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import Menu from '@mui/material/Menu';
-import ParkingState from './ParkingState';
 import MyParkingCard from './MyParkingCard';
 import useUrlProvider from '../services/url';
 
@@ -80,8 +71,11 @@ const ParkingList = () => {
     const token = credentials.getToken();
 
     useEffect(() => {
+        if (url === null) {
+            return; // Esperar hasta que url tenga un valor diferente de nulo
+        }
         getParkingsFromDB()
-    }, []);
+    }, [url]);
 
 
     const parkingsPerPage = 9; // Cambiar el número de parkings por página según tus necesidades

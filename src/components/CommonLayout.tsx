@@ -32,8 +32,8 @@ const CommonLayout: React.FC<Props> = ({ sideMenuContent, mainContent, isOwner }
             if (token != 'null') {
                 setCredentials(auth.getCredentials());
             } else {
-                handleOpenAlert(()=>{}, Status.ERROR, 'Your session expired', false);
-                navigate("/");
+                handleOpenAlert(()=>{navigate("/")}, Status.ERROR, 'Your session expired', false);
+                
             }
         };
         fetchData();

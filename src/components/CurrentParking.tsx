@@ -48,11 +48,19 @@ const CurrentParking: React.FC<Props> = () => {
     const [timeOfEntrance, setTimeOfEntrance] = useState("12:30");
 
     useEffect(() => {
+      if (url === null) {
+        return; // Esperar hasta que url tenga un valor diferente de nulo
+      }
+    
       getCurrentParking();
-    }, []);
+      console.log('jjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
+    }, [url]);
+    
 
     const getCurrentParking = async () => {
         try {
+            console.log('url')
+            console.log(url)
             const response = await axios.get(url + "users/" + email + "/getCurrentParking");
             
             if (response.status === 200) {

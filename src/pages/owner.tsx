@@ -35,18 +35,18 @@ export const OwnerPage = () => {
         // window.location.reload(); // TODO: no deberia refreshear, hay que arreglar el mapa
     }
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const token = auth.getCredentials().getToken();
-            if (token != 'null') {
-                setCredentials(auth.getCredentials());
-            } else {
-                handleOpenAlert(()=>{}, Status.ERROR, 'Your session expired', false);
-                navigate("/");
-            }
-        };
-        fetchData();
-    }, [auth, navigate]);
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const token = auth.getCredentials().getToken();
+    //         if (token != 'null') {
+    //             setCredentials(auth.getCredentials());
+    //         } else {
+    //             handleOpenAlert(()=>{}, Status.ERROR, 'Your session expired', false);
+    //             navigate("/");
+    //         }
+    //     };
+    //     fetchData();
+    // }, [auth, navigate]);
 
 
     const childrenSideMenu = (

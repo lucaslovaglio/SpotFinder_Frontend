@@ -1,15 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import H from '@here/maps-api-for-javascript';
 import onResize from 'simple-element-resize-detector';
 import axios from 'axios';
 import AvailableParkingList from '../components/AvailableParkingList';
-import { faArrowCircleRight, faArrowCircleUp, faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useUrlProvider from '../services/url';
 
 
 const Map = () => {
-  const url = useUrlProvider()
+  const url = "http://192.168.0.239:3001/"
   const mapRef = useRef(null);
   const [parkings, setParkings] = useState([]);
   console.log('NULL')
@@ -20,26 +20,31 @@ const Map = () => {
 
 
   useEffect(() => {
+    
     console.log('primero')
     const platform = new H.service.Platform({
       apikey: "anJGEw6wvbEyM5IY8P_4hUzpvQCFB6LLuuXX86WTd-M" // Reemplaza con tu clave de API de HERE
     });
     const defaultLayers = platform.createDefaultLayers();
     console.log('mapa')
-    map = new H.Map(
-      mapRef.current,
-      defaultLayers.vector.normal.map,
-      {
-        pixelRatio: window.devicePixelRatio,
-        center: { lat: -34.5833472, lng: -58.8644352 },
-        zoom: 15
-      }
-    );
+    if (mapRef.current) {
+      // Crear el mapa
+      map = new H.Map(
+        mapRef.current,
+        defaultLayers.vector.normal.map,
+        {
+          pixelRatio: window.devicePixelRatio,
+          center: { lat: -34.5833472, lng: -58.8644352 },
+          zoom: 15
+        }
+      );
+    }
+    
     console.log(map)
 
     const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
     behavior.enable(H.mapevents.Behavior.DRAGGING);
-    const ui = H.ui.UI.createDefault(map, defaultLayers);
+    // const ui = H.ui.UI.createDefault(map, defaultLayers);
 
     // Función de redimensionamiento
     onResize(mapRef.current, () => {
@@ -48,38 +53,6 @@ const Map = () => {
       }
     });
 
-    // Obtener la posición actual
-    // const getCurrentPosition = () => {
-    //   navigator.geolocation.watchPosition(
-    //     position => {
-    //       const { latitude, longitude } = position.coords;
-    //       currentPosition = { lat: latitude, lng: longitude };
-    //       console.log('currentPosition')
-    //       console.log(currentPosition)
-
-    //       // Crear un marcador para la posición actual
-    //       const marker = new H.map.Marker(currentPosition);
-
-    //       // Agregar el marcador al mapa
-    //       map.addObject(marker);
-
-    //       // Actualizar el centro del mapa a la posición actual
-    //       map.setCenter(currentPosition);
-
-    //       // Obtener los parkings desde la base de datos
-    //       // getParkingsFromDB();
-    //     },
-    //     error => console.log(error),
-    //     { enableHighAccuracy: true }
-    //   );
-    // };
-    console.log('pos')
-    // Crear un marcador para la posición actual
-    // const marker = new H.map.Marker(currentPosition);
-
-    // // Agregar el marcador al mapa
-    // map.addObject(marker);
-
     getCurrentPosition();
     getParkingsFromDB();
     console.log(parkings)
@@ -87,26 +60,15 @@ const Map = () => {
 
     return () => {
       // Eliminar el listener de redimensionamiento al desmontar el componente
-      map.dispose();
+      if (map) {
+        map.dispose();
+      }
     };
-  }, [refreshMap]);
+  }, [refreshMap]); //ACAAAAAAAAAAAAAAAA 
 
-  // useEffect(() => {
-  //   console.log('segundo')
-  //   console.log('Updated parkings:', parkings);
-  //   console.log(map)
-  //   if (map) {
-  //     console.log(`aca no ${parkings.length}`)
-  //     // Agregar marcadores al mapa por cada parking
-  //     parkings.forEach(parking => {
-  //       console.log('name')
-  //       console.log(parking.name)
-  //       const coordinates = new H.geo.Point(parking.latitude, parking.longitude);
-  //       const marker = new H.map.Marker(coordinates);
-  //       map.addObject(marker);
-  //     });
-  //   }
-  // }, [parkings, map]);
+ 
+  
+
 
   const getParkingsFromDB = async () => {
     try {
