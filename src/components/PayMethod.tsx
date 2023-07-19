@@ -20,14 +20,14 @@ import Alert from './Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDollar } from '@fortawesome/free-solid-svg-icons';
 import useUrlProvider from '../services/url';
+import '../styles/profileButton.css';
 
 
 interface PayMethodDialogProps {
-  // open: boolean;
-  // onClose: () => void;
+  handleBalance: (amount: string) => void
 }
 
-const PayMethodDialog: React.FC<PayMethodDialogProps> = () => {
+const PayMethodDialog: React.FC<PayMethodDialogProps> = ({handleBalance}) => {
   const url = useUrlProvider();
   const [payMethodOpen, setPayMethodOpen] = useState<boolean>(false);
   const email = useAuthProvider().getCredentials().getUserMail();
@@ -59,6 +59,7 @@ const PayMethodDialog: React.FC<PayMethodDialogProps> = () => {
       if (response.status === 200) {
           // handleOpenAlert(()=>{}, Status.SUCCESS, 'Balance added successfully!', false);
           setBalance(response.data.balance)
+          handleBalance(response.data.balance)
           console.log(response.data)
       }
     } catch (error) {
@@ -146,9 +147,9 @@ const PayMethodDialog: React.FC<PayMethodDialogProps> = () => {
   return (
     <ThemeProvider theme={theme}>
     <button 
-        className="option addPayMethod"
+        className="Profile-button"
         onClick={() => {handleOpenPayMethod()}}>
-            <h3 className='sideMenu-options delete'><FontAwesomeIcon icon={faDollar} style={{ marginRight: '1rem' }} />Pay Method</h3>
+        Pay Method
     </button>
     <Dialog open={payMethodOpen} onClose={handleClosePayMethod} maxWidth="xs" fullWidth>
       <DialogTitle sx={{bgcolor: "secondary.main", color: "primary.main"}}>Pay Method</DialogTitle>
