@@ -106,7 +106,7 @@ const SideBarMenu: React.FC<Props> = ({ children, show, handleClose }) => {
                         onClick={() => {handleOpenPayMethod(); handleClose();}}>
                             <h3 className='sideMenu-options delete'><FontAwesomeIcon icon={faDollar} style={{ marginRight: '1rem' }} />Pay Method</h3>
                     </button> */}
-                    <PayMethodDialog/>
+                    {/* <PayMethodDialog/> */}
                     <button 
                         className= "option deleteUser"
                         onClick={() => 

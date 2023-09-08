@@ -47,9 +47,9 @@
     align-items: center;
     /* margin-top: 1rem; */
     /* margin-bottom: 1rem; */
-    margin-left: 2rem;
-    padding-top: 1.25rem;
-    padding-bottom: 1.25rem;
+    /* margin-left: 2rem; */
+    /* padding-top: 1.25rem; */
+    /* padding-bottom: 1.25rem; */
     /* border-bottom: 1px solid rgb(230, 230, 230); */
   }
   
@@ -102,4 +102,22 @@
     right: 0;
     /* margin-top: 1rem; */
   }
+
+  .userList-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+  }
   
+  .Left-column  {
+    width: 50%;
+    /* flex-basis: 50%; */
+    /* max-height: fit-content; */
+  }
+
+  .Right-column {
+    width: 50%;
+    margin-left: 1rem;
+
+  }

@@ -8,6 +8,7 @@ import '../styles/buttons.css'
 import { Status, alertProps } from '../types/alertTypes';
 import Alert from './Alert';
 import useUrlProvider from '../services/url';
+import ModalUbi from './ModalUbi';
 
 
 interface Props {
@@ -102,6 +103,21 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
       );
   }
   const handleCloseAlert = () => setOpenAlert(false);
+
+  //ModalMap
+  const [latitude, setLatitude] = useState();
+  const [longitude, setLongitude] = useState();
+  const [showMapModal, setShowMapModal] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setShowMapModal(true);
+  };
+
+  const handleCoords = (latitude: any, longitude: any) => {
+    console.log('sisisi')
+    setLatitude(latitude);
+    setLongitude(longitude);
+  }
   
 
   return (
@@ -138,6 +154,11 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
                 onChange={handleInputChange}
               />
             </Form.Group>
+            <div>
+            <button type="button" className='ModalMap-button' onClick={handleClickOpen}>
+              Click here to mark the location on the map
+            </button>
+            </div>
             <Form.Group controlId="capacity">
               <Form.Label>Capacity</Form.Label>
               <Form.Control
@@ -203,6 +224,7 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
         type={alert.type}
         action={alert.action} />
       
+      <ModalUbi handleCoords={handleCoords} open={showMapModal} setOpen={setShowMapModal}></ModalUbi>
     </>
   );
 }

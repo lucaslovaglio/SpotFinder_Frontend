@@ -5,6 +5,7 @@ import { Parking } from '../types/parkingTypes';
 import Checkbox from './LikeButton';
 import ParkingInfoModal from './ParkingInfoModal';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 interface Props {
@@ -25,7 +26,10 @@ const ParkingCard: React.FC<Props> = ({parking, handleReserve}) => {
   else color = '#A60F0F';
 
   const [showParkingInfo, setShowParkingInfo] = useState<boolean>(false)
+  const navigate = useNavigate();
+
   
+  const handleParkingDetails = () => {navigate('/homepage/parking/' + parking.id)}
   
 
   return (
@@ -51,8 +55,8 @@ const ParkingCard: React.FC<Props> = ({parking, handleReserve}) => {
             <p className="text">Close Hour:<span className='data'>{parking.closehour.substring(0, parking.closehour.length-3)}</span></p>
           </div>
         </div>
-        <button className="card-infoButton" onClick={() => setShowParkingInfo(true)}>More info</button>
-        <ParkingInfoModal open={showParkingInfo} parking={parking} handleClose={() => setShowParkingInfo(false)}></ParkingInfoModal>
+        <button className="card-infoButton" onClick={handleParkingDetails}>More info</button>
+        {/* <ParkingInfoModal open={showParkingInfo} parking={parking} handleClose={() => setShowParkingInfo(false)}></ParkingInfoModal> */}
       </div>
     </>
   );

@@ -15,6 +15,8 @@ import { Status, alertProps } from '../types/alertTypes';
 import Alert from './Alert';
 import '../styles/parkingCard.css'
 import useUrlProvider from '../services/url';
+import QrScanner from './QrScanner';
+import { useAuthProvider } from '../services/auth';
 
 
 
@@ -29,6 +31,8 @@ const ValidateEntrance: React.FC<MyComponentProps> = ({ parking, handleRefresh }
   const url = useUrlProvider();
   const [open, setOpen] = React.useState(false);
   const [token, setToken] = React.useState('');
+  const userToken = useAuthProvider().getCredentials().getToken();
+
 
   const resetFields = () => {
     setToken('');
@@ -36,6 +40,7 @@ const ValidateEntrance: React.FC<MyComponentProps> = ({ parking, handleRefresh }
 
   const handleClickOpen = () => {
     setOpen(true);
+
   };
 
   const handleClose = () => {
@@ -43,26 +48,45 @@ const ValidateEntrance: React.FC<MyComponentProps> = ({ parking, handleRefresh }
     resetFields(); // Reiniciar los campos al cerrar el modal
   };
 
-  const handleValidate = async () => {
-    // Aquí puedes ejecutar el método que necesitas con el texto del TextField
+  const [isProcessing, setIsProcessing] = useState(false);
+
+
+  const handleValidate = async (entryToken: string) => {
+    if (isProcessing) {
+      return; // Evitar llamadas adicionales mientras se procesa una anterior
+    }
+
+    setIsProcessing(true);
+
     try {
-        const response = await axios.get(url + "parkings/" + token + "/" + parking.id + "/parkingReservation");
+        const response = await axios.get(url + "parkings/" + entryToken + "/" + parking.id + "/parkingReservation");
         
         if (response.status === 200) {
           handleOpenAlert(()=>{handleRefresh()}, Status.SUCCESS, response.data.message, false);
           
           // console.log(response.data)
         }
+        setIsProcessing(false);
+
       } catch (error) {
+          setIsProcessing(false);
           const errorMessage = error ? (error as any).message : '';
           handleOpenAlert(()=>{}, Status.ERROR, errorMessage, false);
       }
     handleClose();
   };
 
-  const handleTokenChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setToken(event.target.value);
-  };
+  // const handleToken = (token: string) => {
+  //   setToken(token);
+  //   handleValidate()
+  // };
+
+  const handleCloseQrScanner = () => {
+    const closeButton = document.getElementById('html5-qrcode-button-camera-stop');
+    if (closeButton) {
+      closeButton.click(); // Simula un clic en el botón existente
+    }
+  }
 
 
   // // ALERT
@@ -94,11 +118,14 @@ const ValidateEntrance: React.FC<MyComponentProps> = ({ parking, handleRefresh }
       <button className="qr-entrance-button-card" onClick={handleClickOpen}><FontAwesomeIcon icon={faQrcode}></FontAwesomeIcon></button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Validate Entrance</DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{alignItems: 'center'}}>
           <DialogContentText>
-            Please enter the token of the reservation to validate your entrance to this parking lot.
+            Please show the entry Qr to validate your entry.
           </DialogContentText>
-          <TextField
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '1rem' }}>
+            <QrScanner handleToken={handleValidate} />
+          </div>
+          {/* <TextField
             autoFocus
             margin="dense"
             id="name"
@@ -108,11 +135,11 @@ const ValidateEntrance: React.FC<MyComponentProps> = ({ parking, handleRefresh }
             variant="standard"
             value={token}
             onChange={handleTokenChange}
-          />
+          /> */}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleValidate}>Validate</Button>
+          {/* <Button onClick={handleValidate}>Validate</Button> */}
         </DialogActions>
       </Dialog>
       <Alert

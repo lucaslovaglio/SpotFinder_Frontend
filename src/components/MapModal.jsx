@@ -18,6 +18,7 @@ const MapModal = ({ handleCoords }) => {
     marker = new H.map.Marker({ lat, lng });
 
     map.addObject(marker);
+    console.log(lat)
     handleCoords(lat, lng); // Llama al método handleCoords en AlertDialog
   };
 

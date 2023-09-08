@@ -270,6 +270,8 @@
     margin-right: 6px;
     margin-bottom: 6px;
     border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+
   }
 
   .manual-entrance-button-card:hover {
@@ -282,6 +284,8 @@
     margin-left: 6px;
     margin-bottom: 6px;
     border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+
   }
 
   .qr-entrance-button-card:hover {
@@ -293,9 +297,24 @@
     border-radius: 10px;
     margin-bottom: 0.5rem;
     background-color: rgb(158, 3, 3);
+    transition: all 0.3s ease-in-out;
+
   }
 
   .exit-button-card:hover {
     background-color: rgb(225, 2, 2);
+  }
+
+  .reservate-button {
+    width: 100%;
+    height: 3rem;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+    background-color: rgb(0, 174, 190);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .reservate-button:hover {
+    background-color: rgb(2, 208, 227);
   }
   

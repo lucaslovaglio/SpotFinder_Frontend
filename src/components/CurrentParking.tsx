@@ -3,7 +3,8 @@ import { Parking } from "../types/parkingTypes";
 import axios from "axios";
 import "../styles/currentParking.css"
 import QRToast from "./QrToast";
-import QRCode from "react-qr-code";
+// import QRCode from "react-qr-code";
+import QRCode from 'qrcode.react';
 import * as React from 'react';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
@@ -48,7 +49,7 @@ const CurrentParking: React.FC<Props> = () => {
     const [timeOfEntrance, setTimeOfEntrance] = useState("12:30");
 
     useEffect(() => {
-      if (url === null) {
+      if (url === "") {
         return; // Esperar hasta que url tenga un valor diferente de nulo
       }
     
@@ -164,45 +165,42 @@ const CurrentParking: React.FC<Props> = () => {
       console.log('☺☺')
     }
     
+    const [isEntryQr, setIsEntryQr] = useState(true);
+
+    // const handleOptionChange = (option: string | React.SetStateAction<null>) => {
+    //   setSelectedOption(option);
+    // };
     
 
     return(
-    <><div className="current-parking">
-      {/* <button onClick={handleRefresh} style={{position: 'absolute', top: 0, right: 0, margin: '1rem'}}>Refresh</button> */}
+      <>
+      <div style={{zIndex:999}}>
+
+      
+    <div className="current-parking">
       <button className='refresh-map' onClick={handleRefresh}><FontAwesomeIcon icon={faArrowRotateLeft}/></button>
         <div className="parking-details"></div>
         {isParked && (<>
           <div className="parking-header">
             <h1 className="parking-title">{currentParking.name}</h1>
+            <h3 className="parking-id">ID: {currentParking.id}</h3>
           </div>
           <p>
-            <strong>ID:</strong> {currentParking.id}
+            <strong>Address:</strong> {currentParking.address}
           </p>
-          {/* <p>
-            <strong>Longitude:</strong> {currentParking.longitude}
-          </p>
-          <p>
-            <strong>Latitude:</strong> {currentParking.latitude}
-          </p> */}
           <p>
             <strong>Price per minute:</strong> {currentParking.pricexminute}
           </p>
           <p>
-            <strong>Open Hour:</strong> {currentParking.openhour}
-          </p>
-          <p>
-            <strong>Close Hour:</strong> {currentParking.closehour}
+            <strong>Working hours:</strong> {currentParking.openhour} - {currentParking.closehour}
           </p>
           <p>
             <strong>Phone:</strong> {currentParking.phone}
           </p>
           <p>
-            <strong>Rating:</strong> {currentParking.rating}
-          </p>
-          <p>
             <strong>Attendance:</strong> {currentParking.attendance} of {currentParking.capacity}
           </p>
-          <p>
+          {/* <p>
             <strong>Token:</strong> {`${token.substring(0, 10)}...`}
             <button onClick={handleCopyToken} style={{backgroundColor: 'transparent', marginLeft: '1rem', border: 'none'}}>
               {copied ? <FontAwesomeIcon icon={faClipboardCheck}/> : <FontAwesomeIcon icon={faClipboard}/>}
@@ -213,33 +211,52 @@ const CurrentParking: React.FC<Props> = () => {
             <button onClick={handleCopyExitToken} style={{backgroundColor: 'transparent', marginLeft: '1rem', border: 'none'}}>
               {copiedExit ? <FontAwesomeIcon icon={faClipboardCheck}/> : <FontAwesomeIcon icon={faClipboard}/>}
             </button>
-          </p>
+          </p> */}
 
           <div className="qr-current-parking">
-            <Stack spacing={1}>
+            <Stack spacing={0}>
               <p>
-                <strong>Entry Hour:</strong> {timeOfEntrance}
+                <strong style={{color: 'black'}}>Entry Hour:</strong><div style={{color: 'black'}}>{timeOfEntrance}</div> 
+                <div style={{display: "flex"}}> 
+                  <div>
+                    <input
+                      type="checkbox"
+                      checked={isEntryQr}
+                      onChange={() => setIsEntryQr(true)}
+                    />
+                    <label style={{color: 'black', fontSize: '10px', marginBottom: 0, marginRight: '1rem', marginLeft: '0.3rem'}}>Entry QR</label>
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      checked={!isEntryQr}
+                      onChange={() => setIsEntryQr(false)}
+                    />
+                    <label style={{color: 'black', fontSize: '10px', marginBottom: 0, marginLeft: '0.3rem'}}>Exit QR</label>
+                  </div>
+                </div>
               </p>
-              <QRCode value={token} />
+              {/* <QRCode value={exitToken} /> */}
+              {isEntryQr && <QRCode value={token} />}
+              {!isEntryQr && <QRCode value={exitToken} />}
             </Stack>
-            
           </div>
           <Stack spacing={1} sx={{justifyContent: 'center', alignItems: 'center'}}>
             <Rating name="size-medium" defaultValue={parseFloat(currentParking.rating)} precision={1} onChange={handleRatingChange} 
-            sx={{ backgroundColor: 'rgb(64,64,64)', width: 'fit-content', borderRadius: '20px', height: '2rem', padding: 1, justifyContent: 'center', alignItems: 'center', position: 'absolute', bottom: '1rem'}}/>
-            
-            {/* <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly /> */}
+            sx={{ backgroundColor: 'rgb(64,64,64)', width: 'fit-content', borderRadius: '20px', height: '2rem', padding: 1, justifyContent: 'center', alignItems: 'center', position: 'absolute', bottom: '1.5rem'}}/>            
           </Stack>
           
         </>)}
-        {!isParked && (<p>You don't have any reservation</p>)}
+        {!isParked && (<p style={{marginTop: '2%'}}>You don't have any reservation</p>)}
       </div><Alert
           open={openAlert}
           message={alert.message}
           handleClose={handleCloseAlert}
           confirmation={alert.confirmation}
           type={alert.type}
-          action={alert.action} /></>
+          action={alert.action} />
+          </div>
+      </>
     );
 }
 

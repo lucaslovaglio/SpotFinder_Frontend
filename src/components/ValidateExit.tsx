@@ -14,6 +14,8 @@ import { useState, useEffect } from 'react';
 import { Status, alertProps } from '../types/alertTypes';
 import Alert from './Alert';
 import useUrlProvider from '../services/url';
+import { useAuthProvider } from '../services/auth';
+import QrScanner from './QrScanner';
 
 
 interface MyComponentProps {
@@ -30,6 +32,7 @@ enum Option {
 
 const ValidateExit: React.FC<MyComponentProps> = ({ parking, handleRefresh }) => {
   const url = useUrlProvider();
+  const token = useAuthProvider().getCredentials().getToken();
   const [open, setOpen] = React.useState(false);
   const [input, setInput] = React.useState('');
   const [selectedOption, setSelectedOption] = React.useState<Option | null>(null);
@@ -58,10 +61,15 @@ const ValidateExit: React.FC<MyComponentProps> = ({ parking, handleRefresh }) =>
     }
     // Resto del código para validar por correo electrónico
     try {
+      const config = {
+        headers: {
+            Authorization: `Bearer ${token}` // Token en el header
+        },
+      };
       const response = await axios.post(url + "parkings/" + parking.id + "/modifieAttendance", {
           "increase": false,
           "userMail": input
-      });
+      }, config);
       
       if (response.status === 200) {
         handleOpenAlert(()=>{handleRefresh()}, Status.SUCCESS, response.data, false);
@@ -76,21 +84,35 @@ const ValidateExit: React.FC<MyComponentProps> = ({ parking, handleRefresh }) =>
     handleClose();
   };
 
-  const handleValidateQRCode = async () => {
-    if (input === '') {
-      setIsTokenFieldEmpty(true);
-      return;
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const handleValidateQRCode = async (exitToken: string) => {
+    // if (input === '') {
+    //   setIsTokenFieldEmpty(true);
+    //   return;
+    // }
+    if (isProcessing) {
+      return; // Evitar llamadas adicionales mientras se procesa una anterior
     }
+
+    setIsProcessing(true);
   
     // Resto del código para validar por código QR
     try {
-      const response = await axios.get(url + "parkings/" + parking.id + "/" + input + "/userExit");
+      const config = {
+        headers: {
+            Authorization: `Bearer ${token}` // Token en el header
+        },
+      };
+      const response = await axios.get(url + "parkings/" + parking.id + "/" + exitToken + "/userExit", config);
       
       if (response.status === 200) {
         handleOpenAlert(()=>{handleRefresh()}, Status.SUCCESS, response.data, false);
         
       }
+      setIsProcessing(false);
     } catch (error) {
+      setIsProcessing(false);
         const errorMessage = error ? (error as any).message : '';
         handleOpenAlert(()=>{}, Status.ERROR, errorMessage, false);
     }
@@ -102,9 +124,14 @@ const ValidateExit: React.FC<MyComponentProps> = ({ parking, handleRefresh }) =>
   const handleValidateManual = async () => {
     // Código para validar de forma manual
     try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}` // Token en el header
+        },
+      };
       const response = await axios.post(url + "parkings/" + parking.id + "/modifieAttendance", {
           "increase": false,
-      });
+      }, config);
       
       if (response.status === 200) {
         handleOpenAlert(()=>{handleRefresh()}, Status.SUCCESS, response.data, false);
@@ -155,7 +182,7 @@ const ValidateExit: React.FC<MyComponentProps> = ({ parking, handleRefresh }) =>
   const handleCloseAlert = () => setOpenAlert(false);
 
   const renderOptions = () => {
-    const options: Option[] = [Option.Email, Option.QRCode, Option.Manual];
+    const options: Option[] = [Option.Email, Option.QRCode, Option.Manual]; //De aca saque la opcion de Qr
 
     return options.map((option) => (
       <div key={option}>
@@ -201,9 +228,12 @@ const ValidateExit: React.FC<MyComponentProps> = ({ parking, handleRefresh }) =>
       return (
         <>
           <DialogContentText>
-            Please enter the token from the user reservation
+            Please show your Qr code to validate your exit.
           </DialogContentText>
-          <TextField
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '1rem' }}>
+            <QrScanner handleToken={handleValidate} />
+          </div>
+          {/* <TextField
             autoFocus
             margin="dense"
             id="name"
@@ -215,7 +245,7 @@ const ValidateExit: React.FC<MyComponentProps> = ({ parking, handleRefresh }) =>
             onChange={handleTokenChange}
             error={isTokenFieldEmpty}
             helperText={isTokenFieldEmpty && "Token field cannot be empty"}
-          />
+          /> */}
         </>
       );
     }
@@ -233,11 +263,11 @@ const ValidateExit: React.FC<MyComponentProps> = ({ parking, handleRefresh }) =>
     return null;
   };
 
-  const handleValidate = async () => {
+  const handleValidate = async (email: string) => {
     if (selectedOption === Option.Email) {
       handleValidateEmail();
     } else if (selectedOption === Option.QRCode) {
-      handleValidateQRCode();
+      handleValidateQRCode(email);
     } else if (selectedOption === Option.Manual) {
       handleValidateManual();
     }
@@ -266,9 +296,9 @@ const ValidateExit: React.FC<MyComponentProps> = ({ parking, handleRefresh }) =>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           {selectedOption === Option.Manual ? (
-            <Button onClick={handleValidate}>Validate</Button>
+            <Button onClick={()=>handleValidate('')}>Validate</Button>
           ) : (
-            <Button onClick={handleValidate} disabled={!selectedOption}>
+            <Button onClick={()=>handleValidate('')} disabled={!selectedOption}>
               Validate
             </Button>
           )}

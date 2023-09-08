@@ -12,7 +12,7 @@ import ModalUbi from "./components/ModalUbi";
 
 
 const App: React.FC = () => {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
   const handleClick = () => {
     setOpen(true);
@@ -38,24 +38,33 @@ const App: React.FC = () => {
   }
 
   const [payMethodOpen, setPayMethodOpen] = useState<boolean>(false);
-  const [latitude, setLatitude] = useState();
-  const [longitude, setLongitude] = useState();
-
+  
   const handleOpenPayMethod = () => {
     setPayMethodOpen(true);
   };
-
+  
   const handleClosePayMethod = () => {
     setPayMethodOpen(false);
   };
-
-  const handleCoords = (latitude: any, longitude: any) => {
-    setLatitude(latitude);
-    setLongitude(longitude);
-  }
+  
+  
+      //ModalMap
+      const [latitude, setLatitude] = useState();
+      const [longitude, setLongitude] = useState();
+      const [open, setOpen] = React.useState(false);
+    
+      const handleClickOpen = () => {
+        setOpen(true);
+      };
+    
+      const handleCoords = (latitude: any, longitude: any) => {
+        console.log('sisisi')
+        setLatitude(latitude);
+        setLongitude(longitude);
+      }
 
   return (
-    <>
+    <div className="MapBox">
       {/* <button onClick={handleClick}>Mostrar Alerta</button>
       <Alert
         open={open}
@@ -66,11 +75,14 @@ const App: React.FC = () => {
         action={() => {}}
       /> */}
       <div>
-      <ModalUbi handleCoords={(latitude: any, longitude: any)=>handleCoords}></ModalUbi>
+      <button type="button" className='ModalMap-button' onClick={handleClickOpen}>
+              Click here to mark the location on the map
+            </button>
+      <ModalUbi handleCoords={handleCoords} open={open} setOpen={setOpen}></ModalUbi>
       <p>{latitude}, {longitude}</p>
       </div>
 
-    </>
+    </div>
   );
 };
 

@@ -15,6 +15,7 @@ import React from 'react';
 import ValidateEntrance from './ValidateEntrance';
 import ValidateExit from './ValidateExit';
 import useUrlProvider from '../services/url';
+import { useNavigate } from 'react-router-dom';
 
 
 interface Props {
@@ -26,6 +27,8 @@ interface Props {
 const MyParkingCard: React.FC<Props> = ({ parking, handleRefresh }) => {
   const token = useAuthProvider().getCredentials().getToken();
   const url = useUrlProvider();
+  const navigate = useNavigate();
+
 
   const handleCheckboxChange = (checked: boolean) => {
     console.log('Checkbox checked:', checked);
@@ -106,7 +109,7 @@ const MyParkingCard: React.FC<Props> = ({ parking, handleRefresh }) => {
   }
   const handleCloseAlert = () => setOpenAlert(false);
   
-
+  const handleParkingDetails = () => navigate('/ownerpage/parking/' + parking.id)
 
   //convert coordinates in address
   
@@ -124,7 +127,10 @@ const MyParkingCard: React.FC<Props> = ({ parking, handleRefresh }) => {
             {/* <button className='buttons-header-owner' style={{backgroundColor: 'rgb(0, 206, 225)'}}>
               <FontAwesomeIcon icon={faInfo} style={{height: '.7rem', marginBottom: 8, color: '#030a18'}}/>
             </button> */}
-            <ParkingState parking={parking}></ParkingState>
+            {/* <ParkingState parking={parking}></ParkingState> */}
+            <button className='buttons-header-owner' style={{backgroundColor: 'rgb(0, 206, 225)', marginTop: 5}} onClick={handleParkingDetails}>
+              <FontAwesomeIcon icon={faInfo} style={{height: '.7rem', marginBottom: 8, color: '#030a18'}}/>
+            </button>
             {/* <button className='buttons-header-owner' style={{backgroundColor: 'rgb(0, 255, 149)'}}>
               <FontAwesomeIcon icon={faPencil} style={{height: '.7rem', marginBottom: 8, color: '#030a18'}}/>
             </button> */}

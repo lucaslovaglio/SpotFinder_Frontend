@@ -21,6 +21,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDollar } from '@fortawesome/free-solid-svg-icons';
 import useUrlProvider from '../services/url';
 import '../styles/profileButton.css';
+import { SpinnerCircular } from 'spinners-react';
+import InternalProvider from './mercadopago/ContextProvider';
+import Checkout from './mercadopago/Checkout';
+import Payment from './mercadopago/Payment';
+import Footer from './mercadopago/Footer';
+import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
+import MercadoPagoPayment from './MercadoPagoPayment';
+
 
 
 interface PayMethodDialogProps {
@@ -42,6 +50,7 @@ const PayMethodDialog: React.FC<PayMethodDialogProps> = ({handleBalance}) => {
     if (payMethodOpen) {
       setBalance(0);
       setAmount(0);
+      setOrderData({ ...orderData, price: 0 });
     //   setShowBalance(true);
       setShowAmountField(false);
     }
@@ -107,6 +116,8 @@ const PayMethodDialog: React.FC<PayMethodDialogProps> = ({handleBalance}) => {
 
   const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAmount(parseFloat(event.target.value));
+    console.log('ammount')
+    setOrderData({ ...orderData, price: parseFloat(event.target.value) });
   };
 
   const toggleShowBalance = () => {
@@ -144,6 +155,23 @@ const PayMethodDialog: React.FC<PayMethodDialogProps> = ({handleBalance}) => {
   }
   const handleCloseAlert = () => setOpenAlert(false);
 
+  const [preferenceId, setPreferenceId] = useState(null);
+  const [orderData, setOrderData] = useState({ quantity: '1', price: amount, amount: 10, description: "Add Balance" });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const renderSpinner = () => {
+    if (isLoading) {
+      return (
+        <div className="spinner-wrapper">
+          <SpinnerCircular color="#009EE3" />
+        </div>
+      );
+    }
+  };
+
+  const mercadoPagoAccessToken : string = "TEST-b6fbd75f-50c8-4d07-9176-ef9645a7c2b6";
+  initMercadoPago(mercadoPagoAccessToken);
+
   return (
     <ThemeProvider theme={theme}>
     <button 
@@ -160,6 +188,18 @@ const PayMethodDialog: React.FC<PayMethodDialogProps> = ({handleBalance}) => {
             {showBalance ? <VisibilityOffIcon /> : <VisibilityIcon />}
           </IconButton>
         </p>
+        {/* <div id="wallet_container"></div>
+        <Wallet initialization={{ preferenceId: '<PREFERENCE_ID>' }} /> */}
+        
+
+        {/* <InternalProvider context={{ preferenceId, isLoading, orderData, setOrderData }}>
+        <main>
+            {renderSpinner()}
+            <Checkout onClick={handleAddAmount} />
+            <Payment />
+        </main>
+        <Footer />
+        </InternalProvider> */}
         
         {showAmountField && (
           <>
@@ -203,6 +243,7 @@ const PayMethodDialog: React.FC<PayMethodDialogProps> = ({handleBalance}) => {
                 }}
               }}
             />
+            
           </>
         )}
       </DialogContent>
@@ -210,15 +251,21 @@ const PayMethodDialog: React.FC<PayMethodDialogProps> = ({handleBalance}) => {
         {showAmountField && (
           <>
             <Button onClick={handleCancel}>Cancel</Button>
-            <Button onClick={handleAddAmount} color="primary">
+            <MercadoPagoPayment></MercadoPagoPayment>
+            {/* <Button onClick={handleAddAmount} color="primary">
               Add
-            </Button>
+            </Button> */}
           </>
         )}
         {!showAmountField && (
-          <Button onClick={handleShowAmountField} color="primary">
-            Add Amount
-          </Button>
+          <><Button onClick={handleShowAmountField} color="primary">
+              Add Amount
+            </Button>
+            {/* <div id="wallet_container">
+
+            <Wallet initialization={{ preferenceId: '1427560796-4ed6acbd-9343-46fd-a2c5-485e1906396a' }} />
+            </div> */}
+            </>
         )}
       </DialogActions>
     </Dialog>

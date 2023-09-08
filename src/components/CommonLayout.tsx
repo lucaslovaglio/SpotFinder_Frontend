@@ -69,9 +69,9 @@ const CommonLayout: React.FC<Props> = ({ sideMenuContent, mainContent, isOwner }
                 <MenuAppBar handleShowSideMenu={handleShowSideMenu} isOwner={isOwner}></MenuAppBar>
             </div>
             <div className='content'>
-                <SideBarMenu show={showSideMenu} handleClose={handleShowSideMenu}>
+                {/* <SideBarMenu show={showSideMenu} handleClose={handleShowSideMenu}>
                     {sideMenuContent}
-                </SideBarMenu>
+                </SideBarMenu> */}
                 <div className={`MapBox ${isOwner ? 'owner' : ''}`}>
                     {mainContent}
                 </div>
@@ -80,7 +80,7 @@ const CommonLayout: React.FC<Props> = ({ sideMenuContent, mainContent, isOwner }
         <Alert
         open={openAlert}
         message={alert.message}
-        handleClose={handleCloseAlert}
+        handleClose={handleCloseAlert} 
         confirmation={alert.confirmation}
         type={alert.type}
         action={alert.action} />

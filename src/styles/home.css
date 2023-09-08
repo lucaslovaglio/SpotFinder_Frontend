@@ -32,7 +32,9 @@
 
 .HomeTitle:hover {
   text-shadow: 0px 0px 10px rgba(3, 255, 255, 0.416);
-  margin-left: 20px;
+  /* margin-left: 20px; */
+  transform: translateX(3%);
+
   background-color: transparent;
 }
 
@@ -42,12 +44,14 @@
 /////////////////////////////////////////////////////////////////////////////
 */
 .NavBar-box {
-  background-color: rgb(62, 62, 62);
-  height: 2rem;
+  /* background-color: rgb(62, 62, 62); */
+  background-color: rgb(32, 32, 32);
+  height: 10vh;
   display: flex;
-  justify-content: right;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
+  z-index: 9999;
 }
 
 .NavBar {
@@ -74,12 +78,127 @@
   color: rgb(89, 89, 89);
 }
 
+.LeftColumn-NavBar {
+  display: flex;
+  align-items: center;
+}
+
+.RightColumn-NavBar {
+  display: flex;
+  align-items: center;
+}
+
+.Balance-field {
+  color: white;
+  margin-right: 1rem;
+}
+
+.CurrentParking-button {
+  margin-left: 2.5rem;
+  background-color: transparent;
+  border: none;
+  transition: all 0.3s ease-in-out;
+  position: relative;
+}
+
+.CurrentParking-button:hover {
+  background-color: transparent;
+}
+
+.CurrentParking-button::before,
+.CurrentParking-button::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background-color: white;
+  transition: all 0.3s ease-in-out;
+}
+
+.CurrentParking-button::before {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.CurrentParking-button::after {
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.CurrentParking-button:hover::before,
+.CurrentParking-button:hover::after {
+  width: 80%;
+}
+
+
+/* .CurrentParking-accordion {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  height: 50vh;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+} */
+
+.Accordion-container {
+  /* Estilos para el acordeón */
+  transition: all 0.3s ease-in-out; /* Transición suave de altura */
+  
+}
+
+.Accordion-container.show {
+  /* Estilos para el acordeón cuando está desplegado */
+  transition: all 0.3s ease-in-out; /* Transición suave de altura */
+
+}
+
+.accordionContainer {
+  top: -1vh;
+  position: absolute;
+  background-color: rgb(32, 32, 32);;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 999; /* Asegúrate de que el valor de z-index sea mayor que el de los elementos debajo */
+  overflow-y: hidden;
+}
+
+.accordionContainer.show {
+  position: absolute;
+  background-color: rgb(32, 32, 32);;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 999; /* Asegúrate de que el valor de z-index sea mayor que el de los elementos debajo */
+  overflow-y: auto;
+}
+
+.acordion-content {
+  position: relative;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+
+}
+
+.acordion-content.show {
+  opacity: 1;
+}
+
+
+
+
 /* 
 /////////////////////////////////////////////////////////////////////////////
                               Content
 /////////////////////////////////////////////////////////////////////////////
 */
 .HeadPage{
+  position: relative;
   flex: 0 1 auto;
 }
 
@@ -128,7 +247,7 @@
   border: none;
   margin: 0.5rem;
   position: absolute; 
-  z-index: 100;
+  /* z-index: 1; */
   top: 0;
   right: 0;
   transition: all 0.3s ease-in-out;

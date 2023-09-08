@@ -1,0 +1,50 @@
+.html5-qrcode-container {
+    background-color: rgb(0, 0, 0);
+    border-radius: 1rem;
+    width: max-content;
+    overflow: hidden;
+    justify-content: center;
+    padding: 5%;
+
+}
+
+#html5qr-code-full-region {
+    border-radius: 1rem;
+    overflow: hidden;
+    border: black;
+}
+
+.html5-qrcode-element {
+    /* background-color: blue; */
+    margin: 1rem;
+}
+
+.button-camera-permission {
+    margin-top: 1rem;
+    background-color: transparent;
+    cursor: pointer;
+    color: #00adb5;
+    border: none;
+    font-size: small;
+}
+
+/* #html5-qrcode-select-camera {
+    display: none;
+  }
+
+#html5qr-code-full-region__dashboard {
+    display: none;
+}
+
+img[alt="Info icon"] {
+    display: none;
+  }
+
+#html5-qrcode-anchor-scan-type-change {
+    display: none;
+}
+
+#html5-qrcode-button-camera-stop {
+    display: none;
+}
+   */

@@ -71,9 +71,11 @@ const ParkingList = () => {
     const token = credentials.getToken();
 
     useEffect(() => {
-        if (url === null) {
+        if (url === "") {
             return; // Esperar hasta que url tenga un valor diferente de nulo
         }
+        console.log('es aca lpm')
+        console.log(url)
         getParkingsFromDB()
     }, [url]);
 

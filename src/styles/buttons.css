@@ -22,3 +22,13 @@
     display: flex;
     align-items: center;
 }
+
+.ModalMap-button {
+    background-color: transparent;
+    color: #03c0d1;
+    border: none;
+}
+
+.ModalMap-button:hover {
+    background-color: transparent;
+}

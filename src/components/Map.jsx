@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import H from '@here/maps-api-for-javascript';
 import onResize from 'simple-element-resize-detector';
 import axios from 'axios';
@@ -6,10 +7,13 @@ import AvailableParkingList from '../components/AvailableParkingList';
 import { faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useUrlProvider from '../services/url';
+import { Modal, Button } from 'react-bootstrap';
+
 
 
 const Map = () => {
-  const url = "http://192.168.0.239:3001/"
+  const url = "http://172.22.35.141:3001/"
+  const navigate = useNavigate();
   const mapRef = useRef(null);
   const [parkings, setParkings] = useState([]);
   console.log('NULL')
@@ -18,6 +22,7 @@ const Map = () => {
 
   const [refreshMap, setRefreshMap] = useState(false);
 
+  const [selectedParking, setSelectedParking] = useState(null);
 
   useEffect(() => {
     
@@ -46,6 +51,28 @@ const Map = () => {
     behavior.enable(H.mapevents.Behavior.DRAGGING);
     // const ui = H.ui.UI.createDefault(map, defaultLayers);
 
+
+    const group = new H.map.Group();
+    map.addObject(group);
+
+    const createMarker = parking => {
+      const marker = new H.map.Marker(
+        {
+          lat: parking.latitude,
+          lng: parking.longitude
+        },
+
+      );
+
+      marker.addEventListener('tap', event => {
+        setSelectedParking(parking);
+      });
+
+      group.addObject(marker);
+      return marker;
+    };
+
+
     // Función de redimensionamiento
     onResize(mapRef.current, () => {
       if (map && map.getViewPort()) {
@@ -54,7 +81,7 @@ const Map = () => {
     });
 
     getCurrentPosition();
-    getParkingsFromDB();
+    getParkingsFromDB(createMarker);
     console.log(parkings)
     
 
@@ -67,10 +94,18 @@ const Map = () => {
   }, [refreshMap]); //ACAAAAAAAAAAAAAAAA 
 
  
-  
+  const closeModal = () => {
+    setSelectedParking(null);
+  };
+
+  const handleReserveClick = (parking) => {
+    navigate("/homepage/parking/" + parking.id)
+  };
 
 
-  const getParkingsFromDB = async () => {
+
+
+  const getParkingsFromDB = async (createMarker) => {
     try {
       const response = await axios.post(url + "parkings/parkingsFromArea", searchArea());
       const myParkings = response.data
@@ -84,11 +119,12 @@ const Map = () => {
         console.log(`aca no ${myParkings.length}`)
         // Agregar marcadores al mapa por cada parking
         myParkings.forEach(parking => {
+          createMarker(parking)
           console.log('name')
           console.log(parking.name)
-          const coordinates = new H.geo.Point(parking.latitude, parking.longitude);
-          const marker = new H.map.Marker(coordinates);
-          map.addObject(marker);
+          // const coordinates = new H.geo.Point(parking.latitude, parking.longitude);
+          // const marker = new H.map.Marker(coordinates);
+          // map.addObject(marker);
         });
       }
 
@@ -164,6 +200,41 @@ const Map = () => {
       <div style={{ position: 'relative', width: '100%', height: '100%' }} ref={mapRef} />
       <AvailableParkingList myParkings={parkings} handleRefresh={handleRefresh}/>
       <button className='refresh-map' onClick={handleRefreshMap}><FontAwesomeIcon icon={faArrowRotateLeft}/></button>
+      {selectedParking && (
+        <Modal
+          show={selectedParking !== null}
+          onHide={closeModal}
+          centered
+          style={{
+            width: '100%',
+            background: 'transparent',
+            borderRadius: '6px',
+            padding: '10px'
+          }}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>
+              <strong style={{ fontSize: '1.4rem' }}>{selectedParking?.name}</strong>
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p style={{ fontSize: '1.2rem' }}>Capacity: {selectedParking?.capacity}</p>
+            <p style={{ fontSize: '1.2rem' }}>Phone: {selectedParking?.phone}</p>
+            <p style={{ fontSize: '1.2rem' }}>Rating: {selectedParking?.rating}</p>
+            <p>
+              <a  onClick={()=>{handleReserveClick(selectedParking)}}>
+                Click here to see more info
+              </a>
+            </p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={closeModal} style={{ fontSize: '1.2rem' }}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      )}
+
     </div>
   );
 };

@@ -2,23 +2,27 @@
     background-color: #111;
     color: #fff;
     padding: 70px;
-    padding-top: 3%;
-    width: 100%;
-    flex: 1;
+    padding-top: 1%;
+    /* width: 100%; */
+    /* flex: 1; */
+    /* height: 3rem; */
     height: 100%;
     align-items: center;
-    position: absolute;
+    /* position: absolute; */
+
     /* height: 100vh; */
     /* display: flex;
     flex-direction: column; Alinea los elementos verticalmente */
-    overflow-y: hidden;
+    /* overflow-y: scroll; */
+    z-index: 999;
   }
   
   .parking-header {
-    display: flex;
+    display: inline-block;
     align-items: center; /* Alinea los elementos horizontalmente */
     justify-content: space-between; /* Distribuye los elementos horizontalmente */
     margin-bottom: 20px; /* Agrega margen inferior para separar los detalles */
+    width: 100%;
   }
   
   .parking-title {
@@ -27,22 +31,31 @@
     width: 100%;
     color: rgb(0, 255, 149);    
   }
+
+  .parking-id {
+    margin-left: 0.5rem;
+    font-size: 10px;
+    font-weight: bold;
+    width: 100%;
+    color: rgb(109, 109, 109);    
+  }
   
   .qr-current-parking {
     position: absolute;
-    top: 20%;
+    top: 2%;
     right: 10%;
     border-radius: 10px;
     border: 10px;
     width: max-content;
     padding: 8px;
-    background-color: rgb(0,0,0);
-    
+    background-color: rgb(255, 255, 255);
+
   }
   
   .parking-details {
     display: flex;
     flex-direction: column; /* Alinea los detalles verticalmente */
+    /* overflow: scroll; */
   }
   
   .parking-details p {
