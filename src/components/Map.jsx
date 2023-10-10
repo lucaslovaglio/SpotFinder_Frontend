@@ -12,7 +12,7 @@ import { Modal, Button } from 'react-bootstrap';
 
 
 const Map = () => {
-  const url = "http://172.22.35.141:3001/"
+  const url = "http://localhost:3001/"
   const navigate = useNavigate();
   const mapRef = useRef(null);
   const [parkings, setParkings] = useState([]);
@@ -56,14 +56,18 @@ const Map = () => {
     map.addObject(group);
 
     const createMarker = parking => {
+      const redIcon = new H.map.Icon(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="40" fill="red" />
+        </svg>
+      `);
       const marker = new H.map.Marker(
         {
           lat: parking.latitude,
           lng: parking.longitude
         },
-
       );
-
+      // marker.setIcon(redIcon);
       marker.addEventListener('tap', event => {
         setSelectedParking(parking);
       });

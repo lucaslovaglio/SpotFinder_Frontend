@@ -78,7 +78,7 @@ const App: React.FC = () => {
       <button type="button" className='ModalMap-button' onClick={handleClickOpen}>
               Click here to mark the location on the map
             </button>
-      <ModalUbi handleCoords={handleCoords} open={open} setOpen={setOpen}></ModalUbi>
+      {/* <ModalUbi handleCoords={handleCoords} open={open} setOpen={setOpen}></ModalUbi> */}
       <p>{latitude}, {longitude}</p>
       </div>
 

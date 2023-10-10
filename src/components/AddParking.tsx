@@ -42,6 +42,7 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
       pricexminute: 0,
     });
     setShowModal(false);
+    setShowMapModal(false);
     handleRefresh();
   };
   
@@ -105,8 +106,6 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
   const handleCloseAlert = () => setOpenAlert(false);
 
   //ModalMap
-  const [latitude, setLatitude] = useState();
-  const [longitude, setLongitude] = useState();
   const [showMapModal, setShowMapModal] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -114,9 +113,7 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
   };
 
   const handleCoords = (latitude: any, longitude: any) => {
-    console.log('sisisi')
-    setLatitude(latitude);
-    setLongitude(longitude);
+    setParkingInfo({ ...parkingInfo, ['latitude']: latitude, ['longitude']: longitude });
   }
   
 
@@ -138,27 +135,36 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
                 onChange={handleInputChange}
               />
             </Form.Group>
-            <Form.Group controlId="latitude">
-              <Form.Label>Latitude</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter latitude"
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="longitude">
-              <Form.Label>Longitude</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter longitude"
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <div>
-            <button type="button" className='ModalMap-button' onClick={handleClickOpen}>
-              Click here to mark the location on the map
-            </button>
-            </div>
+            
+            {showMapModal ? (
+              <Form.Group controlId='ubication'>
+                <Form.Label>Ubication</Form.Label>
+                <div style={{position: 'relative', overflow: 'hidden'}}>
+                  <ModalUbi handleCoords={handleCoords}></ModalUbi>
+                </div>
+              </Form.Group>
+            ): (
+              <><Form.Group controlId="latitude">
+                  <Form.Label>Latitude</Form.Label>
+                  <Form.Control
+                    type="number"
+                    placeholder="Enter latitude"
+                    value={parkingInfo.latitude}
+                    onChange={handleInputChange} />
+                </Form.Group><Form.Group controlId="longitude">
+                    <Form.Label>Longitude</Form.Label>
+                    <Form.Control
+                      type="number"
+                      placeholder="Enter longitude"
+                      value={parkingInfo.longitude}
+                      onChange={handleInputChange} />
+                  </Form.Group><div>
+                    <button type="button" className='ModalMap-button' onClick={handleClickOpen}>
+                      Click here to mark the location on the map
+                    </button>
+                  </div></>
+            )}
+            
             <Form.Group controlId="capacity">
               <Form.Label>Capacity</Form.Label>
               <Form.Control
@@ -224,7 +230,7 @@ const AddParkingButton: React.FC<Props> = ({handleRefresh}) => {
         type={alert.type}
         action={alert.action} />
       
-      <ModalUbi handleCoords={handleCoords} open={showMapModal} setOpen={setShowMapModal}></ModalUbi>
+      
     </>
   );
 }

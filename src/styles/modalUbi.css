@@ -1,0 +1,87 @@
+/* Estilos para el contenedor principal */
+.custom-dialog {
+    position: relative;
+    background-color: #fff;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    text-align: center;
+  }
+  
+  /* Estilos para el título del diálogo */
+  .custom-dialog-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  
+  /* Estilos para el botón de cerrar */
+  .close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  /* Estilos para el contenido del diálogo */
+  .custom-dialog-content {
+    margin-bottom: 16px;
+  }
+  
+  /* Estilos para los botones del diálogo */
+  .custom-dialog-actions {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .cancel-button {
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 8px 16px;
+    margin-right: 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .accept-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Estilos para ocultar el componente cuando no está abierto */
+  .custom-dialog[style*="display: none"] {
+    display: none;
+  }
+  
+
+  /* Estilos para el modal personalizado ModalUbi */
+.custom-modal-ubi {
+    position: fixed;
+    top: 50%; /* Centrar verticalmente */
+    left: 50%; /* Centrar horizontalmente */
+    transform: translate(-50%, -50%); /* Centrar en la pantalla */
+    z-index: 1001; /* Asegúrate de que aparezca encima del modal de AddParking */
+    background-color: #fff;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    text-align: center;
+  }
+  
+  /* Estilos para ocultar el modal personalizado */
+  .custom-modal-ubi[style*="display: none"] {
+    display: none;
+  }
+  

@@ -8,18 +8,25 @@ const MapModal = ({ handleCoords }) => {
   let marker = null;
 
   const handleMapClick = (event) => {
-    const { viewportX, viewportY } = event.currentPointer;
-
-    if (marker) {
-      map.removeObject(marker);
+    try {
+      const { viewportX, viewportY } = event.currentPointer;
+  
+      if (marker) {
+        map.removeObject(marker);
+      }
+  
+      const { lat, lng } = map.screenToGeo(viewportX, viewportY);
+      marker = new H.map.Marker({ lat, lng });
+  
+      map.addObject(marker);
+      console.log(lat);
+      handleCoords(lat, lng);
+    } catch (error) {
+      console.error('Error handling map click:', error);
+      alert(error)
+      // Aquí puedes agregar código adicional si es necesario
+      // Por ejemplo, puedes mostrar un mensaje al usuario o realizar alguna acción específica
     }
-
-    const { lat, lng } = map.screenToGeo(viewportX, viewportY);
-    marker = new H.map.Marker({ lat, lng });
-
-    map.addObject(marker);
-    console.log(lat)
-    handleCoords(lat, lng); // Llama al método handleCoords en AlertDialog
   };
 
   useEffect(() => {
@@ -60,7 +67,7 @@ const MapModal = ({ handleCoords }) => {
   }, []);
 
   return (
-    <div className="MapBox" style={{ height: '50vh' }}>
+    <div className="MapBox"  style={{ height: '50vh', position: 'relative' }}>
       <div style={{ position: 'relative', width: '100%', height: '100%' }} ref={mapRef} />
     </div>
   );
