@@ -251,7 +251,7 @@ const PayMethodDialog: React.FC<PayMethodDialogProps> = ({handleBalance}) => {
         {showAmountField && (
           <>
             <Button onClick={handleCancel}>Cancel</Button>
-            <MercadoPagoPayment></MercadoPagoPayment>
+            <MercadoPagoPayment amount={amount}></MercadoPagoPayment>
             {/* <Button onClick={handleAddAmount} color="primary">
               Add
             </Button> */}
