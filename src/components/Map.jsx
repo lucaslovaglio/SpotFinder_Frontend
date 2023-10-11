@@ -71,15 +71,14 @@ const Map = () => {
           { lat: parking.latitude, lng: parking.longitude },
           {
             content: `
-              <div style="max-width: 150px; font-size: 14px;">
-                <b>${parking.name}</b>
-                <p>Capacidad: ${parking.capacity}</p>
-                <p>Teléfono: ${parking.phone}</p>
-                <p>
+            <div style="max-width: 300px; font-size: 16px; min-width: 150px; gap: 3px; padding: 10px; border-radius: 5px;">
+                <b style="font-size: 18px; display: block; margin-bottom: 5px;">${parking.name}</b>
+                <i style="font-size: 12px; display: block; margin-bottom: 5px;">${parking.address}</i>
                 
-              
-                </p>
-              </div>
+                <p style="margin: 0; font-size: 14px;"><b>Capacity:</b> ${parking.attendance}/${parking.capacity}</p>
+                <p style="margin: 0; font-size: 14px;"><b>Price:</b> ${parking.pricexminute} (per min)</p>
+                <p style="margin: 0; font-size: 14px;"><b>Teléfono:</b> ${parking.phone}</p>
+            </div>
             `
           }
         );
