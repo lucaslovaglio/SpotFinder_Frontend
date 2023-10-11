@@ -28,6 +28,8 @@ import Payment from './mercadopago/Payment';
 import Footer from './mercadopago/Footer';
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 import MercadoPagoPayment from './MercadoPagoPayment';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 
 
@@ -180,7 +182,16 @@ const PayMethodDialog: React.FC<PayMethodDialogProps> = ({handleBalance}) => {
         Pay Method
     </button>
     <Dialog open={payMethodOpen} onClose={handleClosePayMethod} maxWidth="xs" fullWidth>
-      <DialogTitle sx={{bgcolor: "secondary.main", color: "primary.main"}}>Pay Method</DialogTitle>
+      <DialogTitle sx={{bgcolor: "secondary.main", color: "primary.main"}}>
+        Pay Method
+        <IconButton
+            aria-label="close"
+            onClick={handleClosePayMethod}
+            sx={{ position: "absolute", right: 8, top: 8, color: "gray" }}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
       <DialogContent sx={{bgcolor: "secondary.main", color: "white"}}>
         <p>$ 
           {showBalance ? balance : '***'}
@@ -247,10 +258,10 @@ const PayMethodDialog: React.FC<PayMethodDialogProps> = ({handleBalance}) => {
           </>
         )}
       </DialogContent>
-      <DialogActions sx={{ justifyContent: 'flex-end', backgroundColor: "secondary.main" }}>
+      <DialogActions sx={{ justifyContent: 'center', backgroundColor: "secondary.main", width: '100%' }}>
         {showAmountField && (
           <>
-            <Button onClick={handleCancel}>Cancel</Button>
+            {/* <Button onClick={handleCancel}>Cancel</Button> */}
             <MercadoPagoPayment amount={amount}></MercadoPagoPayment>
             {/* <Button onClick={handleAddAmount} color="primary">
               Add
