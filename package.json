@@ -48,6 +48,7 @@
     "file-loader": "^6.2.0",
     "formik": "^2.2.9",
     "fs-extra": "^10.0.0",
+    "here-js-api": "^2.0.0",
     "here-maps-react": "^2.0.0",
     "html-webpack-plugin": "^5.5.0",
     "html5-qrcode": "^2.3.8",

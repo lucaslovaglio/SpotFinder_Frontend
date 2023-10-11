@@ -8,6 +8,7 @@ import { faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useUrlProvider from '../services/url';
 import { Modal, Button } from 'react-bootstrap';
+import 'here-js-api/styles/mapsjs-ui.css'
 
 
 
@@ -18,6 +19,7 @@ const Map = () => {
   const [parkings, setParkings] = useState([]);
   console.log('NULL')
   let map = null;
+  let ui = null;
   let currentPosition = { lat: -34.5833472, lng: -58.8644352 };
 
   const [refreshMap, setRefreshMap] = useState(false);
@@ -43,6 +45,8 @@ const Map = () => {
           zoom: 15
         }
       );
+      ui = H.ui.UI.createDefault(map, defaultLayers, 'en-US');
+
     }
     
     console.log(map)
@@ -56,25 +60,49 @@ const Map = () => {
     map.addObject(group);
 
     const createMarker = parking => {
-      const redIcon = new H.map.Icon(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="40" fill="red" />
-        </svg>
-      `);
-      const marker = new H.map.Marker(
-        {
-          lat: parking.latitude,
-          lng: parking.longitude
-        },
-      );
-      // marker.setIcon(redIcon);
-      marker.addEventListener('tap', event => {
-        setSelectedParking(parking);
+      const marker = new H.map.Marker({
+        lat: parking.latitude,
+        lng: parking.longitude
       });
+    
+      marker.addEventListener('tap', event => {
+        // Crear una burbuja de información con contenido compacto
+        var bubble = new H.ui.InfoBubble(
+          { lat: parking.latitude, lng: parking.longitude },
+          {
+            content: `
+              <div style="max-width: 150px; font-size: 14px;">
+                <b>${parking.name}</b>
+                <p>Capacidad: ${parking.capacity}</p>
+                <p>Teléfono: ${parking.phone}</p>
+                <p>
+                
+              
+                </p>
+              </div>
+            `
+          }
+        );
+        ui.addBubble(bubble);
+      });
+    
+      // marker.addEventListener('pointerleave', event => {
+      //   // Ocultar la burbuja de información al salir del marcador
+      //   ui.getBubbles().forEach(bubble => ui.removeBubble(bubble));
+      // });
 
+      marker.addEventListener('longpress', event => {
+        // Tu lógica para manejar el doble clic
+        handleReserveClick(parking);
+        // Aquí puedes ejecutar la acción que deseas al hacer doble clic
+      });
+    
       group.addObject(marker);
       return marker;
     };
+    
+    
+    
 
 
     // Función de redimensionamiento
