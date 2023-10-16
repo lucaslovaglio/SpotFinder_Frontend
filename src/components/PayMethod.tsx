@@ -9,6 +9,9 @@ import {
   IconButton,
   Box,
   ThemeProvider,
+  Stepper,
+  Step,
+  StepLabel,
 } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -37,26 +40,36 @@ interface PayMethodDialogProps {
   handleBalance: (amount: string) => void
 }
 
+enum Section {
+  Balance,
+  AddAmount,
+  MercadoPago,
+}
+
 const PayMethodDialog: React.FC<PayMethodDialogProps> = ({handleBalance}) => {
   const url = useUrlProvider();
   const [payMethodOpen, setPayMethodOpen] = useState<boolean>(false);
   const email = useAuthProvider().getCredentials().getUserMail();
   const [balance, setBalance] = useState<number>(0);
-  const [amount, setAmount] = useState<number>(0);
+  const [amount, setAmount] = useState<number>(1);
   const [showBalance, setShowBalance] = useState<boolean>(true);
   const [showAmountField, setShowAmountField] = useState<boolean>(false);
+  const [section, setSection] = useState<Section>(Section.Balance);
 
 
   useEffect(() => {
     // Reset values when the dialog is opened
     if (payMethodOpen) {
       setBalance(0);
-      setAmount(0);
+      setAmount(1);
       setOrderData({ ...orderData, price: 0 });
     //   setShowBalance(true);
       setShowAmountField(false);
+      setSection(Section.Balance);
+
     }
   }, [payMethodOpen]);
+
 
   useEffect(() => {
     // Simulating fetching balance from a database
@@ -181,7 +194,18 @@ const PayMethodDialog: React.FC<PayMethodDialogProps> = ({handleBalance}) => {
         onClick={() => {handleOpenPayMethod()}}>
         Pay Method
     </button>
-    <Dialog open={payMethodOpen} onClose={handleClosePayMethod} maxWidth="xs" fullWidth>
+    <Dialog
+      open={payMethodOpen}
+      onClose={handleClosePayMethod}
+      maxWidth="xs"
+      fullWidth
+      PaperProps={{
+        style: {
+          minHeight: '50vh', // Establecer la altura mínima al 100% de la altura de la ventana
+          // minWidth: '100%',  // Establecer el ancho mínimo al 100% del ancho de la ventana
+        },
+      }}
+    >  
       <DialogTitle sx={{bgcolor: "secondary.main", color: "primary.main"}}>
         Pay Method
         <IconButton
@@ -223,7 +247,7 @@ const PayMethodDialog: React.FC<PayMethodDialogProps> = ({handleBalance}) => {
               fullWidth
               inputProps={{
                 step: 'any',
-                min: '0',
+                min: '1',
                 style: {
                     color: 'white', // Color del label
                   },

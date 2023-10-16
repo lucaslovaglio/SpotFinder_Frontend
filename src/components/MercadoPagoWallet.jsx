@@ -8,7 +8,7 @@ const MercadoPagoWallet = ({ amount }) => {
   const [paymentId, setPreferenceId] = useState(null);
   const url = useUrlProvider();
   const email = useAuthProvider().getCredentials().getUserMail();
-  const mercadoPagoPublicKey = 'TEST-d726a0b0-f0ba-4b34-bcd6-0ded00c00ee7'; // Replace with your public key
+  const mercadoPagoPublicKey = ''; // Replace with your public key
   initMercadoPago(mercadoPagoPublicKey);
 
   useEffect(() => {
