@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useUrlProvider from '../services/url';
 import { Modal, Button } from 'react-bootstrap';
 import 'here-js-api/styles/mapsjs-ui.css'
+import { updateAddresses } from "../services/addresses";
 
 
 
@@ -60,10 +61,16 @@ const Map = () => {
     map.addObject(group);
 
     const createMarker = parking => {
+      // Crea un icono SVG personalizado (punto rojo)
+      const customIcon = new H.map.Icon(
+        `<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ff0000}</style><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>`,
+        { size: { w: 24, h: 34 }, anchor: { x: 12, y: 24 } }
+      );
+
       const marker = new H.map.Marker({
         lat: parking.latitude,
         lng: parking.longitude
-      });
+      }, { icon: customIcon });
     
       marker.addEventListener('tap', event => {
         // Crear una burbuja de información con contenido compacto
@@ -73,7 +80,7 @@ const Map = () => {
             content: `
             <div style="max-width: 300px; font-size: 16px; min-width: 150px; gap: 3px; padding: 10px; border-radius: 5px;">
                 <b style="font-size: 18px; display: block; margin-bottom: 5px;">${parking.name}</b>
-                <i style="font-size: 12px; display: block; margin-bottom: 5px;">${parking.address}</i>
+                <i style="font-size: 12px; display: block; margin-bottom: 5px;">${parking.address?.length > 25 ? `${parking.address.slice(0, 22)}...` : parking.address}</i>
                 
                 <p style="margin: 0; font-size: 14px;"><b>Capacity:</b> ${parking.attendance}/${parking.capacity}</p>
                 <p style="margin: 0; font-size: 14px;"><b>Price:</b> ${parking.pricexminute} (per min)</p>
@@ -139,7 +146,11 @@ const Map = () => {
   const getParkingsFromDB = async (createMarker) => {
     try {
       const response = await axios.post(url + "parkings/parkingsFromArea", searchArea());
-      const myParkings = response.data
+      const parkings = response.data
+      const myParkings  = await updateAddresses(parkings);
+      // const address = await coordsToAddress(parking);
+      // const updatedParking = { ...parking, address };
+      // setParking(updatedParking);
       setParkings(response.data);
       console.log('parkings')
       console.log(parkings)
@@ -172,11 +183,18 @@ const Map = () => {
         console.log('currentPosition')
         console.log(currentPosition)
 
-        // Crear un marcador para la posición actual
-        const marker = new H.map.Marker(currentPosition);
+        // Crea un icono SVG personalizado (punto rojo)
+        const customIcon = new H.map.Icon(
+          `<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 0c17.7 0 32 14.3 32 32V42.4c93.7 13.9 167.7 88 181.6 181.6H480c17.7 0 32 14.3 32 32s-14.3 32-32 32H469.6c-13.9 93.7-88 167.7-181.6 181.6V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V469.6C130.3 455.7 56.3 381.7 42.4 288H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H42.4C56.3 130.3 130.3 56.3 224 42.4V32c0-17.7 14.3-32 32-32zM107.4 288c12.5 58.3 58.4 104.1 116.6 116.6V384c0-17.7 14.3-32 32-32s32 14.3 32 32v20.6c58.3-12.5 104.1-58.4 116.6-116.6H384c-17.7 0-32-14.3-32-32s14.3-32 32-32h20.6C392.1 165.7 346.3 119.9 288 107.4V128c0 17.7-14.3 32-32 32s-32-14.3-32-32V107.4C165.7 119.9 119.9 165.7 107.4 224H128c17.7 0 32 14.3 32 32s-14.3 32-32 32H107.4zM256 224a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>`,
+          { size: { w: 24, h: 24 }, anchor: { x: 12, y: 24 } }
+        );
 
-        // Agregar el marcador al mapa
+        // Crea el marcador con el icono personalizado
+        const marker = new H.map.Marker(currentPosition, { icon: customIcon });
+
+        // Agrega el marcador al mapa
         map.addObject(marker);
+
 
         // Actualizar el centro del mapa a la posición actual
         map.setCenter(currentPosition);
