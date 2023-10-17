@@ -16,6 +16,7 @@ import ValidateEntrance from './ValidateEntrance';
 import ValidateExit from './ValidateExit';
 import useUrlProvider from '../services/url';
 import { useNavigate } from 'react-router-dom';
+import { log } from 'console';
 
 
 interface Props {
@@ -69,10 +70,15 @@ const MyParkingCard: React.FC<Props> = ({ parking, handleRefresh }) => {
 
   const handleManualAdd = async (parking: Parking) => {
     try {
+        const config = {
+          headers: {
+              Authorization: `Bearer ${token}` // Token en el header
+          },
+        };
         const response = await axios.post(url + "parkings/" + parking.id + "/modifieAttendance", {
             "increase": true,
             "userMail": null
-        });
+        }, config);
         
         if (response.status === 200) {
           handleOpenAlert(()=>{handleRefresh()}, Status.SUCCESS, response.data, false);
@@ -80,6 +86,7 @@ const MyParkingCard: React.FC<Props> = ({ parking, handleRefresh }) => {
           
         }
       } catch (error) {
+          console.log(error)
           const errorMessage = error ? (error as any).message : '';
           handleOpenAlert(()=>{}, Status.ERROR, errorMessage, false);
       }
