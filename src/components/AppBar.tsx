@@ -98,7 +98,10 @@ const MenuAppBar: React.FC<Props> = ({ handleShowSideMenu, isOwner }) => {//   c
 //     setAuth(event.target.checked);
 //   };
 
-    const handleTitle = () => setTitleState(titleState);
+    const handleTitle = () => {
+        setTitleState(titleState);
+        navigate('/homepage')
+    };
 
     const handleModalClose = () => setShowModal(false);
     const handleModalShow = () => setShowModal(true);
@@ -141,6 +144,14 @@ const MenuAppBar: React.FC<Props> = ({ handleShowSideMenu, isOwner }) => {//   c
             const errorMessage = error ? (error as any).message : '';
             handleOpenAlert(()=>{}, Status.ERROR, errorMessage, false)
         }
+    }
+
+    const [refresh, setRefresh] = useState(false)
+
+    const handleMouseInCurrentParking = (display: boolean) => {
+        setIsAccordionHovered(display); 
+        setShowCurrentParking(display);
+        setRefresh(!refresh)
     }
 
     // // ALERT
@@ -275,11 +286,11 @@ const MenuAppBar: React.FC<Props> = ({ handleShowSideMenu, isOwner }) => {//   c
                     className={`Accordion-container accordionContainer ${showCurrentParking ? 'show' : ''}`}
                     style={{ maxHeight: `${accordionHeight}px` }}
                     // style={{ overflowY: 'hidden', top: '-3rem', height: '1rem' }}
-                    onMouseEnter={() => {setIsAccordionHovered(true); setShowCurrentParking(true);}}
-                    onMouseLeave={() => {setIsAccordionHovered(false); setShowCurrentParking(false);}}
+                    onMouseEnter={() => {handleMouseInCurrentParking(true)}}
+                    onMouseLeave={() => {handleMouseInCurrentParking(false)}}
                 >
                     <div className={`acordion-content ${isAccordionHovered ? 'show' : ''}`}>
-                        <CurrentParking></CurrentParking>
+                        <CurrentParking needRefresh={refresh}></CurrentParking>
                         {/* <p style={{color: 'white', backgroundColor: 'red'}}>Hola</p>
                         <p style={{color: 'white', backgroundColor: 'red'}}>Hola</p>
                         <p style={{color: 'white', backgroundColor: 'red'}}>Hola</p>

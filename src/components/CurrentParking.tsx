@@ -19,11 +19,11 @@ import useUrlProvider from "../services/url";
 
 
 interface Props {
-    
+    needRefresh?: boolean;
   }
 
 
-const CurrentParking: React.FC<Props> = () => {
+const CurrentParking: React.FC<Props> = ({needRefresh}) => {
     const auth = useAuthProvider();
     const url = useUrlProvider()
     const email = auth.getCredentials().getUserMail();
@@ -55,7 +55,7 @@ const CurrentParking: React.FC<Props> = () => {
     
       getCurrentParking();
       console.log('jjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
-    }, [url]);
+    }, [url, needRefresh]);
     
 
     const getCurrentParking = async () => {
