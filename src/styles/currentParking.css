@@ -22,6 +22,7 @@
     align-items: center; /* Alinea los elementos horizontalmente */
     justify-content: space-between; /* Distribuye los elementos horizontalmente */
     margin-bottom: 20px; /* Agrega margen inferior para separar los detalles */
+    margin-top: 10px; /* Agrega margen inferior para separar los detalles */
     width: 100%;
   }
   

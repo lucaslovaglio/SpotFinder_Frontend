@@ -12,6 +12,8 @@ import { Status, alertProps } from '../types/alertTypes';
 import Alert from './Alert';
 import MyParkingCard from './MyParkingCard';
 import useUrlProvider from '../services/url';
+import { updateAddresses } from "../services/addresses";
+
 
 
 
@@ -44,20 +46,20 @@ const ParkingList = () => {
                   return 0; // son iguales
                 }
             });
-            const updateAddresses = async () => {
-                const updatedParkings = await Promise.all(
-                  dbParkings.map(async (parking) => {
-                    const address = await fetchData(parking);
-                    console.log(address)
-                    const updatedParking: Parking = { ...parking, address };
-                    return updatedParking;
-                  })
-                );
+            // const updateAddresses = async (parkings: Parking[]) => {
+            //     const updatedParkings = await Promise.all(
+            //       parkings.map(async (parking) => {
+            //         const address = await fetchData(parking);
+            //         console.log(address)
+            //         const updatedParking: Parking = { ...parking, address };
+            //         return updatedParking;
+            //       })
+            //     );
               
-                return updatedParkings;
-              };
+            //     return updatedParkings;
+            //   };
                           
-            const myParkings = await updateAddresses();
+            const myParkings = await updateAddresses(dbParkings);
             console.log(myParkings)
             setParkings(myParkings);
         } catch (error) {
@@ -120,26 +122,26 @@ const ParkingList = () => {
     const handleCloseAlert = () => setOpenAlert(false);
 
 
-    const fetchData = async (parking: Parking): Promise<string | null> => {
-        const latitude = parking.latitude; // Reemplaza con la latitud real
-        const longitude = parking.longitude; // Reemplaza con la longitud real
-        const apiKey = "anJGEw6wvbEyM5IY8P_4hUzpvQCFB6LLuuXX86WTd-M"; // Reemplaza con tu clave de API de HERE
+    // const fetchData = async (parking: Parking): Promise<string | null> => {
+    //     const latitude = parking.latitude; // Reemplaza con la latitud real
+    //     const longitude = parking.longitude; // Reemplaza con la longitud real
+    //     const apiKey = "anJGEw6wvbEyM5IY8P_4hUzpvQCFB6LLuuXX86WTd-M"; // Reemplaza con tu clave de API de HERE
       
-        try {
-          const response = await axios.get(
-            `https://geocode.search.hereapi.com/v1/revgeocode?at=${latitude},${longitude}&apiKey=${apiKey}`
-          );
+    //     try {
+    //       const response = await axios.get(
+    //         `https://geocode.search.hereapi.com/v1/revgeocode?at=${latitude},${longitude}&apiKey=${apiKey}`
+    //       );
       
-          const address = response.data.items[0].address.label;
-          return address;
-        } catch (error) {
-          // handleOpenAlert(()=>{}, Status.ERROR, 'Error al obtener la dirección', false);
-          console.log('Error: ', error);
-          return null;
-        }
+    //       const address = response.data.items[0].address.label;
+    //       return address;
+    //     } catch (error) {
+    //       // handleOpenAlert(()=>{}, Status.ERROR, 'Error al obtener la dirección', false);
+    //       console.log('Error: ', error);
+    //       return null;
+    //     }
         
           
-      };
+    //   };
       
   
 

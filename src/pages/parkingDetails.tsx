@@ -25,6 +25,11 @@ import ParkingState from "../components/ParkingState";
 import SpecificMap from "../components/SpecificMap";
 import React from "react";
 import ModalUbi from "../components/ModalUbi";
+import { coordsToAddress } from "../services/addresses";
+import LinearProgress  from '@mui/material/LinearProgress';
+import { ThemeProvider } from "@mui/material";
+import theme from "../styles/theme";
+
 
 
 enum Types {
@@ -126,7 +131,9 @@ export const ParkingDetails = () => {
             
             if (response.status === 200) {
                 const parking: Parking = response.data as Parking;
-                setParking(parking);
+                const address = await coordsToAddress(parking);
+                const updatedParking: Parking = { ...parking, address };
+                setParking(updatedParking);
             //   console.log(parking)
             //   console.log(response.data as Parking)
             //   navigate('/managerpage/parking/' + parking?.id)       
@@ -282,7 +289,7 @@ export const ParkingDetails = () => {
                 <div className="Left-Column">
                     <div className="parking-header">
                         <h1 className="parking-title">{parking.name}</h1>
-                        <h3 className="parking-id">ID: {parking.id}</h3>
+                        {/* <h3 className="parking-id">ID: {parking.id}</h3> */}
                     </div>
                     
                 </div>
@@ -330,7 +337,10 @@ export const ParkingDetails = () => {
                         <strong>Phone:</strong> {parking.phone}
                     </p>
                     <p>
-                        <strong>Attendance:</strong> {parking.attendance} of {parking.capacity}
+                        {/* <strong>Attendance:</strong> {parking.attendance} of {parking.capacity} */}
+                        <strong>Attendance:</strong> 
+                        <span style={{margin: '.5rem'}}>{parking.attendance} of {parking.capacity} {parseInt(parking.capacity, 10)}</span>
+                            <LinearProgress variant="determinate" value={(parking.attendance/parseInt(parking.capacity, 10))*100} sx={{margin: '1rem'}}/> 
                     </p>
                     {type === Types.OWNER && (
                         <>
@@ -438,7 +448,7 @@ export const ParkingDetails = () => {
     <>
         <CommonLayout
         mainContent={childrenContent}
-        isOwner={true}
+        isOwner={!window.location.pathname.includes('/homepage')}
         />
         <Alert
             open={openAlert}
