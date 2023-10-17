@@ -5,9 +5,11 @@ import { useAuthProvider } from '../services/auth';
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
 import MercadoPagoWallet from './MercadoPagoWallet';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useNavigate } from 'react-router-dom';
 
 
 const MercadoPagoPayment: React.FC<{ amount: number }> = ({ amount }) => {
+  const navigate = useNavigate();
   const [paymentId, setPreferenceId] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true); // Nuevo estado para controlar la carga
   const url = useUrlProvider();
@@ -56,7 +58,7 @@ const MercadoPagoPayment: React.FC<{ amount: number }> = ({ amount }) => {
 
   return (
     <div>
-      <Wallet initialization={{ preferenceId: paymentId, redirectMode: 'modal' }} />
+      <Wallet initialization={{ preferenceId: paymentId, redirectMode: 'self' }}  />
     </div>
   );
 };

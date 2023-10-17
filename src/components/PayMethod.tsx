@@ -12,11 +12,12 @@ import {
   Stepper,
   Step,
   StepLabel,
+  Typography,
 } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import theme from "../styles/theme";
-import axios from 'axios';
+import axios, { all } from 'axios';
 import { useAuthProvider } from '../services/auth';
 import { Status, alertProps } from '../types/alertTypes';
 import Alert from './Alert';
@@ -201,7 +202,11 @@ const PayMethodDialog: React.FC<PayMethodDialogProps> = ({handleBalance}) => {
       fullWidth
       PaperProps={{
         style: {
-          minHeight: '50vh', // Establecer la altura mínima al 100% de la altura de la ventana
+          minHeight: showAmountField ? '55vh':'0vh', // Establecer la altura mínima al 100% de la altura de la ventana
+          transition: 'min-height 0.3s ease-in-out', // Agrega una transición suave
+          overflow: 'hidden ',
+          paddingBottom: '0',
+          backgroundColor: "rgb(32, 32, 32"
           // minWidth: '100%',  // Establecer el ancho mínimo al 100% del ancho de la ventana
         },
       }}
@@ -216,12 +221,17 @@ const PayMethodDialog: React.FC<PayMethodDialogProps> = ({handleBalance}) => {
           <CloseIcon />
         </IconButton>
       </DialogTitle>
-      <DialogContent sx={{bgcolor: "secondary.main", color: "white"}}>
-        <p>$ 
-          {showBalance ? balance : '***'}
-          <IconButton onClick={toggleShowBalance} size="small" sx={{color: "gray"}}>
+      <DialogContent sx={{bgcolor: "secondary.main", color: "white", overflow: 'hidden'}}>
+      <Typography variant="subtitle1" gutterBottom color={'gray'}>
+        Your Balance
+        <IconButton onClick={toggleShowBalance} size="small" sx={{color: "rgb(220, 220, 220);", marginLeft: '1rem'}}>
             {showBalance ? <VisibilityOffIcon /> : <VisibilityIcon />}
-          </IconButton>
+        </IconButton>
+      </Typography>
+        <p>
+          <span style={{ marginRight: '.5rem' }}>$</span> 
+          {showBalance ? balance : '***'}
+          
         </p>
         {/* <div id="wallet_container"></div>
         <Wallet initialization={{ preferenceId: '<PREFERENCE_ID>' }} /> */}
@@ -282,7 +292,7 @@ const PayMethodDialog: React.FC<PayMethodDialogProps> = ({handleBalance}) => {
           </>
         )}
       </DialogContent>
-      <DialogActions sx={{ justifyContent: 'center', backgroundColor: "secondary.main", width: '100%' }}>
+      <DialogActions sx={{ justifyContent: 'center', backgroundColor: "secondary.main", width: '100%', maxHeight: '100px', overflow: 'hidden', alignItems: 'start', marginBottom: '.5rem'}}>
         {showAmountField && (
           <>
             {/* <Button onClick={handleCancel}>Cancel</Button> */}
