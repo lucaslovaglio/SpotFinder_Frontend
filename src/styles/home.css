@@ -237,6 +237,18 @@
   padding: auto;
   position: absolute;
   overflow-y: auto;
+
+  scrollbar-width: thin;  /* Para Firefox */
+  scrollbar-color: grey #333;  /* Para Firefox */
+
+  &::-webkit-scrollbar {
+    width: 10px;  /* Ancho de la barra de desplazamiento */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: grey;  /* Color del "pulgón" de la barra de desplazamiento */
+    border-radius: 5px;  /* Borde redondeado */
+  }
 }
 
 .refresh-map {

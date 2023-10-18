@@ -236,9 +236,11 @@ const CurrentParking: React.FC<Props> = ({needRefresh}) => {
                   </div>
                 </div>
               </p>
+              <div style={{width: '100%', justifyContent: 'center', marginLeft: '.6rem'}}>
+                {isEntryQr && <QRCode value={token} />}
+                {!isEntryQr && <QRCode value={exitToken} />}
+              </div>
               {/* <QRCode value={exitToken} /> */}
-              {isEntryQr && <QRCode value={token} />}
-              {!isEntryQr && <QRCode value={exitToken} />}
             </Stack>
           </div>
           <Stack spacing={1} sx={{justifyContent: 'center', alignItems: 'center'}}>

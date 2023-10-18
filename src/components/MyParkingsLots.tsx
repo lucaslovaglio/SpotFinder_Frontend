@@ -13,6 +13,7 @@ import Alert from './Alert';
 import MyParkingCard from './MyParkingCard';
 import useUrlProvider from '../services/url';
 import { updateAddresses } from "../services/addresses";
+import { CircularProgress } from '@mui/material';
 
 
 
@@ -23,8 +24,10 @@ const ParkingList = () => {
     const [currentPage, setCurrentPage] = React.useState(1);
     const credentials = useAuthProvider().getCredentials()
     const url = useUrlProvider();
+    const [loading, setLoading] = useState(false)
 
     const getParkingsFromDB = useCallback(async () => {
+        setLoading(true);
         try {
             const config = {
                 headers: {
@@ -65,6 +68,9 @@ const ParkingList = () => {
         } catch (error) {
             const errorMessage = error ? (error as any).message : '';
             handleOpenAlert(()=>{}, Status.ERROR, errorMessage, false)
+        }
+        finally {
+            setLoading(false)
         }   
     }, [credentials])
 
@@ -143,6 +149,12 @@ const ParkingList = () => {
           
     //   };
       
+    if (loading) {
+        return (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '20vh' }}>
+            <CircularProgress size={40} />
+          </div>
+        );  }
   
 
     return (
@@ -221,6 +233,7 @@ const ParkingList = () => {
                 ))}
             </ul>
             <div className="parking-list-pagination-container"> {/* Envolver la paginación en un div */}
+                {parkingsPerPage < parkings.length &&
                 <Pagination className="parking-list-pagination">
                 <Pagination.Prev
                     onClick={() => handlePageChange(currentPage - 1)}
@@ -231,6 +244,7 @@ const ParkingList = () => {
                     disabled={lastIndex >= parkings.length}
                 />
                 </Pagination>
+                }
             </div>
         </div>
         <Alert
